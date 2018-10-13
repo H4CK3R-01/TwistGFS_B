@@ -3,11 +3,11 @@ import java.util.ArrayList;
 
 public class DecryptTwist
 {
-	private ArrayList<String> moeglicheWoerter = new ArrayList<>();
+	private ArrayList<String> wortListeMitAllenWoerternNachPermutation = new ArrayList<>();
 
 	public DecryptTwist()
 	{
-		moeglicheWoerter.clear();
+
 	}
 
 	/**
@@ -31,7 +31,8 @@ public class DecryptTwist
 				list.add(line);
 			}
 			br.close();
-		} catch (IOException e)
+		}
+		catch (IOException e)
 		{
 			System.err.println(
 					file + ": Datei konnte nicht geöffnet werden. Möglicherweise wurde sie gelöscht oder verschoben.");
@@ -47,9 +48,10 @@ public class DecryptTwist
 	 * @param firstChar Variable für den Anfangsbuchstaben
 	 * @param lastChar  Variable für den Endbuchstaben
 	 * @param length    Variable für die Länge des Wortes
+	 * @param wordList  Liste aus der die Wörter gelöscht werden sollen
 	 * @return Liste, die die gelöschten Wörter nicht mehr enthält
 	 */
-	public ArrayList<String> getWords(char firstChar, char lastChar, int length, ArrayList<String> wordList)
+	public ArrayList<String> removeWords(char firstChar, char lastChar, int length, ArrayList<String> wordList)
 	{
 
 		// Wörter mit falschem ertsten Buchstaben aus Liste löschen
@@ -97,67 +99,70 @@ public class DecryptTwist
 		ArrayList<String> wordList = new ArrayList<>();
 
 		wordList = readFile("woerter.txt");
-		// System.out.println("Datei fertig " + wordList.size());
-
-		wordList = getWords(wort.charAt(0), wort.charAt(wort.length() - 1), wort.length(), wordList);
-		// System.out.println(wordList.size());
+		wordList = removeWords(wort.charAt(0), wort.charAt(wort.length() - 1), wort.length(), wordList);
 
 		// Buchstaben vergleichen
-		permutation("", wort);
+		wortListeMitAllenWoerternNachPermutation.clear();
+		permute(wort, 0, wort.length() - 1);
 
-		// System.out.println(moeglicheWoerter.size());
-		// System.out.println("permutation fertig");
-
-		for (int i = 0; i < moeglicheWoerter.size(); i++)
+		for (int i = 0; i < wortListeMitAllenWoerternNachPermutation.size(); i++)
 		{
-			String moeglichesWort = moeglicheWoerter.get(i);
-			if (!wordList.contains(moeglichesWort))
+			if (!wordList.contains(wortListeMitAllenWoerternNachPermutation.get(i)))
 			{
-				moeglicheWoerter.remove(i);
+				wortListeMitAllenWoerternNachPermutation.remove(i);
 				i--;
 			}
 		}
 
-		return moeglicheWoerter;
+		return wortListeMitAllenWoerternNachPermutation;
 	}
 
 	/**
-	 * Tauscht die Reihenfolge der Buchstaben des Wortes so lange, bis jede
-	 * Möglichkeit einmal vorkommt. Ruft sich rekursiv immer weiter auf
+	 * permutation function
 	 * 
-	 * @param prefix Variable, die den ersten Teil des Wortes enthält
-	 * @param str    Variable, die den anderen Teil des Wortes enthält
+	 * @param str string to calculate permutation for
+	 * @param l   starting index
+	 * @param r   end index
 	 */
-	public void permutation(String prefix, String str)
+	public void permute(String str, int l, int r) // -------------------------------verstehen---------------------------------
 	{
-		int n = str.length();
-		if (n == 0)
+		if (l == r)
 		{
-			if (!moeglicheWoerter.contains(prefix))
-				moeglicheWoerter.add(prefix);
-		} else
+			if (!wortListeMitAllenWoerternNachPermutation.contains(str))
+				wortListeMitAllenWoerternNachPermutation.add(str);
+		}
+		else
 		{
-			for (int i = 0; i < n; i++)
+			for (int i = l; i <= r; i++)
 			{
-				permutation(prefix + str.charAt(i), str.substring(0, i) + str.substring(i + 1, n));
+				str = swap(str, l, i);
+				permute(str, l + 1, r);
+				str = swap(str, l, i);
 			}
 		}
 	}
 
 	/**
-	 * Löscht den ersten und letzten Buchstaben des Wortes, dass übergeben wird
+	 * Swap Characters at position
 	 * 
-	 * @param wort Wort das übegeben wird
-	 * @return Wort, ohne den ersten und letzten Buchstaben
+	 * @param a string value
+	 * @param i position 1
+	 * @param j position 2
+	 * @return swapped string
 	 */
-	public String delFirstLastChar(String wort)
+	public String swap(String a, int i, int j)
 	{
-		String wortNeu = null;
-		for (int i = 0; i < wort.length(); i++)
-		{
-			wortNeu += wort.charAt(i);
-		}
-		return wortNeu;
+		char temp;
+		char[] charArray = a.toCharArray();
+		temp = charArray[i];
+		charArray[i] = charArray[j];
+		charArray[j] = temp;
+		return String.valueOf(charArray);
+	} // -----------------------------------------------------------verstehen----------------------------------------------------------------
 
+	public ArrayList<String> getMoeglicheWoerter()
+	{
+		return wortListeMitAllenWoerternNachPermutation;
 	}
+
 }

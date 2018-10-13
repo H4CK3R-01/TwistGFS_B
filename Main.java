@@ -1,31 +1,47 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Scanner;
 
 import javax.swing.UIManager;
 
 public class Main
 {
-	public static String version = "1.2";
+	public static String version = "1.3";
 	public static String versionNew;
 	public static String versionNewURL;
 
+	public static int firstStart;
+	public static int zahlInKlammern;
+
 	public static void main(String[] args)
 	{
+		BufferedReader br;
 		try
 		{
-			Scanner scanner = new Scanner(new URL("http://192.168.178.24/version.txt").openStream());
-			versionNew = scanner.nextLine();
-			versionNewURL = scanner.nextLine();
-			scanner.close();
-		}
-		catch (MalformedURLException e1)
-		{
+			br = new BufferedReader(new FileReader("settings.txt"));
+			if (Integer.parseInt(br.readLine()) == 0)
+			{
+				UI.firstStart = true;
+			}
+			else
+			{
+				UI.firstStart = false;
+			}
+			
+			if (Integer.parseInt(br.readLine()) == 1)
+			{
+				UI.settigsZahl = true;
+			}
+			else
+			{
+				UI.settigsZahl = false;
+			}
+			br.close();
 		}
 		catch (IOException e1)
 		{
 		}
+
 
 		try
 		{
