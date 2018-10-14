@@ -1,6 +1,6 @@
 0
 1
-0
+1
 woerter1.txt
 woerter0.txt
 woerter1.txt

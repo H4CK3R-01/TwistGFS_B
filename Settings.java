@@ -8,8 +8,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.border.EmptyBorder;
 
-public class Settings implements ActionListener {
-	public Settings() {
+public class Settings implements ActionListener
+{
+	public Settings()
+	{
 		UI.settingsSettings.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		UI.settingsSettings.setSize(460, 200);
 		UI.settingsSettings.setResizable(false);
@@ -53,11 +55,13 @@ public class Settings implements ActionListener {
 		UI.settingsGbc_zahlAnzeigenNein.gridx = 1;
 		UI.settingsGbc_zahlAnzeigenNein.gridy = 0;
 		UI.settingsPanel.add(UI.settingsZahlAnzeigenNein, UI.settingsGbc_zahlAnzeigenNein);
-		if (Main.zahlAnzeigen == 1) {
+		if (Main.zahlAnzeigen == 1)
+		{
 			UI.settingsZahlAnzeigenJa.setSelected(true);
 			UI.settingsZahlAnzeigenNein.setSelected(false);
 		}
-		if (Main.zahlAnzeigen == 0) {
+		if (Main.zahlAnzeigen == 0)
+		{
 			UI.settingsZahlAnzeigenNein.setSelected(true);
 			UI.settingsZahlAnzeigenJa.setSelected(false);
 		}
@@ -117,7 +121,8 @@ public class Settings implements ActionListener {
 		UI.settingsBtnSpeichern.addActionListener(new ActionHandler());
 	}
 
-	public void actionPerformed(ActionEvent arg0) {
+	public void actionPerformed(ActionEvent arg0)
+	{
 
 	}
 }

@@ -67,3 +67,4 @@ OK
 There must be no space in the word. If you want to encode or decode multiple words, please change to 'Text'
 Wrong Input
 OK
+File not Found.

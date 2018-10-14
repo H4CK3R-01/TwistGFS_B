@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class UI implements ActionListener {
+public class UI implements ActionListener
+{
 	// Main Frame
 	public static JFrame window = new JFrame("Twist");
 
@@ -96,8 +97,8 @@ public class UI implements ActionListener {
 	public static GridBagConstraints settingsGbc_btnSpeichern = new GridBagConstraints();
 	public static JButton settingsBtnAbbrechen;
 	public static GridBagConstraints settingsGbc_btnAbbrechen = new GridBagConstraints();
-	
-	//Log
+
+	// Log
 	public static JFrame Log = new JFrame();
 	public static JTextArea logArea = new JTextArea();
 	public static GridBagConstraints constraints = new GridBagConstraints();
@@ -108,14 +109,14 @@ public class UI implements ActionListener {
 	public static ArrayList<JRadioButtonMenuItem> wortlistenAuswahlMenu = new ArrayList<>();
 
 	@SuppressWarnings("deprecation")
-	public UI() {
+	public UI()
+	{
 		save = new ImageIcon(save.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_DEFAULT));
 		open = new ImageIcon(open.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH));
 		exit = new ImageIcon(exit.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH));
 		updates = new ImageIcon(updates.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH));
 		settings = new ImageIcon(settings.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH));
 		help = new ImageIcon(help.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH));
-		
 
 		// Menü
 		menuDatei = new JMenu(Main.WoerterLanguage.get(0));
@@ -159,7 +160,8 @@ public class UI implements ActionListener {
 		dateiauswahl.setDialogTitle(Main.WoerterLanguage.get(33));
 		filter = new FileNameExtensionFilter(Main.WoerterLanguage.get(34), "txt", "text");
 		settingsLanguageComboBox.addItem(Main.WoerterLanguage.get(35));
-		settingsLanguageComboBox.addItem(Main.WoerterLanguage.get(36));
+		settingsLanguageComboBox.addItem("Bald auch Englische Übersetzung");
+		//settingsLanguageComboBox.addItem(Main.WoerterLanguage.get(36));
 		settingsLanguageComboBox.setSelectedIndex(Main.language);
 
 		// Fenster konfigurieren
@@ -187,11 +189,14 @@ public class UI implements ActionListener {
 		menuDatei.addSeparator();
 		menuDatei.add(dateiExit);
 
-		for (int i = 0; i < Main.verfuegbareWortlisten.size(); i++) {
+		for (int i = 0; i < Main.verfuegbareWortlisten.size(); i++)
+		{
 			wortlistenAuswahlMenu.add(new JRadioButtonMenuItem(Main.verfuegbareWortlisten.get(i)));
 		}
-		for (int i = 0; i < Main.verfuegbareWortlisten.size(); i++) {
-			if (Main.verfuegbareWortlisten.get(i).contains(Main.stdWortliste)) {
+		for (int i = 0; i < Main.verfuegbareWortlisten.size(); i++)
+		{
+			if (Main.verfuegbareWortlisten.get(i).contains(Main.stdWortliste))
+			{
 				wortlistenAuswahlMenu.get(i).setSelected(true);
 			}
 			helpSwitchWordList.add(wortlistenAuswahlMenu.get(i));
@@ -257,12 +262,14 @@ public class UI implements ActionListener {
 		wortPanel.add(wortVerschluesseln);
 
 		// Prüfen ob das Programm das erste mal gestartet wurde
-		if (Main.firstStart == 1) {
+		if (Main.firstStart == 1)
+		{
 			int auswahl = JOptionPane.showOptionDialog(null,
 					"Mit diesem Programm können Sie Wörter bzw. Texte ver- oder entschlüsseln.\n\nUm Wörter zu ver- oder entschlüsseln wechseln Sie auf den Tab 'Wort', für Wörter wechseln Sie auf 'Wort'.",
 					"Erster Start", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE,
 					new ImageIcon("Twist.png"), new String[] { "OK" }, "OK");
-			if (auswahl == 0) {
+			if (auswahl == 0)
+			{
 				Main.firstStart = 0;
 				Main.saveSettingsFile();
 			}
@@ -273,7 +280,8 @@ public class UI implements ActionListener {
 		dateiauswahl.setFileFilter(filter);
 	}
 
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e)
+	{
 
 	}
 }

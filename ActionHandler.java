@@ -37,7 +37,8 @@ public class ActionHandler implements ActionListener
 								s += line;
 							}
 							UI.text2.setText(s);
-						} else
+						}
+						else
 						{
 							while ((line = br.readLine()) != null)
 							{
@@ -46,11 +47,13 @@ public class ActionHandler implements ActionListener
 							UI.text1.setText(s);
 						}
 						br.close();
-					} catch (IOException e1)
+					}
+					catch (IOException e1)
 					{
 					}
 				}
-			} else
+			}
+			else
 			{
 				auswahl = JOptionPane.showOptionDialog(null, Main.WoerterLanguage.get(41), Main.WoerterLanguage.get(42),
 						JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, new ImageIcon("Twist.png"),
@@ -70,7 +73,8 @@ public class ActionHandler implements ActionListener
 								s += line;
 							}
 							UI.wort2.setText(s);
-						} else
+						}
+						else
 						{
 							while ((line = br.readLine()) != null)
 							{
@@ -79,12 +83,14 @@ public class ActionHandler implements ActionListener
 							UI.wort1.setText(s);
 						}
 						br.close();
-					} catch (IOException e1)
+					}
+					catch (IOException e1)
 					{
 					}
 				}
 			}
-		} else if (e.getSource() == UI.dateiSave)
+		}
+		else if (e.getSource() == UI.dateiSave)
 		{
 			if (UI.tabpane.getSelectedIndex() == 0)
 			{
@@ -100,16 +106,19 @@ public class ActionHandler implements ActionListener
 						if (auswahl == 1)
 						{
 							bw.write(UI.text2.getText());
-						} else
+						}
+						else
 						{
 							bw.write(UI.text1.getText());
 						}
 						bw.close();
-					} catch (IOException e1)
+					}
+					catch (IOException e1)
 					{
 					}
 				}
-			} else
+			}
+			else
 			{
 				auswahl = JOptionPane.showOptionDialog(null, Main.WoerterLanguage.get(49), Main.WoerterLanguage.get(50),
 						JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, new ImageIcon("Twist.png"),
@@ -123,37 +132,45 @@ public class ActionHandler implements ActionListener
 						if (auswahl == 1)
 						{
 							bw.write(UI.wort2.getText());
-						} else
+						}
+						else
 						{
 							bw.write(UI.wort1.getText());
 						}
 						bw.close();
-					} catch (IOException e1)
+					}
+					catch (IOException e1)
 					{
 					}
 				}
 			}
-		} else if (e.getSource() == UI.dateiExit)
+		}
+		else if (e.getSource() == UI.dateiExit)
 		{
 			System.exit(0);
-		} else if (e.getSource() == UI.helpKonsole)
+		}
+		else if (e.getSource() == UI.helpKonsole)
 		{
 			if (UI.Log.isVisible())
 			{
 				UI.Log.setVisible(false);
 				UI.helpKonsole.setText(Main.WoerterLanguage.get(6));
-			} else
+			}
+			else
 			{
 				UI.Log.setVisible(true);
 				UI.helpKonsole.setText(Main.WoerterLanguage.get(7));
 			}
-		} else if (e.getSource() == UI.helpSettings)
+		}
+		else if (e.getSource() == UI.helpSettings)
 		{
-			UI.settingsSettings.setVisible(true);
-		} else if (e.getSource() == UI.helpHelp)
+			new Settings();
+		}
+		else if (e.getSource() == UI.helpHelp)
 		{
 			new Help();
-		} else if (e.getSource() == UI.helpUpdateProgram)
+		}
+		else if (e.getSource() == UI.helpUpdateProgram)
 		{
 			try
 			{
@@ -161,9 +178,11 @@ public class ActionHandler implements ActionListener
 				Main.versionNew = scanner.nextLine();
 				Main.versionNewURL = scanner.nextLine();
 				scanner.close();
-			} catch (MalformedURLException e1)
+			}
+			catch (MalformedURLException e1)
 			{
-			} catch (IOException e1)
+			}
+			catch (IOException e1)
 			{
 			}
 			if (!Main.version.equals(Main.versionNew))
@@ -180,12 +199,14 @@ public class ActionHandler implements ActionListener
 					try
 					{
 						Desktop.getDesktop().browse(new URL(Main.versionNewURL).toURI());
-					} catch (IOException | URISyntaxException e1)
+					}
+					catch (IOException | URISyntaxException e1)
 					{
 					}
 
 				}
-			} else
+			}
+			else
 			{
 				JOptionPane.showOptionDialog(null,
 						Main.WoerterLanguage.get(59) + Main.version + Main.WoerterLanguage.get(60),
@@ -193,10 +214,12 @@ public class ActionHandler implements ActionListener
 						new ImageIcon("Twist.png"), new String[] { Main.WoerterLanguage.get(62) },
 						Main.WoerterLanguage.get(62));
 			}
-		} else if (e.getSource() == UI.settingsBtnAbbrechen)
+		}
+		else if (e.getSource() == UI.settingsBtnAbbrechen)
 		{
 			UI.settingsSettings.setVisible(false);
-		} else if (e.getSource() == UI.settingsBtnSpeichern)
+		}
+		else if (e.getSource() == UI.settingsBtnSpeichern)
 		{
 			if (UI.settingsZahlAnzeigenJa.isSelected())
 			{
@@ -210,7 +233,8 @@ public class ActionHandler implements ActionListener
 			if (UI.settingsLanguageComboBox.getSelectedIndex() == 0)
 			{
 				Main.language = 0;
-			} else
+			}
+			else
 			{
 				Main.language = 1;
 			}
@@ -223,7 +247,8 @@ public class ActionHandler implements ActionListener
 					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, new ImageIcon("Twist.png"),
 					new String[] { Main.WoerterLanguage.get(65) }, Main.WoerterLanguage.get(65));
 			System.exit(0);
-		} else if (e.getSource() == UI.settingsAddWortListeBtn)
+		}
+		else if (e.getSource() == UI.settingsAddWortListeBtn)
 		{
 			int returnVal = UI.dateiauswahl.showOpenDialog(UI.window);
 			if (returnVal == JFileChooser.APPROVE_OPTION)
@@ -243,7 +268,8 @@ public class ActionHandler implements ActionListener
 						}
 						i++;
 					}
-				} catch (IOException e1)
+				}
+				catch (IOException e1)
 				{
 				}
 			}
@@ -251,15 +277,24 @@ public class ActionHandler implements ActionListener
 
 		else if (e.getSource() == UI.textEntschluesseln)
 		{
-			String[] splited = UI.text1.getText().split("\\s+");
 			UI.text2.setText("");
-
+			String[] splited = UI.text1.getText().split("\\s+");
 			threadTextEntschluesseln.clear();
+
+			for (int i = 0; i < UI.wortlistenAuswahlMenu.size(); i++)
+			{
+				if (UI.wortlistenAuswahlMenu.get(i).isSelected())
+				{
+					file = "wordlist/woerter" + i + ".txt";
+				}
+			}
+
 			for (int i = 0; i < splited.length; i++)
 			{
-				threadTextEntschluesseln.add(new CustomThreadDecryptWort(splited[i]));
+				threadTextEntschluesseln.add(new CustomThreadDecryptWort(splited[i], file));
 				threadTextEntschluesseln.get(i).start();
 			}
+
 			for (int i = 0; i < threadTextEntschluesseln.size(); i++)
 			{
 				try
@@ -267,92 +302,117 @@ public class ActionHandler implements ActionListener
 					threadTextEntschluesseln.get(i).join();
 					if (Main.zahlAnzeigen == 1)
 					{
-						UI.text2.setText(UI.text2.getText() + " " + threadTextEntschluesseln.get(i).getWortNeu().get(0)
-								+ "(" + Main.wortListeNachPermutation.size() + ")");
-					} else
-					{
-						UI.text2.setText(
-								UI.text2.getText() + " " + threadTextEntschluesseln.get(i).getWortNeu().get(0));
+						UI.text2.setText(UI.text2.getText() + " "
+								+ threadTextEntschluesseln.get(i).getWortListeNachPermutation().get(0) + "("
+								+ threadTextEntschluesseln.get(i).getWortListeNachPermutation().size() + ")");
 					}
-				} catch (InterruptedException e1)
+					else
+					{
+						UI.text2.setText(UI.text2.getText() + " "
+								+ threadTextEntschluesseln.get(i).getWortListeNachPermutation().get(0));
+					}
+				}
+				catch (InterruptedException e1)
 				{
 					e1.printStackTrace();
 				}
 			}
-		} else if (e.getSource() == UI.textVerschluesseln)
+		}
+		else if (e.getSource() == UI.textVerschluesseln)
 		{
-			String[] splited = UI.text2.getText().split("\\s+");
 			UI.text1.setText("");
-
+			String[] splited = UI.text2.getText().split("\\s+");
 			threadTextVerschluesseln.clear();
+
 			for (int i = 0; i < splited.length; i++)
 			{
 				threadTextVerschluesseln.add(new CustomThreadEncryptWort(splited[i]));
 				threadTextVerschluesseln.get(i).start();
 			}
+
 			for (int i = 0; i < threadTextVerschluesseln.size(); i++)
 			{
 				try
 				{
 					threadTextVerschluesseln.get(i).join();
 					UI.text1.setText(UI.text1.getText() + threadTextVerschluesseln.get(i).getWortNeu() + " ");
-				} catch (InterruptedException e1)
+				}
+				catch (InterruptedException e1)
 				{
 					e1.printStackTrace();
 				}
 			}
-		} else if (e.getSource() == UI.wortEntschluesseln)
+		}
+		else if (e.getSource() == UI.wortEntschluesseln)
 		{
 			if (!UI.wort1.getText().contains(" "))
 			{
+				UI.wort2.setText("");
 				wort = UI.wort1.getText();
-				Main.wortListeNachPermutation.clear();
-				CustomThreadDecryptWort threadWortEntschluesseln = new CustomThreadDecryptWort(wort);
+
+				for (int i = 0; i < UI.wortlistenAuswahlMenu.size(); i++)
+				{
+					if (UI.wortlistenAuswahlMenu.get(i).isSelected())
+					{
+						file = "wordlist/woerter" + i + ".txt";
+					}
+				}
+
+				CustomThreadDecryptWort threadWortEntschluesseln = new CustomThreadDecryptWort(wort, file);
 				threadWortEntschluesseln.start();
+
 				try
 				{
 					threadWortEntschluesseln.join();
-				} catch (InterruptedException e1)
+				}
+				catch (InterruptedException e1)
 				{
 					e1.printStackTrace();
 				}
-				UI.wort2.setText("");
-				for (int i = 0; i < threadWortEntschluesseln.getWortNeu().size(); i++)
-				{
-					UI.wort2.setText(UI.wort2.getText() + threadWortEntschluesseln.getWortNeu().get(i) + "\n");
-				}
 
-			} else
+				for (int i = 0; i < threadWortEntschluesseln.getWortListeNachPermutation().size(); i++)
+				{
+					UI.wort2.setText(
+							UI.wort2.getText() + threadWortEntschluesseln.getWortListeNachPermutation().get(i) + "\n");
+				}
+			}
+			else
 			{
 				JOptionPane.showOptionDialog(UI.window, Main.WoerterLanguage.get(66), Main.WoerterLanguage.get(67),
 						JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, new ImageIcon("Twist.png"),
 						new String[] { Main.WoerterLanguage.get(68) }, Main.WoerterLanguage.get(68));
 			}
 
-		} else if (e.getSource() == UI.wortVerschluesseln)
+		}
+		else if (e.getSource() == UI.wortVerschluesseln)
 		{
 			if (!UI.wort2.getText().contains(" "))
 			{
+				UI.wort1.setText("");
 				wort = UI.wort2.getText();
-				Main.wortListeNachPermutation.clear();
+
 				CustomThreadEncryptWort threadWortEntschluesseln = new CustomThreadEncryptWort(wort);
 				threadWortEntschluesseln.start();
+
 				try
 				{
 					threadWortEntschluesseln.join();
-				} catch (InterruptedException e1)
+				}
+				catch (InterruptedException e1)
 				{
 					e1.printStackTrace();
 				}
-				UI.wort1.setText("");
-				UI.wort1.setText(threadWortEntschluesseln.getWortNeu());
-			} else
+				String wortNeu= threadWortEntschluesseln.getWortNeu();
+				UI.wort1.setText(wortNeu);
+			}
+			else
 			{
 				JOptionPane.showOptionDialog(UI.window, Main.WoerterLanguage.get(66), Main.WoerterLanguage.get(67),
 						JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, new ImageIcon("Twist.png"),
 						new String[] { Main.WoerterLanguage.get(68) }, Main.WoerterLanguage.get(68));
 			}
-		} else
+		}
+		else
 		{
 
 		}

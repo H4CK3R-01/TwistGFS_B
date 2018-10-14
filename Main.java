@@ -13,7 +13,8 @@ import java.util.ArrayList;
 
 import javax.swing.UIManager;
 
-public class Main {
+public class Main
+{
 	/*
 	 * Aufbau der Datei 'settings.txt' 1 --> erster Start ( 1 = erster Start || 0 =
 	 * nicht erster Start ) 1 --> Zahl Anzeigen ( 1 = Zahl anzeigen || 0 = Zahl
@@ -34,60 +35,70 @@ public class Main {
 	public static ArrayList<String> WoerterLanguage = new ArrayList<>();
 	public static ArrayList<String> verfuegbareWortlisten = new ArrayList<>();
 
-	
 	// Globale Variablen
 	public static Console logger = new Console();
 	public static ArrayList<ArrayList<String>> wortRueckgabe = new ArrayList<>();
 	public static ArrayList<String> textWoerter = new ArrayList<>();
 	public static ArrayList<ArrayList<String>> wortWoerter = new ArrayList<>();
-	public static ArrayList<String> wortListeNachPermutation = new ArrayList<>();
+	// public static ArrayList<String> wortListeNachPermutation = new ArrayList<>();
 	public static DateTimeFormatter df = DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss");
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		// Moderne Benutzeroberfläche laden
-		try {
+		try
+		{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 		}
 
 		readSettingsFile();
-		if (language == 1) {
-			readLanguageFile("lang/en.txt");
-		} else {
-			readLanguageFile("lang/de.txt");
-		}
-
+		
+		/*
+		 * if (language == 1) { readLanguageFile("lang/en.txt"); } else {
+		 * readLanguageFile("lang/de.txt"); }
+		 */
+		
+		readLanguageFile("lang/de.txt");
 		// UI starten
 		new UI();
-		new Settings();
 		logger.start();
-		UI.settingsSettings.setVisible(false);
 	}
 
 	@SuppressWarnings("resource")
-	public static void copyFile(File in, File out) throws IOException {
+	public static void copyFile(File in, File out) throws IOException
+	{
 		FileChannel inChannel = null;
 		FileChannel outChannel = null;
-		try {
+		try
+		{
 			inChannel = new FileInputStream(in).getChannel();
 			outChannel = new FileOutputStream(out).getChannel();
 			inChannel.transferTo(0, inChannel.size(), outChannel);
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			throw e;
-		} finally {
-			try {
-				if (inChannel != null)
-					inChannel.close();
-				if (outChannel != null)
-					outChannel.close();
-			} catch (IOException e) {
+		} finally
+		{
+			try
+			{
+				if (inChannel != null) inChannel.close();
+				if (outChannel != null) outChannel.close();
+			}
+			catch (IOException e)
+			{
 			}
 		}
 	}
 
-	public static void readSettingsFile() {
+	public static void readSettingsFile()
+	{
 		BufferedReader br;
-		try {
+		try
+		{
 			br = new BufferedReader(new FileReader("settings.txt"));
 			Main.firstStart = Integer.parseInt(br.readLine());
 			Main.zahlAnzeigen = Integer.parseInt(br.readLine());
@@ -95,16 +106,21 @@ public class Main {
 			Main.stdWortliste = br.readLine();
 
 			String s;
-			while ((s = br.readLine()) != null) {
+			while ((s = br.readLine()) != null)
+			{
 				Main.verfuegbareWortlisten.add(s);
 			}
 			br.close();
-		} catch (IOException e1) {
+		}
+		catch (IOException e1)
+		{
 		}
 	}
 
-	public static void saveSettingsFile() {
-		try {
+	public static void saveSettingsFile()
+	{
+		try
+		{
 			BufferedWriter bw = new BufferedWriter(new FileWriter("settings.txt"));
 			bw.write(Main.firstStart + "");
 			bw.newLine();
@@ -114,68 +130,88 @@ public class Main {
 			bw.newLine();
 			bw.write(Main.stdWortliste);
 			bw.newLine();
-			for (int i = 0; i < Main.verfuegbareWortlisten.size(); i++) {
+			for (int i = 0; i < Main.verfuegbareWortlisten.size(); i++)
+			{
 				bw.write(Main.verfuegbareWortlisten.get(i));
 				bw.newLine();
 			}
 			bw.close();
-		} catch (IOException e1) {
+		}
+		catch (IOException e1)
+		{
 		}
 	}
 
-	public static void readLanguageFile(String file) {
+	public static void readLanguageFile(String file)
+	{
 		BufferedReader br;
-		try {
+		try
+		{
 			br = new BufferedReader(new FileReader(file));
 			String s;
-			while ((s = br.readLine()) != null) {
+			while ((s = br.readLine()) != null)
+			{
 				Main.WoerterLanguage.add(s);
 			}
 			br.close();
-		} catch (IOException e1) {
+		}
+		catch (IOException e1)
+		{
 		}
 	}
 
-	public static ArrayList<String> readWordListFile(String file) {
+	public static ArrayList<String> readWordListFile(String file)
+	{
 		ArrayList<String> list = new ArrayList<>();
 
-		try {
+		try
+		{
 			BufferedReader br = new BufferedReader(new FileReader(file));
 			String line = null;
-			while ((line = br.readLine()) != null) {
+			while ((line = br.readLine()) != null)
+			{
 				list.add(line);
 			}
 			br.close();
-		} catch (IOException e) {
-			System.err.println("[ " + LocalDateTime.now().format(Main.df) + " ] " + 
-					file + ": Datei konnte nicht geöffnet werden. Möglicherweise wurde sie gelöscht oder verschoben.");
+		}
+		catch (IOException e)
+		{
+			System.err.println(
+					"[ " + LocalDateTime.now().format(Main.df) + " ] " + file + ": " + Main.WoerterLanguage.get(69));
 		}
 
 		return list;
 	}
 
 	public static ArrayList<String> removeWordsOfArray(char firstChar, char lastChar, int length,
-			ArrayList<String> wordList) {
+			ArrayList<String> wordList)
+	{
 
 		// Wörter mit falschem ertsten Buchstaben aus Liste löschen
-		for (int i = 0; i < wordList.size(); i++) {
-			if (wordList.get(i).charAt(0) != firstChar) {
+		for (int i = 0; i < wordList.size(); i++)
+		{
+			if (wordList.get(i).charAt(0) != firstChar)
+			{
 				wordList.remove(i);
 				i--;
 			}
 		}
 
 		// Wörter mit falschem letzten Buchstaben aus Liste löschen
-		for (int i = 0; i < wordList.size(); i++) {
-			if (wordList.get(i).charAt(wordList.get(i).length() - 1) != lastChar) {
+		for (int i = 0; i < wordList.size(); i++)
+		{
+			if (wordList.get(i).charAt(wordList.get(i).length() - 1) != lastChar)
+			{
 				wordList.remove(i);
 				i--;
 			}
 		}
 
 		// Wörter mit falscher Länge aus Liste löschen
-		for (int i = 0; i < wordList.size(); i++) {
-			if (length != wordList.get(i).length()) {
+		for (int i = 0; i < wordList.size(); i++)
+		{
+			if (length != wordList.get(i).length())
+			{
 				wordList.remove(i);
 				i--;
 			}
@@ -184,7 +220,8 @@ public class Main {
 		return wordList;
 	}
 
-	public static String swapCharactersOfString(String a, int i, int j) {
+	public static String swapCharactersOfString(String a, int i, int j)
+	{
 		char temp;
 		char[] charArray = a.toCharArray();
 		temp = charArray[i];

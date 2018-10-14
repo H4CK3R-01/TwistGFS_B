@@ -67,3 +67,4 @@ OK
 Es darf kein Abstand im Wort vorhanden sein. Wenn sie mehrere Wörter endschlüsseln oder verschlüsseln wollen, wechseln sie bitte zu 'Text'
 Falsche Eingabe
 OK
+Datei konnte nicht geöffnet werden. Möglicherweise wurde sie gelöscht oder verschoben.

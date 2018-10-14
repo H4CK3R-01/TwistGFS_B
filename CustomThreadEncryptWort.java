@@ -1,11 +1,14 @@
 import java.time.LocalDateTime;
 
-public class CustomThreadEncryptWort extends Thread {
-	String wortNeu;
-	String wort;
-	String urspruenglichesWort;
-	String ersterBuchstabe;
-	String letzterBuchstabe;
+import de.florian.twist.Main;
+
+public class CustomThreadEncryptWort extends Thread
+{
+	private String wortNeu;
+	private String wort;
+	private String urspruenglichesWort;
+	private String ersterBuchstabe;
+	private String letzterBuchstabe;
 
 	public CustomThreadEncryptWort(String s) {
 		this.wort = s;
@@ -14,14 +17,13 @@ public class CustomThreadEncryptWort extends Thread {
 
 	public void run() {
 		System.out.println("[ " + LocalDateTime.now().format(Main.df) + " ] Thread gestartet!");
+		Main.wortRueckgabe.clear();
 
 		ersterBuchstabe = wort.substring(0, 1);
 		letzterBuchstabe = wort.substring(wort.length() - 1, wort.length());
 		wort = delFirstLastChar(wort);
 		urspruenglichesWort = delFirstLastChar(urspruenglichesWort);
-
-		UI.wort1.setText("");
-		Main.wortRueckgabe.clear();
+		
 		wortNeu = buchstabenTauschen();
 		System.out.println("[ " + LocalDateTime.now().format(Main.df) + " ] Fertig!");
 	}
@@ -33,12 +35,11 @@ public class CustomThreadEncryptWort extends Thread {
 			wort = Main.swapCharactersOfString(wort, zufallswert1, zufallswert2);
 		}
 
-		if (!wort.equals(urspruenglichesWort) && !wort.equals(UI.wort1.getText())) {
+		if (!wort.equals(urspruenglichesWort)) {
 			return ersterBuchstabe + wort + letzterBuchstabe;
 		} else {
-			buchstabenTauschen();
+			return buchstabenTauschen();
 		}
-		return "";
 	}
 
 	public String delFirstLastChar(String wort) {
@@ -47,5 +48,7 @@ public class CustomThreadEncryptWort extends Thread {
 
 	public String getWortNeu()
 	{
+		System.out.println(wortNeu);
 		return wortNeu;
 	}
+}
