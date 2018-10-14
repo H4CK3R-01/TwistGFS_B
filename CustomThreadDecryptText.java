@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import de.florian.twist.Main;
+import de.florian.twist.UI;
 
 public class CustomThreadDecryptText extends Thread
 {
@@ -17,21 +19,21 @@ public class CustomThreadDecryptText extends Thread
 
 		System.out.println("Thread gestartet!");
 
-		if (UI.wortliste1.isSelected())
-			file = "woerter_bwinf.txt";
-		else if (UI.wortliste2.isSelected())
-			file = "woerter_netzmafia.txt";
-		else
-			file = "woerter_sonstige.txt";
+		for (int i = 0; i < UI.wortlistenAuswahlMenu.size(); i++)
+		{
 
+			if (UI.wortlistenAuswahlMenu.get(i).isSelected())
+				file = "woerter" + i + ".txt";
+		}
+		System.out.println(file);
 		UI.text2.setText("");
 
 		for (int i = 0; i < splited.length; i++)
 		{
 			ArrayList<String> wordList = new ArrayList<>();
 
-			wordList = DecryptEncrypt.readFile(file);
-			wordList = DecryptEncrypt.removeWords(splited[i].charAt(0), splited[i].charAt(splited[i].length() - 1),
+			wordList = Main.readFile(file);
+			wordList = Main.removeWords(splited[i].charAt(0), splited[i].charAt(splited[i].length() - 1),
 					splited[i].length(), wordList);
 
 			try
@@ -84,20 +86,10 @@ public class CustomThreadDecryptText extends Thread
 		{
 			for (int i = startIndex; i <= endIndex; i++)
 			{
-				str = swap(str, startIndex, i);
+				str = Main.swap(str, startIndex, i);
 				permute(str, startIndex + 1, endIndex);
-				str = swap(str, startIndex, i);
+				str = Main.swap(str, startIndex, i);
 			}
 		}
-	}
-
-	public static String swap(String a, int i, int j)
-	{
-		char temp;
-		char[] charArray = a.toCharArray();
-		temp = charArray[i];
-		charArray[i] = charArray[j];
-		charArray[j] = temp;
-		return String.valueOf(charArray);
 	}
 }

@@ -1,0 +1,18 @@
+import java.awt.Font;
+
+public class Help
+{
+	public Help()
+	{
+		UI.helpDialog.setSize(400, 270);
+		UI.helpDialog.setLocationRelativeTo(null);
+		UI.helpDialog.setResizable(false);
+		UI.helpText.setLineWrap(true);
+		UI.helpText.setWrapStyleWord(true);
+		UI.helpText.setFont(new Font("Arial", Font.PLAIN, 13));
+		UI.helpText.setEditable(false);
+		UI.helpDialog.add(UI.helpText);
+		UI.helpDialog.setModal(true);
+		UI.helpDialog.setVisible(true);
+	}
+}

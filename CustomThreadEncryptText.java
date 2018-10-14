@@ -1,3 +1,6 @@
+import de.florian.twist.Main;
+import de.florian.twist.UI;
+
 public class CustomThreadEncryptText extends Thread
 {
 	String text;
@@ -29,7 +32,7 @@ public class CustomThreadEncryptText extends Thread
 			wortNeu = splited[i];
 			for (int j = 0; j < 50; j++)
 			{
-				wortNeu = swap(wortNeu, (int) Math.random() * (wortNeu.length() - 1) + 1,
+				wortNeu = Main.swap(wortNeu, (int) Math.random() * (wortNeu.length() - 1) + 1,
 						(int) Math.random() * (wortNeu.length() - 1) + 1);
 			}
 
@@ -40,15 +43,5 @@ public class CustomThreadEncryptText extends Thread
 			System.out.println("Test");
 		}
 		System.out.println("Fertig!");
-	}
-
-	public static String swap(String a, int i, int j)
-	{
-		char temp;
-		char[] charArray = a.toCharArray();
-		temp = charArray[i];
-		charArray[i] = charArray[j];
-		charArray[j] = temp;
-		return String.valueOf(charArray);
 	}
 }
