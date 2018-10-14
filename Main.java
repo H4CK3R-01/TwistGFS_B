@@ -6,7 +6,7 @@ import javax.swing.UIManager;
 
 public class Main
 {
-	public static String version = "1.4";
+	public static String version = "1.5";
 	public static String versionNew;
 	public static String versionNewURL;
 
