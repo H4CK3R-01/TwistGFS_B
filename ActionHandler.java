@@ -259,7 +259,7 @@ public class ActionHandler implements ActionListener
 				UI.wort2.setText(UI.wort2.getText() + wortWoerter.get(0).get(i) + "\n");
 			}
 		}
-		else if (e.getSource() == UI.wortVerschluesseln)
+		else if (e.getSource() == UI.wortVerschluesseln) 
 		{
 			twist.permute(UI.wort2.getText(), 1, UI.wort2.getText().length() - 4);
 			for (int i = 0; i < twist.getMoeglicheWoerter().size(); i++)
