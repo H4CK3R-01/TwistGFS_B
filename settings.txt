@@ -1,8 +1,7 @@
 0
 1
-1
-woerter0.txt
+0
+woerter1.txt
 woerter0.txt
 woerter1.txt
 woerter2.txt
-woerter3.txt

@@ -1,23 +1,29 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+
 import javax.swing.UIManager;
 
 public class Main {
 	/*
 	 * Aufbau der Datei 'settings.txt' 1 --> erster Start ( 1 = erster Start || 0 =
 	 * nicht erster Start ) 1 --> Zahl Anzeigen ( 1 = Zahl anzeigen || 0 = Zahl
-	 * nicht anzeigen ) 0 --> Sprache ( 1 = Emglisch || 0 = Deutsch) woerter2.txt
-	 * --> Standard Wortliste woerter0.txt --> Wortlisten nacheinander aufgelistet
-	 * woerter1.txt woerter2.txt woerter3.txt
+	 * nicht anzeigen ) 0 --> Sprache ( 1 = Englisch || 0 = Deutsch) woerter2.txt
+	 * --> Standard Wortliste woerter0.txt woerter1.txt --> Wortlisten nacheinander
+	 * aufgelistet woerter2.txt woerter3.txt
 	 */
 
-	public static String version = "1.6";
+	// Variablen für Einstellungen
+	public static String version = "1.7";
 	public static String versionNew;
 	public static String versionNewURL;
 
@@ -25,16 +31,18 @@ public class Main {
 	public static int zahlAnzeigen = 1;
 	public static int language = 0;
 	public static String stdWortliste;
-
+	public static ArrayList<String> WoerterLanguage = new ArrayList<>();
 	public static ArrayList<String> verfuegbareWortlisten = new ArrayList<>();
 
+	
+	// Globale Variablen
+	public static Console logger = new Console();
+	public static ArrayList<ArrayList<String>> wortRueckgabe = new ArrayList<>();
 	public static ArrayList<String> textWoerter = new ArrayList<>();
 	public static ArrayList<ArrayList<String>> wortWoerter = new ArrayList<>();
 	public static ArrayList<String> wortListeNachPermutation = new ArrayList<>();
+	public static DateTimeFormatter df = DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss");
 
-	/**
-	 *  
-	 */
 	public static void main(String[] args) {
 		// Moderne Benutzeroberfläche laden
 		try {
@@ -42,15 +50,20 @@ public class Main {
 		} catch (Exception e) {
 		}
 
-		// Werte aus Einstellungs-Datei auslesen
-		readSettings();
-		
+		readSettingsFile();
+		if (language == 1) {
+			readLanguageFile("lang/en.txt");
+		} else {
+			readLanguageFile("lang/de.txt");
+		}
+
 		// UI starten
 		new UI();
 		new Settings();
+		logger.start();
 		UI.settingsSettings.setVisible(false);
 	}
-	
+
 	@SuppressWarnings("resource")
 	public static void copyFile(File in, File out) throws IOException {
 		FileChannel inChannel = null;
@@ -72,7 +85,7 @@ public class Main {
 		}
 	}
 
-	public static void readSettings() {
+	public static void readSettingsFile() {
 		BufferedReader br;
 		try {
 			br = new BufferedReader(new FileReader("settings.txt"));
@@ -89,8 +102,41 @@ public class Main {
 		} catch (IOException e1) {
 		}
 	}
-	
-	public static ArrayList<String> readFile(String file) {
+
+	public static void saveSettingsFile() {
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter("settings.txt"));
+			bw.write(Main.firstStart + "");
+			bw.newLine();
+			bw.write(Main.zahlAnzeigen + "");
+			bw.newLine();
+			bw.write(Main.language + "");
+			bw.newLine();
+			bw.write(Main.stdWortliste);
+			bw.newLine();
+			for (int i = 0; i < Main.verfuegbareWortlisten.size(); i++) {
+				bw.write(Main.verfuegbareWortlisten.get(i));
+				bw.newLine();
+			}
+			bw.close();
+		} catch (IOException e1) {
+		}
+	}
+
+	public static void readLanguageFile(String file) {
+		BufferedReader br;
+		try {
+			br = new BufferedReader(new FileReader(file));
+			String s;
+			while ((s = br.readLine()) != null) {
+				Main.WoerterLanguage.add(s);
+			}
+			br.close();
+		} catch (IOException e1) {
+		}
+	}
+
+	public static ArrayList<String> readWordListFile(String file) {
 		ArrayList<String> list = new ArrayList<>();
 
 		try {
@@ -101,14 +147,15 @@ public class Main {
 			}
 			br.close();
 		} catch (IOException e) {
-			System.err.println(
+			System.err.println("[ " + LocalDateTime.now().format(Main.df) + " ] " + 
 					file + ": Datei konnte nicht geöffnet werden. Möglicherweise wurde sie gelöscht oder verschoben.");
 		}
 
 		return list;
 	}
 
-	public static ArrayList<String> removeWords(char firstChar, char lastChar, int length, ArrayList<String> wordList) {
+	public static ArrayList<String> removeWordsOfArray(char firstChar, char lastChar, int length,
+			ArrayList<String> wordList) {
 
 		// Wörter mit falschem ertsten Buchstaben aus Liste löschen
 		for (int i = 0; i < wordList.size(); i++) {
@@ -137,7 +184,7 @@ public class Main {
 		return wordList;
 	}
 
-	public static String swap(String a, int i, int j) {
+	public static String swapCharactersOfString(String a, int i, int j) {
 		char temp;
 		char[] charArray = a.toCharArray();
 		temp = charArray[i];

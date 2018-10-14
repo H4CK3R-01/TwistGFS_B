@@ -7,10 +7,6 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-/**
- * @author Florian
- * @version 1.6
- */
 public class UI implements ActionListener {
 	// Main Frame
 	public static JFrame window = new JFrame("Twist");
@@ -32,8 +28,15 @@ public class UI implements ActionListener {
 	public static JMenu helpSwitchWordList;
 	public static ButtonGroup wortlisteRadioButtons = new ButtonGroup();
 	public static JMenuItem helpUpdateProgram;
+	public static JMenuItem helpKonsole;
 	public static JMenuItem helpSettings;
 	public static JMenuItem helpHelp;
+	public static ImageIcon save = new ImageIcon("img/icon_save.png");
+	public static ImageIcon open = new ImageIcon("img/icon_open.png");
+	public static ImageIcon exit = new ImageIcon("img/icon_exit.png");
+	public static ImageIcon updates = new ImageIcon("img/icon_updates.png");
+	public static ImageIcon settings = new ImageIcon("img/icon_settings.png");
+	public static ImageIcon help = new ImageIcon("img/icon_help.png");
 
 	// Text Panel
 	public static JTextArea text1 = new JTextArea(8, 80);
@@ -93,6 +96,11 @@ public class UI implements ActionListener {
 	public static GridBagConstraints settingsGbc_btnSpeichern = new GridBagConstraints();
 	public static JButton settingsBtnAbbrechen;
 	public static GridBagConstraints settingsGbc_btnAbbrechen = new GridBagConstraints();
+	
+	//Log
+	public static JFrame Log = new JFrame();
+	public static JTextArea logArea = new JTextArea();
+	public static GridBagConstraints constraints = new GridBagConstraints();
 
 	// Andere UI-Elemente
 	public static JTextArea helpText;
@@ -101,100 +109,58 @@ public class UI implements ActionListener {
 
 	@SuppressWarnings("deprecation")
 	public UI() {
-		// Sprache einstellen
-		if (Main.language == 0) { // Deutsch
-			// Menü
-			menuDatei = new JMenu("Datei");
-			menuHelp = new JMenu("Hilfe");
-			dateiOpen = new JMenuItem("Öffnen");
-			dateiSave = new JMenuItem("Speichern");
-			dateiExit = new JMenuItem("Beenden");
-			helpSwitchWordList = new JMenu("Wortliste auswählen");
-			helpUpdateProgram = new JMenuItem("Program aktualisieren");
-			helpSettings = new JMenuItem("Einstellungen");
-			helpHelp = new JMenuItem("Hilfe");
+		save = new ImageIcon(save.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_DEFAULT));
+		open = new ImageIcon(open.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH));
+		exit = new ImageIcon(exit.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH));
+		updates = new ImageIcon(updates.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH));
+		settings = new ImageIcon(settings.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH));
+		help = new ImageIcon(help.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH));
+		
 
-			// Tabs
-			tabpane.addTab("Wort", wortPanel);
-			tabpane.addTab("Text ", textPanel);
-			text1Label = new JLabel("Verschlüsselten Text hier eingeben:");
-			text2Label = new JLabel("Unverschlüsselten Text hier eingeben:");
-			textEntschluesseln = new JButton("Entschlüsseln");
-			textVerschluesseln = new JButton("Verschlüsseln");
-			wort1Label = new JLabel("Verschlüsseltes Wort hier eingeben:");
-			wort2Label = new JLabel("Unverschlüsseltes Wort hier eingeben:");
-			wortEntschluesseln = new JButton("Entschlüsseln");
-			wortVerschluesseln = new JButton("Verschlüsseln");
+		// Menü
+		menuDatei = new JMenu(Main.WoerterLanguage.get(0));
+		menuHelp = new JMenu(Main.WoerterLanguage.get(1));
+		dateiOpen = new JMenuItem(Main.WoerterLanguage.get(2));
+		dateiSave = new JMenuItem(Main.WoerterLanguage.get(3));
+		dateiExit = new JMenuItem(Main.WoerterLanguage.get(4));
+		helpSwitchWordList = new JMenu(Main.WoerterLanguage.get(5));
+		helpKonsole = new JMenuItem(Main.WoerterLanguage.get(6));
+		helpUpdateProgram = new JMenuItem(Main.WoerterLanguage.get(8));
+		helpSettings = new JMenuItem(Main.WoerterLanguage.get(9));
+		helpHelp = new JMenuItem(Main.WoerterLanguage.get(10));
 
-			// Settings
-			settingsSettings = new JFrame("Einstellungen");
-			settingsZahlAnzeigenText = new JLabel("Soll die Zahl hinter den Wörtern bei 'Text' stehen?");
-			settingsZahlAnzeigenJa = new JRadioButton("Ja");
-			settingsZahlAnzeigenNein = new JRadioButton("Nein");
-			settingsLanguageChangeText = new JLabel("Sprache auswählen");
-			settingsAddWortListeText = new JLabel("Neue Wortliste zum Programm hinzufügen");
-			settingsAddWortListeBtn = new JButton("Wortliste auswählen");
-			settingsStdWortlisteText = new JLabel("Standard Wortliste auswählen");
-			settingsBtnSpeichern = new JButton("Speichern");
-			settingsBtnAbbrechen = new JButton("Abbrechen");
+		// Tabs
+		tabpane.addTab(Main.WoerterLanguage.get(11), wortPanel);
+		tabpane.addTab(Main.WoerterLanguage.get(12), textPanel);
+		text1Label = new JLabel(Main.WoerterLanguage.get(13));
+		text2Label = new JLabel(Main.WoerterLanguage.get(14));
+		textEntschluesseln = new JButton(Main.WoerterLanguage.get(15));
+		textVerschluesseln = new JButton(Main.WoerterLanguage.get(16));
+		wort1Label = new JLabel(Main.WoerterLanguage.get(17));
+		wort2Label = new JLabel(Main.WoerterLanguage.get(18));
+		wortEntschluesseln = new JButton(Main.WoerterLanguage.get(19));
+		wortVerschluesseln = new JButton(Main.WoerterLanguage.get(20));
 
-			// Sonstige
-			helpText = new JTextArea(
-					"Mithilfe des Tabs 'Text' können Sie ganze Texte ver- oder entschlüsseln. Beim entschlüsseln wird, wenn für ein verschlüsseltes Wort mehrere mögliche Wörter passen würden, immer das erste Wort, das gefunden wird, ausgegeben. Die Zahl in Klammern dahinter zeigt, wieviele möglichen Wörter es gibt."
-							+ "\n\nMithilfe des Tabs 'Wort' können Sie einzelne Wörter ver- oder entschlüsseln. Beim entschlüsseln werden im Gegensatz zu dem 'Text'-Tab alle Wörter ausgegeben. \n\nDas Programm kann Wörter bis zehn Buchstaben Länge entschlüsseln.\n\nWenn kein Wort gefunden wurde können sie unter Hilfe > Wortliste auswählen eine andere Worliste auswählen.");
-			helpDialog.setTitle("Hilfe");
-			dateiauswahl.setDialogTitle("Wortliste auswählen");
-			filter = new FileNameExtensionFilter("Nur Text Dateien", "txt", "text");
-			settingsLanguageComboBox.addItem("Deutsch   ");
-			settingsLanguageComboBox.addItem("Englisch  ");
-			settingsLanguageComboBox.setSelectedIndex(Main.language);
+		// Settings
+		settingsSettings = new JFrame(Main.WoerterLanguage.get(21));
+		settingsZahlAnzeigenText = new JLabel(Main.WoerterLanguage.get(22));
+		settingsZahlAnzeigenJa = new JRadioButton(Main.WoerterLanguage.get(23));
+		settingsZahlAnzeigenNein = new JRadioButton(Main.WoerterLanguage.get(24));
+		settingsLanguageChangeText = new JLabel(Main.WoerterLanguage.get(25));
+		settingsAddWortListeText = new JLabel(Main.WoerterLanguage.get(26));
+		settingsAddWortListeBtn = new JButton(Main.WoerterLanguage.get(27));
+		settingsStdWortlisteText = new JLabel(Main.WoerterLanguage.get(28));
+		settingsBtnSpeichern = new JButton(Main.WoerterLanguage.get(29));
+		settingsBtnAbbrechen = new JButton(Main.WoerterLanguage.get(30));
 
-		} else { // Englisch
-			// Menu
-			menuDatei = new JMenu("File");
-			menuHelp = new JMenu("Help");
-			dateiOpen = new JMenuItem("Open");
-			dateiSave = new JMenuItem("Save");
-			dateiExit = new JMenuItem("Exit");
-			helpSwitchWordList = new JMenu("Choose word list");
-			helpUpdateProgram = new JMenuItem("Update Program");
-			helpSettings = new JMenuItem("Settings");
-			helpHelp = new JMenuItem("Help");
-
-			// Tabs
-			tabpane.addTab("Word", wortPanel);
-			tabpane.addTab("Text ", textPanel);
-			text1Label = new JLabel("Enter encrypted text here:");
-			text2Label = new JLabel("Enter decrypted text here:");
-			textEntschluesseln = new JButton("Decode");
-			textVerschluesseln = new JButton("Encode");
-			wort1Label = new JLabel("Enter encrypted word here:");
-			wort2Label = new JLabel("Enter decrypted word here:");
-			wortEntschluesseln = new JButton("Decode");
-			wortVerschluesseln = new JButton("Encode");
-
-			// Settings
-			settingsSettings = new JFrame("Settings");
-			settingsZahlAnzeigenText = new JLabel("Should the number stand behind the words at 'Text'?");
-			settingsZahlAnzeigenJa = new JRadioButton("Yes");
-			settingsZahlAnzeigenNein = new JRadioButton("No");
-			settingsLanguageChangeText = new JLabel("Choose language");
-			settingsAddWortListeText = new JLabel("Add new word list");
-			settingsAddWortListeBtn = new JButton("Choose own word list");
-			settingsStdWortlisteText = new JLabel("Choose default word list");
-			settingsBtnSpeichern = new JButton("Save");
-			settingsBtnAbbrechen = new JButton("Abort");
-
-			// Sonstige
-			helpText = new JTextArea(
-					"Use the tab 'Text' to enrypt or decrypt texts. When there are many possible words, the first word which eas found will printed in the output field. The number behind the wort shows how many possibilities are found. You can turn off the number in the settings.\n\nTo decrypt or encrypt words, you can go to the tab 'Words'. Every possible word is printed out in the output field. Sometimes no word is found, but then you can switch the wordlist and maybe then you can find a word.");
-			helpDialog.setTitle("Help");
-			dateiauswahl.setDialogTitle("Choose word list");
-			filter = new FileNameExtensionFilter("Only Text-Files", "txt", "text");
-			settingsLanguageComboBox.addItem("German    ");
-			settingsLanguageComboBox.addItem("English   ");
-			settingsLanguageComboBox.setSelectedIndex(Main.language);
-		}
+		// Sonstige
+		helpText = new JTextArea(Main.WoerterLanguage.get(31));
+		helpDialog.setTitle(Main.WoerterLanguage.get(32));
+		dateiauswahl.setDialogTitle(Main.WoerterLanguage.get(33));
+		filter = new FileNameExtensionFilter(Main.WoerterLanguage.get(34), "txt", "text");
+		settingsLanguageComboBox.addItem(Main.WoerterLanguage.get(35));
+		settingsLanguageComboBox.addItem(Main.WoerterLanguage.get(36));
+		settingsLanguageComboBox.setSelectedIndex(Main.language);
 
 		// Fenster konfigurieren
 		window.setSize(850, 420);
@@ -208,13 +174,13 @@ public class UI implements ActionListener {
 		// Menü zusammensetzen
 		window.setJMenuBar(menu);
 		dateiOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
-		dateiOpen.setIcon(new ImageIcon("img/icon_open.png"));
+		dateiOpen.setIcon(open);
 		dateiOpen.addActionListener(new ActionHandler());
 		dateiSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
-		dateiSave.setIcon(new ImageIcon("img/icon_save.png"));
+		dateiSave.setIcon(save);
 		dateiSave.addActionListener(new ActionHandler());
 		dateiExit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_MASK));
-		dateiExit.setIcon(new ImageIcon("img/icon_exit.png"));
+		dateiExit.setIcon(exit);
 		dateiExit.addActionListener(new ActionHandler());
 		menuDatei.add(dateiOpen);
 		menuDatei.add(dateiSave);
@@ -234,15 +200,18 @@ public class UI implements ActionListener {
 		}
 
 		settingsStdWortlisteComboBox.setSelectedItem(Main.stdWortliste);
-		helpUpdateProgram.setIcon(new ImageIcon("img/icon_update.png"));
+		helpKonsole.addActionListener(new ActionHandler());
+		helpKonsole.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.ALT_MASK));
+		helpUpdateProgram.setIcon(updates);
 		helpUpdateProgram.addActionListener(new ActionHandler());
 		helpSettings.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_MASK));
-		helpSettings.setIcon(new ImageIcon("img/icon_settings.png"));
+		helpSettings.setIcon(settings);
 		helpSettings.addActionListener(new ActionHandler());
 		helpHelp.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, InputEvent.CTRL_MASK));
-		helpHelp.setIcon(new ImageIcon("img/icon_help.png"));
+		helpHelp.setIcon(help);
 		helpHelp.addActionListener(new ActionHandler());
 		menuHelp.add(helpSwitchWordList);
+		menuHelp.add(helpKonsole);
 		menuHelp.add(helpUpdateProgram);
 		menuHelp.addSeparator();
 		menuHelp.add(helpSettings);
@@ -295,7 +264,7 @@ public class UI implements ActionListener {
 					new ImageIcon("Twist.png"), new String[] { "OK" }, "OK");
 			if (auswahl == 0) {
 				Main.firstStart = 0;
-				ActionHandler.saveSettings();
+				Main.saveSettingsFile();
 			}
 		}
 

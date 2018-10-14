@@ -1,0 +1,69 @@
+Datei
+Hilfe
+Öffnen
+Speichern
+Beenden
+Wortliste auswählen
+Konsole öffnen
+Konsole schließen
+Program aktualisieren
+Einstellungen
+Hilfe
+Wort
+Text
+Verschlüsselten Text hier eingeben: 
+Unverschlüsselten Text hier eingeben: 
+Entschlüsseln
+Verschlüsseln
+Verschlüsseltes Wort hier eingeben: 
+Unverschlüsseltes Wort hier eingeben: 
+Entschlüsseln
+Verschlüsseln
+Einstellungen
+Soll die Zahl hinter den Wörtern bei 'Text' stehen?
+Ja
+Nein
+Sprache auswählen
+Neue Wortliste zum Programm hinzufügen
+Wortliste auswählen
+Standard Wortliste auswählen
+Speichern
+Abbrechen
+Mithilfe des Tabs 'Text' können Sie ganze Texte ver- oder entschlüsseln. Beim entschlüsseln wird, wenn für ein verschlüsseltes Wort mehrere mögliche Wörter passen würden, immer das erste Wort, das gefunden wird, ausgegeben. Die Zahl in Klammern dahinter zeigt, wieviele möglichen Wörter es gibt. Mithilfe des Tabs 'Wort' können Sie einzelne Wörter ver- oder entschlüsseln. Beim entschlüsseln werden im Gegensatz zu dem 'Text'-Tab alle Wörter ausgegeben. Das Programm kann Wörter bis zehn Buchstaben Länge entschlüsseln. Wenn kein Wort gefunden wurde können sie unter Hilfe > Wortliste auswählen eine andere Worliste auswählen.
+Hilfe
+Wortliste auswählen
+Nur Text Dateien
+Deutsch   
+Englisch  
+Wollen Sie einen verschlüsselten Text oder einen entschlüsselten Text öffnen?
+Öffnen
+Verschlüsselt
+Entschlüsselt
+Wollen Sie eine verschlüsseltes Wort oder eine entschlüsseltes Wort öffnen?
+Öffnen
+Verschlüsselt
+Entschlüsselt
+Wollen Sie den verschlüsselten Text oder den entschlüsselten Text speichern?
+Speichern
+Verschlüsselt
+Entschlüsselt
+Wollen Sie das verschlüsselte Wort oder das/die entschlüsselte/n Wort/e speichern?
+Speichern
+Verschlüsselt
+Entschlüsselt
+Aktuell verwenden sie Version 
+ des Programms. Die neuste Version ist 
+. Wollen Sie die neue Version herunterladen?
+Version prüfen
+Nein
+Ja
+Aktuell verwenden sie Version 
+ des Programms. Das ist bereits die neuste verfügbare Version.
+Version prüfen
+OK
+Bitte Programm neustarten um Änderungen zu übernehmen.
+Neustart erforderlich
+OK
+Es darf kein Abstand im Wort vorhanden sein. Wenn sie mehrere Wörter endschlüsseln oder verschlüsseln wollen, wechseln sie bitte zu 'Text'
+Falsche Eingabe
+OK

@@ -1,0 +1,69 @@
+File
+Help
+Open
+Save
+Exit
+Choose word list
+Open Console
+Close Console
+Update Program
+Settings
+Help
+Word
+Text
+Enter encrypted text here: 
+Enter decrypted text here: 
+Decode
+Encode
+Enter encrypted word here: 
+Enter decrypted word here: 
+Decode
+Encode
+Settings
+Should the number stand behind the words at 'Text'?
+Yes
+No
+Choose language
+Add new word list
+Choose own word list
+Choose default word list
+Save
+Abort
+Use the tab 'Text' to encode or decode texts. When there are many possible words, the first word which is found will be printed in the output field. The number behind the word shows how many possible words are found. You can turn off the number in the settings.\n\nTo decrypt or encrypt words, you can go to the tab 'Word'. Every possible word is printed out in the output field. When no word is found, you can switch the word list and maybe then you can find a word.
+Help
+Choose word list
+Only Text-Files
+German    
+English   
+Do you want to open an encrypted or a decrypted text?
+Open
+Encoded
+Decoded
+Do you want to open an encoded or a decoded word?
+Open
+Encoded
+Decoded
+Do you want to save the encoded or the decoded text?
+Save
+Encoded
+Decoded
+Do you want to save the encoded or the decoded word(s)?
+Save
+Encoded
+Decoded
+Currently you use version 
+ of the program. The latest version is 
+. Do you want do download the update?
+Check Version
+No
+Yes
+Currently you use version 
+ of the program. That is the latest available update.
+Check Version
+OK
+Please restart the program.
+Restart required
+OK
+There must be no space in the word. If you want to encode or decode multiple words, please change to 'Text'
+Wrong Input
+OK

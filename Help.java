@@ -1,9 +1,9 @@
 import java.awt.Font;
 
-public class Help
-{
-	public Help()
-	{
+import de.florian.twist.UI;
+
+public class Help {
+	public Help() {
 		UI.helpDialog.setSize(400, 270);
 		UI.helpDialog.setLocationRelativeTo(null);
 		UI.helpDialog.setResizable(false);

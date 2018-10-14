@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.border.EmptyBorder;
 
@@ -22,7 +21,8 @@ public class Settings implements ActionListener {
 		UI.settingsGridBagLayout.columnWidths = new int[] { 0, 0, 0, 0 };
 		UI.settingsGridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		UI.settingsGridBagLayout.columnWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
-		UI.settingsGridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		UI.settingsGridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+				Double.MIN_VALUE };
 		UI.settingsContentPane.setLayout(UI.settingsGridBagLayout);
 
 		GridBagConstraints gbc_zahlAnzeigenText = new GridBagConstraints();
@@ -111,9 +111,7 @@ public class Settings implements ActionListener {
 		UI.settingsGbc_options.gridy = 6;
 		UI.settingsContentPane.add(UI.settingsOptions, UI.settingsGbc_options);
 		UI.settingsOptions.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		UI.settingsBtnSpeichern = new JButton("Speichern");
 		UI.settingsOptions.add(UI.settingsBtnSpeichern);
-		UI.settingsBtnAbbrechen = new JButton("Abbrechen");
 		UI.settingsOptions.add(UI.settingsBtnAbbrechen);
 		UI.settingsBtnAbbrechen.addActionListener(new ActionHandler());
 		UI.settingsBtnSpeichern.addActionListener(new ActionHandler());
