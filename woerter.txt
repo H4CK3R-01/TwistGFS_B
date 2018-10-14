@@ -34718,6 +34718,7 @@ Lokalverbot
 Lokalwaehrungen
 Lokfuehrern
 Lokomitivfuehrer
+Dampflokomotive
 Lokomotive
 Lokomotivfuehrers
 Loks
@@ -174144,6 +174145,7 @@ Schuhe
 Schuhen
 SchuhkartongroesSe
 Schuko
+Schhue
 Schukosteckdosen
 Schukostecker
 Schulaufgaben

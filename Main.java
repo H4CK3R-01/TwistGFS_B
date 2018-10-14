@@ -1,48 +1,22 @@
 import java.io.BufferedReader;
-import java.io.FileReader; 
+import java.io.FileReader;
 import java.io.IOException;
 
 import javax.swing.UIManager;
 
 public class Main
 {
-	public static String version = "1.3";
+	public static String version = "1.4";
 	public static String versionNew;
 	public static String versionNewURL;
 
 	public static int firstStart;
 	public static int zahlInKlammern;
+	public static int anzahlMoeglicherWoerter = 10000;
+	public static int anzahlWoerter = 0;
 
 	public static void main(String[] args)
 	{
-		BufferedReader br;
-		try
-		{
-			br = new BufferedReader(new FileReader("settings.txt"));
-			if (Integer.parseInt(br.readLine()) == 0)
-			{
-				UI.firstStart = true;
-			}
-			else
-			{
-				UI.firstStart = false;
-			}
-			
-			if (Integer.parseInt(br.readLine()) == 1)
-			{
-				UI.settigsZahl = true;
-			}
-			else
-			{
-				UI.settigsZahl = false;
-			}
-			br.close();
-		}
-		catch (IOException e1)
-		{
-		}
-
-
 		try
 		{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -50,6 +24,21 @@ public class Main
 		catch (Exception e)
 		{
 		}
+
+		BufferedReader br;
+		try
+		{
+			br = new BufferedReader(new FileReader("settings.txt"));
+			UI.firstStart = Integer.parseInt(br.readLine());
+			UI.settigsZahl = Integer.parseInt(br.readLine());
+			br.close();
+		}
+		catch (IOException e1)
+		{
+		}
+
 		new UI();
+		
+		//new Permutation("Test");
 	}
 }

@@ -1,5 +1,5 @@
 import java.io.*;
-import java.util.ArrayList; 
+import java.util.ArrayList;
 
 public class DecryptTwist
 {
@@ -129,7 +129,11 @@ public class DecryptTwist
 		if (l == r)
 		{
 			if (!wortListeMitAllenWoerternNachPermutation.contains(str))
+			{
 				wortListeMitAllenWoerternNachPermutation.add(str);
+				Main.anzahlWoerter = wortListeMitAllenWoerternNachPermutation.size();
+				
+			}
 		}
 		else
 		{

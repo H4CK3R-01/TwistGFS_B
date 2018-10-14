@@ -9,6 +9,7 @@ public class ActionHandler implements ActionListener
 {
 	public void actionPerformed(ActionEvent e)
 	{
+		CustomThreadProgressBar progressbar = new CustomThreadProgressBar();
 		DecryptTwist twist = new DecryptTwist();
 		ArrayList<String> textWoerter = new ArrayList<>();
 		ArrayList<ArrayList<String>> wortWoerter = new ArrayList<>();
@@ -158,28 +159,41 @@ public class ActionHandler implements ActionListener
 					new String[] { "Deaktivieren", "Aktivieren", "Abbrechen" }, "Abbrechen");
 			if (auswahl == 1)
 			{
-				UI.settigsZahl = true;
+				UI.settigsZahl = 1;
 			}
 			else if (auswahl == 0)
 			{
-				UI.settigsZahl = false;
+				UI.settigsZahl = 0;
+			}
+
+			try
+			{
+				BufferedWriter bw = new BufferedWriter(new FileWriter("settings.txt"));
+				bw.write(UI.firstStart + "");
+				bw.newLine();
+				bw.write(UI.settigsZahl + "");
+				bw.close();
+			}
+			catch (IOException e1)
+			{
 			}
 		}
 		else if (e.getSource() == UI.helpHelp)
 		{
-			UI.dialog.setTitle("Hilfe");
-			UI.dialog.setSize(300, 250);
-			UI.dialog.setResizable(false);
+			UI.helpDialog.setTitle("Hilfe");
+			UI.helpDialog.setSize(300, 270);
+			UI.helpDialog.setLocationRelativeTo(null);
+			UI.helpDialog.setResizable(false);
 			UI.helpText.setLineWrap(true);
 			UI.helpText.setWrapStyleWord(true);
 			UI.helpText.setFont(new Font("Arial", Font.PLAIN, 13));
 			UI.helpText.setEditable(false);
-			UI.dialog.add(UI.helpText);
-			UI.dialog.setModal(true);
-			UI.dialog.setVisible(true);
+			UI.helpDialog.add(UI.helpText);
+			UI.helpDialog.setModal(true);
+			UI.helpDialog.setVisible(true);
 
 		}
-		else if (e.getSource() == UI.helpVersion)
+		else if (e.getSource() == UI.helpUpdateProgram)
 		{
 			try
 			{
@@ -217,7 +231,7 @@ public class ActionHandler implements ActionListener
 			{
 				JOptionPane.showOptionDialog(null,
 						"Aktuell verwenden sie Version " + Main.version
-								+ " des Programms.\n\nDas ist die neuste verfügbare Version:",
+								+ " des Programms.\n\nDas ist bereits die neuste verfügbare Version.",
 						"Version prüfen", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE,
 						new ImageIcon("Twist.png"), new String[] { "OK" }, "OK");
 			}
@@ -229,7 +243,7 @@ public class ActionHandler implements ActionListener
 			UI.text2.setText("");
 			for (int i = 0; i < splited.length; i++)
 			{
-				if (UI.settigsZahl)
+				if (UI.settigsZahl == 1)
 				{
 					textWoerter.add(twist.decrypt(splited[i]).get(0) + "(" + twist.decrypt(splited[i]).size() + ")");
 				}
@@ -244,9 +258,9 @@ public class ActionHandler implements ActionListener
 				UI.text2.setText(UI.text2.getText() + textWoerter.get(i) + " ");
 			}
 		}
-		else if (e.getSource() == UI.textVerschluesseln)
+		else if (e.getSource() == UI.textVerschluesseln) // -----------------------------------------------------------------------------------
 		{
-			System.out.println("Verschlüsseln Text"); 
+			System.out.println("Verschlüsseln Text");
 		}
 		else if (e.getSource() == UI.wortEntschluesseln) // Wort Entschlüsseln
 		{
@@ -259,13 +273,17 @@ public class ActionHandler implements ActionListener
 				UI.wort2.setText(UI.wort2.getText() + wortWoerter.get(0).get(i) + "\n");
 			}
 		}
-		else if (e.getSource() == UI.wortVerschluesseln) 
+		else if (e.getSource() == UI.wortVerschluesseln)
 		{
-			twist.permute(UI.wort2.getText(), 1, UI.wort2.getText().length() - 4);
-			for (int i = 0; i < twist.getMoeglicheWoerter().size(); i++)
-			{
-				System.out.println(twist.getMoeglicheWoerter().get(i));
-			}
+			progressbar.start();
+			progressbar.setValue(Main.anzahlWoerter);
+			Main.anzahlMoeglicherWoerter = UI.wort2.getText().length();
+			twist.permute(UI.wort2.getText().substring(1, UI.wort2.getText().length() - 1), 0,
+					UI.wort2.getText().length() - 3);
+
+			int zufallszahl = (int) 1 + new Random().nextInt(twist.getMoeglicheWoerter().size() - 1);
+			UI.wort1.setText(UI.wort2.getText().substring(0, 1) + twist.getMoeglicheWoerter().get(zufallszahl)
+					+ UI.wort2.getText().substring(UI.wort2.getText().length() - 1, UI.wort2.getText().length()));
 
 		}
 		else
