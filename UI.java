@@ -98,9 +98,9 @@ public class UI implements ActionListener
 	public static JButton settingsBtnAbbrechen;
 	public static GridBagConstraints settingsGbc_btnAbbrechen = new GridBagConstraints();
 
-	// Log
-	public static JFrame Log = new JFrame();
-	public static JTextArea logArea = new JTextArea();
+	// Console
+	public static JFrame konsole = new JFrame();
+	public static JTextArea konsoleArea = new JTextArea();
 	public static GridBagConstraints constraints = new GridBagConstraints();
 
 	// Andere UI-Elemente
@@ -111,6 +111,9 @@ public class UI implements ActionListener
 	@SuppressWarnings("deprecation")
 	public UI()
 	{
+		Main.readSettingsFile();
+		Main.readLanguageFile("lang/de.txt");
+		
 		save = new ImageIcon(save.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_DEFAULT));
 		open = new ImageIcon(open.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH));
 		exit = new ImageIcon(exit.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH));
@@ -166,7 +169,7 @@ public class UI implements ActionListener
 
 		// Fenster konfigurieren
 		window.setSize(850, 420);
-		window.setResizable(false);
+		//window.setResizable(false);
 		window.setLocationRelativeTo(null);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setIconImage(new ImageIcon("img/Twist.png").getImage());
@@ -278,6 +281,16 @@ public class UI implements ActionListener
 		dateiauswahl.setCurrentDirectory(new java.io.File("."));
 		dateiauswahl.setAcceptAllFileFilterUsed(false);
 		dateiauswahl.setFileFilter(filter);
+		
+		String file = "";
+		for (int i = 0; i < UI.wortlistenAuswahlMenu.size(); i++)
+		{
+			if (UI.wortlistenAuswahlMenu.get(i).isSelected())
+			{
+				file = "wordlist/woerter" + i + ".txt";
+			}
+		}
+		Main.wordList = Main.readWordListFile(file);
 	}
 
 	public void actionPerformed(ActionEvent e)

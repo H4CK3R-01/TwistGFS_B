@@ -1,5 +1,7 @@
 import java.awt.Font;
 
+import de.florian.twist.UI;
+
 public class Help
 {
 	public Help()

@@ -151,14 +151,14 @@ public class ActionHandler implements ActionListener
 		}
 		else if (e.getSource() == UI.helpKonsole)
 		{
-			if (UI.Log.isVisible())
+			if (UI.konsole.isVisible())
 			{
-				UI.Log.setVisible(false);
+				UI.konsole.setVisible(false);
 				UI.helpKonsole.setText(Main.WoerterLanguage.get(6));
 			}
 			else
 			{
-				UI.Log.setVisible(true);
+				UI.konsole.setVisible(true);
 				UI.helpKonsole.setText(Main.WoerterLanguage.get(7));
 			}
 		}
@@ -281,18 +281,10 @@ public class ActionHandler implements ActionListener
 			String[] splited = UI.text1.getText().split("\\s+");
 			threadTextEntschluesseln.clear();
 
-			for (int i = 0; i < UI.wortlistenAuswahlMenu.size(); i++)
-			{
-				if (UI.wortlistenAuswahlMenu.get(i).isSelected())
-				{
-					file = "wordlist/woerter" + i + ".txt";
-				}
-			}
-
 			for (int i = 0; i < splited.length; i++)
 			{
-				threadTextEntschluesseln.add(new CustomThreadDecryptWort(splited[i], file));
-				threadTextEntschluesseln.get(i).start();
+				threadTextEntschluesseln.add(new CustomThreadDecryptWort(splited[i]));
+				threadTextEntschluesseln.get(threadTextEntschluesseln.size() - 1).start();
 			}
 
 			for (int i = 0; i < threadTextEntschluesseln.size(); i++)
@@ -303,13 +295,17 @@ public class ActionHandler implements ActionListener
 					if (Main.zahlAnzeigen == 1)
 					{
 						UI.text2.setText(UI.text2.getText() + " "
-								+ threadTextEntschluesseln.get(i).getWortListeNachPermutation().get(0) + "("
+								+ threadTextEntschluesseln.get(i).getWortListeNachPermutation().iterator().next() + "("
 								+ threadTextEntschluesseln.get(i).getWortListeNachPermutation().size() + ")");
 					}
 					else
 					{
-						UI.text2.setText(UI.text2.getText() + " "
-								+ threadTextEntschluesseln.get(i).getWortListeNachPermutation().get(0));
+						Iterator<String> iterator = threadTextEntschluesseln.get(i).getWortListeNachPermutation()
+								.iterator();
+						if (iterator.hasNext())
+						{
+							UI.text2.setText(UI.text2.getText() + " " + iterator.next());
+						}
 					}
 				}
 				catch (InterruptedException e1)
@@ -317,6 +313,7 @@ public class ActionHandler implements ActionListener
 					e1.printStackTrace();
 				}
 			}
+			threadTextEntschluesseln.clear();
 		}
 		else if (e.getSource() == UI.textVerschluesseln)
 		{
@@ -350,15 +347,7 @@ public class ActionHandler implements ActionListener
 				UI.wort2.setText("");
 				wort = UI.wort1.getText();
 
-				for (int i = 0; i < UI.wortlistenAuswahlMenu.size(); i++)
-				{
-					if (UI.wortlistenAuswahlMenu.get(i).isSelected())
-					{
-						file = "wordlist/woerter" + i + ".txt";
-					}
-				}
-
-				CustomThreadDecryptWort threadWortEntschluesseln = new CustomThreadDecryptWort(wort, file);
+				CustomThreadDecryptWort threadWortEntschluesseln = new CustomThreadDecryptWort(wort);
 				threadWortEntschluesseln.start();
 
 				try
@@ -370,10 +359,10 @@ public class ActionHandler implements ActionListener
 					e1.printStackTrace();
 				}
 
-				for (int i = 0; i < threadWortEntschluesseln.getWortListeNachPermutation().size(); i++)
+				Iterator<String> iterator = threadWortEntschluesseln.getWortListeNachPermutation().iterator();
+				while (iterator.hasNext())
 				{
-					UI.wort2.setText(
-							UI.wort2.getText() + threadWortEntschluesseln.getWortListeNachPermutation().get(i) + "\n");
+					UI.wort2.setText(UI.wort2.getText() + iterator.next() + "\n");
 				}
 			}
 			else
@@ -402,7 +391,7 @@ public class ActionHandler implements ActionListener
 				{
 					e1.printStackTrace();
 				}
-				String wortNeu= threadWortEntschluesseln.getWortNeu();
+				String wortNeu = threadWortEntschluesseln.getWortNeu();
 				UI.wort1.setText(wortNeu);
 			}
 			else

@@ -10,6 +10,7 @@ import java.nio.channels.FileChannel;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import javax.swing.UIManager;
 
@@ -36,8 +37,8 @@ public class Main
 	public static ArrayList<String> verfuegbareWortlisten = new ArrayList<>();
 
 	// Globale Variablen
-	public static Console logger = new Console();
-	public static ArrayList<ArrayList<String>> wortRueckgabe = new ArrayList<>();
+	public static HashSet<String> wordList = new HashSet<>();
+	public static Console console = new Console();
 	public static ArrayList<String> textWoerter = new ArrayList<>();
 	public static ArrayList<ArrayList<String>> wortWoerter = new ArrayList<>();
 	// public static ArrayList<String> wortListeNachPermutation = new ArrayList<>();
@@ -54,17 +55,13 @@ public class Main
 		{
 		}
 
-		readSettingsFile();
-		
 		/*
 		 * if (language == 1) { readLanguageFile("lang/en.txt"); } else {
 		 * readLanguageFile("lang/de.txt"); }
 		 */
-		
-		readLanguageFile("lang/de.txt");
-		// UI starten
+
 		new UI();
-		logger.start();
+		console.start();
 	}
 
 	@SuppressWarnings("resource")
@@ -160,9 +157,9 @@ public class Main
 		}
 	}
 
-	public static ArrayList<String> readWordListFile(String file)
+	public static HashSet<String> readWordListFile(String file)
 	{
-		ArrayList<String> list = new ArrayList<>();
+		HashSet<String> list = new HashSet<>();
 
 		try
 		{
@@ -181,43 +178,6 @@ public class Main
 		}
 
 		return list;
-	}
-
-	public static ArrayList<String> removeWordsOfArray(char firstChar, char lastChar, int length,
-			ArrayList<String> wordList)
-	{
-
-		// Wörter mit falschem ertsten Buchstaben aus Liste löschen
-		for (int i = 0; i < wordList.size(); i++)
-		{
-			if (wordList.get(i).charAt(0) != firstChar)
-			{
-				wordList.remove(i);
-				i--;
-			}
-		}
-
-		// Wörter mit falschem letzten Buchstaben aus Liste löschen
-		for (int i = 0; i < wordList.size(); i++)
-		{
-			if (wordList.get(i).charAt(wordList.get(i).length() - 1) != lastChar)
-			{
-				wordList.remove(i);
-				i--;
-			}
-		}
-
-		// Wörter mit falscher Länge aus Liste löschen
-		for (int i = 0; i < wordList.size(); i++)
-		{
-			if (length != wordList.get(i).length())
-			{
-				wordList.remove(i);
-				i--;
-			}
-		}
-
-		return wordList;
 	}
 
 	public static String swapCharactersOfString(String a, int i, int j)

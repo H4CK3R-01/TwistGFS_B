@@ -21,7 +21,7 @@ public class Console extends Thread
 
 	public void setText(String text)
 	{
-		UI.logArea.setText(UI.logArea.getText() + text + " \n");
+		UI.konsoleArea.setText(UI.konsoleArea.getText() + text + " \n");
 	}
 
 	public void run()
@@ -34,28 +34,29 @@ public class Console extends Thread
 		{
 		}
 
-		UI.logArea = new JTextArea(50, 5);
-		UI.logArea.setFont(new Font("Arial", Font.PLAIN, 13));
-		UI.logArea.setEditable(false);
+		UI.konsoleArea = new JTextArea(50, 5);
+		UI.konsoleArea.setFont(new Font("Arial", Font.PLAIN, 13));
+		UI.konsoleArea.setEditable(false);
 
 		UI.constraints.fill = GridBagConstraints.BOTH;
 		UI.constraints.weightx = 1.0;
 		UI.constraints.weighty = 1.0;
 
-		UI.Log.setTitle("Konsole");
-		UI.Log.setLayout(new GridBagLayout());
-		UI.Log.add(new JScrollPane(UI.logArea), UI.constraints);
-		UI.Log.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		UI.Log.addWindowListener(new WindowAdapter()
+		UI.konsole.setTitle("Konsole");
+		UI.konsole.setLayout(new GridBagLayout());
+		UI.konsole.add(new JScrollPane(UI.konsoleArea), UI.constraints);
+		UI.konsole.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		UI.konsole.addWindowListener(new WindowAdapter()
 		{
+			@SuppressWarnings("unused")
 			public void windowClosing(WindowEvent evt)
 			{
 				UI.helpKonsole.setText(Main.WoerterLanguage.get(7));
-				UI.Log.setVisible(false);
+				UI.konsole.setVisible(false);
 				System.out.println(evt);
 			}
 		});
-		UI.Log.setSize(500, 320);
-		UI.Log.setIconImage(new ImageIcon("img/Twist.png").getImage());
+		UI.konsole.setSize(500, 320);
+		UI.konsole.setIconImage(new ImageIcon("img/Twist.png").getImage());
 	}
 }

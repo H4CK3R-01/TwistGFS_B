@@ -1,44 +1,49 @@
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.HashSet;
 
 public class CustomThreadDecryptWort extends Thread
 {
 	private String wort;
-	private String file;
-	private ArrayList<String> wordList = new ArrayList<>();
-	private ArrayList<String> wortListeNachPermutation = new ArrayList<>();
+	private HashSet<String> wortListeNachPermutation = new HashSet<>();
 
-	public CustomThreadDecryptWort(String s, String file)
+	public CustomThreadDecryptWort(String s)
 	{
 		this.wort = s;
-		this.file = file;
 	}
 
 	public void run()
 	{
-		Main.logger.setText("[ " + LocalDateTime.now().format(Main.df) + " ] Thread gestartet!");
+		wort = wort.replaceAll("[^A-Za-zﬂ]" , "");
+		Main.console.setText("[ " + LocalDateTime.now().format(Main.df) + " ] Thread gestartet!");
 		System.out.println("[ " + LocalDateTime.now().format(Main.df) + " ] Thread gestartet!");
 		wortListeNachPermutation.clear();
 
-		wordList = Main.readWordListFile(file);
-		wordList = Main.removeWordsOfArray(wort.charAt(0), wort.charAt(wort.length() - 1), wort.length(), wordList);
+		permute(wort, 0, wort.length() - 1, Main.wordList, wortListeNachPermutation);
+		if (wortListeNachPermutation.size() == 0)
+		{
+			wortListeNachPermutation.add(wort);
+		}
 
-		permute(wort, 0, wort.length() - 1, wordList, wortListeNachPermutation);
-
-		Main.logger.setText("[ " + LocalDateTime.now().format(Main.df) + " ] Fertig!");
+		Main.console.setText("[ " + LocalDateTime.now().format(Main.df) + " ] Fertig!");
 		System.out.println("[ " + LocalDateTime.now().format(Main.df) + " ] Fertig!");
 	}
 
-	public static void permute(String str, int startIndex, int endIndex, ArrayList<String> wordList,
-			ArrayList<String> wortListeNachPermutation)
+	
+	public static void permute(String str, int startIndex, int endIndex, HashSet<String> wordList,
+			HashSet<String> wortListeNachPermutation)
 	{
+		if (wortListeNachPermutation.size() > 0)
+		{
+			return;
+		}
 		if (startIndex == endIndex)
 		{
 			if (!wortListeNachPermutation.contains(str) && wordList.contains(str))
 			{
 				wortListeNachPermutation.add(str);
-				Main.logger.setText("[ " + LocalDateTime.now().format(Main.df) + " ] Wort Gefunden: " + str);
+				Main.console.setText("[ " + LocalDateTime.now().format(Main.df) + " ] Wort Gefunden: " + str);
 				System.out.println("[ " + LocalDateTime.now().format(Main.df) + " ] Wort Gefunden: " + str);
+
 			}
 		}
 		else
@@ -52,7 +57,7 @@ public class CustomThreadDecryptWort extends Thread
 		}
 	}
 
-	public ArrayList<String> getWortListeNachPermutation()
+	public HashSet<String> getWortListeNachPermutation()
 	{
 		return wortListeNachPermutation;
 	}
