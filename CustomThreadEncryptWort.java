@@ -1,5 +1,7 @@
 import java.time.LocalDateTime;
 
+import de.florian.twist.Main;
+
 public class CustomThreadEncryptWort extends Thread
 {
 	private String wortNeu;
@@ -17,15 +19,15 @@ public class CustomThreadEncryptWort extends Thread
 	public void run()
 	{
 		System.out.println("[ " + LocalDateTime.now().format(Main.df) + " ] Thread gestartet!");
-		wort = wort.replaceAll("[^A-Za-zß]", "");
+		wort = wort.replaceAll("[^A-Za-zßäöüÄÖÜ]", ""); // Alle Sonderzeichen entfernen
 
-		if (wort.length() > 3)
+		if (wort.length() > 3) // Wenn Wörter kürzer als 3 Buchstaben sind werden sie einfach wieder zurückgegeben, ansonsten werden sie verschlüsselt
 		{
-			ersterBuchstabe = wort.substring(0, 1);
-			letzterBuchstabe = wort.substring(wort.length() - 1, wort.length());
-			wort = delFirstLastChar(wort);
-			urspruenglichesWort = delFirstLastChar(urspruenglichesWort);
-			wortNeu = buchstabenTauschen();
+			ersterBuchstabe = wort.substring(0, 1); // Ersten Buchstaben speichern
+			letzterBuchstabe = wort.substring(wort.length() - 1, wort.length()); // Letzten Buchstaben speichern
+			wort = delFirstLastChar(wort); // Wort ohne ersten und letzten Buchstaben speichern
+			urspruenglichesWort = delFirstLastChar(urspruenglichesWort); // Urprüngliches Wort ohne ersten und letzten Buchstaben speichern
+			wortNeu = buchstabenTauschen(); // Wort verschlüsseln
 		}
 		else
 		{
@@ -36,16 +38,16 @@ public class CustomThreadEncryptWort extends Thread
 
 	private String buchstabenTauschen()
 	{
-		for (int i = 0; i < (wort.length() / 2); i++)
+		for (int i = 0; i < (wort.length() / 2); i++) // Je länger der String ist, desto öfters werden zwei Buchstaben getauscht
 		{
-			int zufallswert1 = (int) (Math.random() * (wort.length() - 1) + 0.5);
-			int zufallswert2 = (int) (Math.random() * (wort.length() - 1) + 0.5);
+			int zufallswert1 = (int) (Math.random() * (wort.length() - 1) + 0.5); // Zufallszahl zwischen 1 und der Länge des Strings wird generiert
+			int zufallswert2 = (int) (Math.random() * (wort.length() - 1) + 0.5); // Zufallszahl zwischen 1 und der Länge des Strings wird generiert
 			wort = Main.swapCharactersOfString(wort, zufallswert1, zufallswert2);
 		}
 
-		if (!wort.equals(urspruenglichesWort))
+		if (!wort.equals(urspruenglichesWort)) // Wenn das neue Wort gleich wie das Ursprüngliche Wort ist, wird die Methode 'buchstabenTauschen()' nocheinmal aufgerufen
 		{
-			return ersterBuchstabe + wort + letzterBuchstabe;
+			return ersterBuchstabe + wort + letzterBuchstabe; // Neu generiertes Wort wird inklusive erstem und letzem Buchstabn zurückgegeben
 		}
 		else
 		{
@@ -55,12 +57,11 @@ public class CustomThreadEncryptWort extends Thread
 
 	public String delFirstLastChar(String wort)
 	{
-		return wort.substring(1, wort.length() - 1);
+		return wort.substring(1, wort.length() - 1); // erster und letzer Buchstabe wird gelöscht
 	}
 
 	public String getWortNeu()
 	{
 		return wortNeu;
 	}
-
 }

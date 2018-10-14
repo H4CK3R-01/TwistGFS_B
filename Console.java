@@ -7,7 +7,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.UIManager;
 
 import com.sun.glass.events.WindowEvent;
 
@@ -26,26 +25,18 @@ public class Console extends Thread
 
 	public void run()
 	{
-		try
-		{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		}
-		catch (Exception e)
-		{
-		}
-
-		UI.konsoleArea = new JTextArea(50, 5);
-		UI.konsoleArea.setFont(new Font("Arial", Font.PLAIN, 13));
-		UI.konsoleArea.setEditable(false);
+		UI.konsoleArea = new JTextArea(50, 5); // Größe der TextArea festlegen
+		UI.konsoleArea.setFont(new Font("Arial", Font.PLAIN, 13)); // Schriftart festlegen
+		UI.konsoleArea.setEditable(false); // TextArea kann nicht bearbeitet werden
 
 		UI.constraints.fill = GridBagConstraints.BOTH;
 		UI.constraints.weightx = 1.0;
 		UI.constraints.weighty = 1.0;
 
-		UI.konsole.setTitle("Konsole");
+		UI.konsole.setTitle("Konsole"); // Name des Fensters setzen
 		UI.konsole.setLayout(new GridBagLayout());
-		UI.konsole.add(new JScrollPane(UI.konsoleArea), UI.constraints);
-		UI.konsole.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		UI.konsole.add(new JScrollPane(UI.konsoleArea), UI.constraints); // TextArea zum Fenster hinzufügen
+		UI.konsole.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); 
 		UI.konsole.addWindowListener(new WindowAdapter()
 		{
 			@SuppressWarnings("unused")
@@ -56,7 +47,7 @@ public class Console extends Thread
 				System.out.println(evt);
 			}
 		});
-		UI.konsole.setSize(500, 320);
-		UI.konsole.setIconImage(new ImageIcon("img/Twist.png").getImage());
+		UI.konsole.setSize(500, 320); // Größe des Fensters festlegen
+		UI.konsole.setIconImage(new ImageIcon("img/Twist.png").getImage()); // Icon des Fensters setzen
 	}
 }

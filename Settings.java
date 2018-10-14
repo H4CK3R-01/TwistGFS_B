@@ -13,11 +13,11 @@ public class Settings implements ActionListener
 	public Settings()
 	{
 		UI.settingsSettings.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		UI.settingsSettings.setSize(460, 200);
-		UI.settingsSettings.setResizable(false);
-		UI.settingsSettings.setLocationRelativeTo(null);
-		UI.settingsSettings.setIconImage(new ImageIcon("img/Twist.png").getImage());
-		UI.settingsSettings.setVisible(true);
+		UI.settingsSettings.setSize(460, 200); // Fenster Größe festlegen
+		UI.settingsSettings.setResizable(false); // Fenster kann nicht vergrößert oder verkleinert werden
+		UI.settingsSettings.setLocationRelativeTo(null); // Position von Fenster festlegen (Mitte)
+		UI.settingsSettings.setIconImage(new ImageIcon("img/Twist.png").getImage()); // Icon von Fenster festlegen
+		UI.settingsSettings.setVisible(true); // Fenster ist sichtbar
 		UI.settingsContentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		UI.settingsSettings.setContentPane(UI.settingsContentPane);
 		UI.settingsGridBagLayout.columnWidths = new int[] { 0, 0, 0, 0 };
@@ -55,16 +55,18 @@ public class Settings implements ActionListener
 		UI.settingsGbc_zahlAnzeigenNein.gridx = 1;
 		UI.settingsGbc_zahlAnzeigenNein.gridy = 0;
 		UI.settingsPanel.add(UI.settingsZahlAnzeigenNein, UI.settingsGbc_zahlAnzeigenNein);
-		if (Main.zahlAnzeigen == 1)
+		if (Main.zahlAnzeigen == 1) // RadioButtons so setzen wie in den Einstellungen gespeichert
 		{
 			UI.settingsZahlAnzeigenJa.setSelected(true);
 			UI.settingsZahlAnzeigenNein.setSelected(false);
 		}
+		
 		if (Main.zahlAnzeigen == 0)
 		{
 			UI.settingsZahlAnzeigenNein.setSelected(true);
 			UI.settingsZahlAnzeigenJa.setSelected(false);
 		}
+		
 		UI.settingsZahlAnzeigen.add(UI.settingsZahlAnzeigenJa);
 		UI.settingsZahlAnzeigen.add(UI.settingsZahlAnzeigenNein);
 
@@ -115,8 +117,8 @@ public class Settings implements ActionListener
 		UI.settingsGbc_options.gridy = 6;
 		UI.settingsContentPane.add(UI.settingsOptions, UI.settingsGbc_options);
 		UI.settingsOptions.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		UI.settingsOptions.add(UI.settingsBtnSpeichern);
-		UI.settingsOptions.add(UI.settingsBtnAbbrechen);
+		UI.settingsOptions.add(UI.settingsBtnSpeichern); // Button Speichern
+		UI.settingsOptions.add(UI.settingsBtnAbbrechen);  // Button Abbrechen
 		UI.settingsBtnAbbrechen.addActionListener(new ActionHandler());
 		UI.settingsBtnSpeichern.addActionListener(new ActionHandler());
 	}

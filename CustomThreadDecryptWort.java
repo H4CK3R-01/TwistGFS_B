@@ -1,4 +1,5 @@
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashSet;
 
 public class CustomThreadDecryptWort extends Thread
@@ -13,12 +14,28 @@ public class CustomThreadDecryptWort extends Thread
 
 	public void run()
 	{
-		wort = wort.replaceAll("[^A-Za-zﬂ]" , "");
+		// Thread starten und Variablen leeren
 		Main.console.setText("[ " + LocalDateTime.now().format(Main.df) + " ] Thread gestartet!");
 		System.out.println("[ " + LocalDateTime.now().format(Main.df) + " ] Thread gestartet!");
 		wortListeNachPermutation.clear();
+		
 
-		permute(wort, 0, wort.length() - 1, Main.wordList, wortListeNachPermutation);
+		// Sonderzeichen entfernen
+		wort = wort.replaceAll("[^A-Za-zﬂ‰ˆ¸ƒ÷‹]", "");
+
+		// ersten und letzten Buchstaben speichern
+		String ersterBuchstabe = wort.substring(0, 1);
+		String letzterBuchstabe = wort.substring(wort.length() - 1, wort.length());
+		
+		// Array sortieren
+		char[] tempArray = wort.substring(1, wort.length() - 1).toCharArray();
+		Arrays.sort(tempArray);
+		wort = new String(tempArray);
+		
+		// Permutation starten
+		permute("", wort, ersterBuchstabe, letzterBuchstabe);
+		
+		// Wenn kein Wort gefunden wurde, wird das urspr¸ngliche Wort in die Liste geschrieben
 		if (wortListeNachPermutation.size() == 0)
 		{
 			wortListeNachPermutation.add(wort);
@@ -28,31 +45,26 @@ public class CustomThreadDecryptWort extends Thread
 		System.out.println("[ " + LocalDateTime.now().format(Main.df) + " ] Fertig!");
 	}
 
-	
-	public static void permute(String str, int startIndex, int endIndex, HashSet<String> wordList,
-			HashSet<String> wortListeNachPermutation)
+	private void permute(String prefix, String str, String ersterBuchstabe, String letzterBuchstabe)
 	{
-		if (wortListeNachPermutation.size() > 0)
+		int n = str.length();
+		if (n == 0)
 		{
-			return;
-		}
-		if (startIndex == endIndex)
-		{
-			if (!wortListeNachPermutation.contains(str) && wordList.contains(str))
+			// Wenn das generierte Wort in der Wortliste steht, wird es in die Liste wortListeNachPermutation gespeichert
+			if (Main.wordList.contains(ersterBuchstabe + prefix + letzterBuchstabe))
 			{
-				wortListeNachPermutation.add(str);
-				Main.console.setText("[ " + LocalDateTime.now().format(Main.df) + " ] Wort Gefunden: " + str);
-				System.out.println("[ " + LocalDateTime.now().format(Main.df) + " ] Wort Gefunden: " + str);
-
+				wortListeNachPermutation.add(ersterBuchstabe + prefix + letzterBuchstabe);
+				Main.console.setText("[ " + LocalDateTime.now().format(Main.df) + " ] Wort Gefunden: " + ersterBuchstabe + prefix + letzterBuchstabe);
+				System.out.println("[ " + LocalDateTime.now().format(Main.df) + " ] Wort Gefunden: " + ersterBuchstabe + prefix + letzterBuchstabe);
 			}
 		}
 		else
 		{
-			for (int i = startIndex; i <= endIndex; i++)
+			for (int i = 0; i < n; i++)
 			{
-				str = Main.swapCharactersOfString(str, startIndex, i);
-				permute(str, startIndex + 1, endIndex, wordList, wortListeNachPermutation);
-				str = Main.swapCharactersOfString(str, startIndex, i);
+				// Wenn ein Buchstabe doppelt vorkommt wird die Kombination nur einmal berechnet
+				if(i>0 && str.charAt(i) == str.charAt(i-1)) continue;
+				permute(prefix + str.charAt(i), str.substring(0, i) + str.substring(i + 1, n), ersterBuchstabe, letzterBuchstabe);
 			}
 		}
 	}

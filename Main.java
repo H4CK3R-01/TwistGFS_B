@@ -17,32 +17,33 @@ import javax.swing.UIManager;
 public class Main
 {
 	/*
-	 * Aufbau der Datei 'settings.txt' 1 --> erster Start ( 1 = erster Start || 0 =
-	 * nicht erster Start ) 1 --> Zahl Anzeigen ( 1 = Zahl anzeigen || 0 = Zahl
-	 * nicht anzeigen ) 0 --> Sprache ( 1 = Englisch || 0 = Deutsch) woerter2.txt
-	 * --> Standard Wortliste woerter0.txt woerter1.txt --> Wortlisten nacheinander
-	 * aufgelistet woerter2.txt woerter3.txt
+	 * Aufbau der Datei 'settings.txt' 
+	 * 1 --> erster Start ( 1 = erster Start || 0 = nicht erster Start ) 
+	 * 1 --> Zahl Anzeigen ( 1 = Zahl anzeigen || 0 = Zahl nicht anzeigen ) 
+	 * 0 --> Sprache ( 1 = Englisch || 0 = Deutsch) 
+	 * woerter2.txt --> Standard Wortliste 
+	 * woerter0.txt --> Wortlisten nacheinander aufgelistet
+	 * woerter1.txt  
+	 * woerter2.txt 
+	 * woerter3.txt
 	 */
 
 	// Variablen für Einstellungen
-	public static String version = "1.7";
-	public static String versionNew;
-	public static String versionNewURL;
+	public static String version = "2.0"; // Variable für die Version des Programms
+	public static String versionNew; // Variable für die Nummer der neuen Version
+	public static String versionNewURL; // Variable für die URL der neuen Version
 
-	public static int firstStart = 1;
-	public static int zahlAnzeigen = 1;
-	public static int language = 0;
-	public static String stdWortliste;
-	public static ArrayList<String> WoerterLanguage = new ArrayList<>();
-	public static ArrayList<String> verfuegbareWortlisten = new ArrayList<>();
+	public static int firstStart = 1; // Variable die speichert, ob das Programm das erste mal gestartet wurde
+	public static int zahlAnzeigen = 1; // Variable die speichert, ob die Zahl hinter den Wörtern bei 'Text' angezeigt werden soll
+	public static int language = 0; // Variable die speichert, welche Sprache des Programms ausgewählt ist
+	public static String stdWortliste; // Variable die speichert welche Wortliste die Standard-Wortliste ist 
+	public static ArrayList<String> WoerterLanguage = new ArrayList<>(); // Variable die alle Texte speichert, je nachdem welchen Wert 'language' hat
+	public static ArrayList<String> verfuegbareWortlisten = new ArrayList<>(); // Variable, die speichert welche Wortlisten vorhanden sind
 
 	// Globale Variablen
-	public static HashSet<String> wordList = new HashSet<>();
+	public static HashSet<String> wordList = new HashSet<>(); // HashSet, das alle Werte aus der Wortliste speichert
 	public static Console console = new Console();
-	public static ArrayList<String> textWoerter = new ArrayList<>();
-	public static ArrayList<ArrayList<String>> wortWoerter = new ArrayList<>();
-	// public static ArrayList<String> wortListeNachPermutation = new ArrayList<>();
-	public static DateTimeFormatter df = DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss");
+	public static DateTimeFormatter df = DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss"); // Variable für die formattierung der Zeitangaben
 
 	public static void main(String[] args)
 	{
@@ -55,13 +56,19 @@ public class Main
 		{
 		}
 
-		/*
-		 * if (language == 1) { readLanguageFile("lang/en.txt"); } else {
-		 * readLanguageFile("lang/de.txt"); }
-		 */
+		// Sprach-Datei einlesen
+		/*if (language == 1)
+		{
+			readLanguageFile("lang/en.txt");
+		}
+		else
+		{
+			readLanguageFile("lang/de.txt");
+		}*/
 
-		new UI();
-		console.start();
+		
+		new UI(); // UI starten
+		console.start(); // Konsole starten
 	}
 
 	@SuppressWarnings("resource")
@@ -111,6 +118,8 @@ public class Main
 		}
 		catch (IOException e1)
 		{
+			System.err.println(
+					"[ " + LocalDateTime.now().format(Main.df) + " ] settings.txt: " + Main.WoerterLanguage.get(69));
 		}
 	}
 
@@ -136,6 +145,8 @@ public class Main
 		}
 		catch (IOException e1)
 		{
+			System.err.println(
+					"[ " + LocalDateTime.now().format(Main.df) + " ] settings.txt: " + Main.WoerterLanguage.get(69));
 		}
 	}
 
@@ -154,6 +165,8 @@ public class Main
 		}
 		catch (IOException e1)
 		{
+			System.err.println(
+					"[ " + LocalDateTime.now().format(Main.df) + " ] " + file + ": " + Main.WoerterLanguage.get(69));
 		}
 	}
 
