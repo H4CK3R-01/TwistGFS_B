@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.ResourceBundle;
 
 import javax.swing.UIManager;
 
@@ -37,13 +38,13 @@ public class Main
 	public static int zahlAnzeigen = 1; // Variable die speichert, ob die Zahl hinter den Wörtern bei 'Text' angezeigt werden soll
 	public static int language = 0; // Variable die speichert, welche Sprache des Programms ausgewählt ist
 	public static String stdWortliste; // Variable die speichert welche Wortliste die Standard-Wortliste ist 
-	public static ArrayList<String> WoerterLanguage = new ArrayList<>(); // Variable die alle Texte speichert, je nachdem welchen Wert 'language' hat
 	public static ArrayList<String> verfuegbareWortlisten = new ArrayList<>(); // Variable, die speichert welche Wortlisten vorhanden sind
 
 	// Globale Variablen
 	public static HashSet<String> wordList = new HashSet<>(); // HashSet, das alle Werte aus der Wortliste speichert
 	public static Console console = new Console();
 	public static DateTimeFormatter df = DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss"); // Variable für die formattierung der Zeitangaben
+	public static ResourceBundle languageFile;
 
 	public static void main(String[] args)
 	{
@@ -56,17 +57,6 @@ public class Main
 		{
 		}
 
-		// Sprach-Datei einlesen
-		/*if (language == 1)
-		{
-			readLanguageFile("lang/en.txt");
-		}
-		else
-		{
-			readLanguageFile("lang/de.txt");
-		}*/
-
-		
 		new UI(); // UI starten
 		console.start(); // Konsole starten
 	}
@@ -118,8 +108,7 @@ public class Main
 		}
 		catch (IOException e1)
 		{
-			System.err.println(
-					"[ " + LocalDateTime.now().format(Main.df) + " ] settings.txt: " + Main.WoerterLanguage.get(69));
+			System.err.println("[ " + LocalDateTime.now().format(Main.df) + " ] settings.txt: Datei nicht gefunden");
 		}
 	}
 
@@ -145,28 +134,8 @@ public class Main
 		}
 		catch (IOException e1)
 		{
-			System.err.println(
-					"[ " + LocalDateTime.now().format(Main.df) + " ] settings.txt: " + Main.WoerterLanguage.get(69));
-		}
-	}
-
-	public static void readLanguageFile(String file)
-	{
-		BufferedReader br;
-		try
-		{
-			br = new BufferedReader(new FileReader(file));
-			String s;
-			while ((s = br.readLine()) != null)
-			{
-				Main.WoerterLanguage.add(s);
-			}
-			br.close();
-		}
-		catch (IOException e1)
-		{
-			System.err.println(
-					"[ " + LocalDateTime.now().format(Main.df) + " ] " + file + ": " + Main.WoerterLanguage.get(69));
+			System.err.println("[ " + LocalDateTime.now().format(Main.df) + " ] settings.txt: "
+					+ ResourceBundle.getBundle("de.florian.twist.de").getString("fileNotFound"));
 		}
 	}
 
@@ -186,8 +155,8 @@ public class Main
 		}
 		catch (IOException e)
 		{
-			System.err.println(
-					"[ " + LocalDateTime.now().format(Main.df) + " ] " + file + ": " + Main.WoerterLanguage.get(69));
+			System.err.println("[ " + LocalDateTime.now().format(Main.df) + " ] " + file + ": "
+					+ ResourceBundle.getBundle("de.florian.twist.de").getString("fileNotFound"));
 		}
 
 		return list;

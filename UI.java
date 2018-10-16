@@ -3,6 +3,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -112,7 +113,15 @@ public class UI implements ActionListener
 	public UI()
 	{
 		Main.readSettingsFile(); // Einstellungen einlesen
-		Main.readLanguageFile("lang/de.txt"); // Sprachdateien einlesen
+		// Sprach-Datei einlesen
+		if (Main.language == 1)
+		{
+			Main.languageFile = ResourceBundle.getBundle("de.florian.twist.en");
+		}
+		else
+		{
+			Main.languageFile = ResourceBundle.getBundle("de.florian.twist.de");
+		}
 
 		// Icons von Menü festlegen
 		save = new ImageIcon(save.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_DEFAULT));
@@ -123,51 +132,51 @@ public class UI implements ActionListener
 		help = new ImageIcon(help.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH));
 
 		// Menü
-		menuDatei = new JMenu(Main.WoerterLanguage.get(0)); // Datei
-		menuHelp = new JMenu(Main.WoerterLanguage.get(1)); // Hilfe
+		menuDatei = new JMenu(Main.languageFile.getString("file")); // Datei
+		menuHelp = new JMenu(Main.languageFile.getString("help")); // Hilfe
 
-		dateiOpen = new JMenuItem(Main.WoerterLanguage.get(2)); // Öffnen
-		dateiSave = new JMenuItem(Main.WoerterLanguage.get(3)); // Speichern
-		dateiExit = new JMenuItem(Main.WoerterLanguage.get(4)); // Beenden
+		dateiOpen = new JMenuItem(Main.languageFile.getString("open")); // Öffnen
+		dateiSave = new JMenuItem(Main.languageFile.getString("save")); // Speichern
+		dateiExit = new JMenuItem(Main.languageFile.getString("exit")); // Beenden
 
-		helpSwitchWordList = new JMenu(Main.WoerterLanguage.get(5)); // Wortliste auswählen
-		helpKonsole = new JMenuItem(Main.WoerterLanguage.get(6)); // Konsole öffnen/schließen
-		helpUpdateProgram = new JMenuItem(Main.WoerterLanguage.get(8)); // Program aktualisieren
-		helpSettings = new JMenuItem(Main.WoerterLanguage.get(9)); // Einstellungen
-		helpHelp = new JMenuItem(Main.WoerterLanguage.get(10)); // Hilfe
+		helpSwitchWordList = new JMenu(Main.languageFile.getString("changeWordlist")); // Wortliste auswählen
+		helpKonsole = new JMenuItem(Main.languageFile.getString("consoleOpen")); // Konsole öffnen/schließen
+		helpUpdateProgram = new JMenuItem(Main.languageFile.getString("update")); // Program aktualisieren
+		helpSettings = new JMenuItem(Main.languageFile.getString("settings")); // Einstellungen
+		helpHelp = new JMenuItem(Main.languageFile.getString("help")); // Hilfe
 
 		// Tabs
-		tabpane.addTab(Main.WoerterLanguage.get(11), wortPanel); // Wort
-		tabpane.addTab(Main.WoerterLanguage.get(12), textPanel); // Text
-		text1Label = new JLabel(Main.WoerterLanguage.get(13)); // Verschlüsselten Text hier eingeben
-		text2Label = new JLabel(Main.WoerterLanguage.get(14)); // Unverschlüsselten Text hier eingeben
-		textEntschluesseln = new JButton(Main.WoerterLanguage.get(15)); // Entschlüsseln
-		textVerschluesseln = new JButton(Main.WoerterLanguage.get(16)); // Verschlüsseln
-		wort1Label = new JLabel(Main.WoerterLanguage.get(17)); // Verschlüsseltes Wort hier eingeben
-		wort2Label = new JLabel(Main.WoerterLanguage.get(18)); // Unverschlüsseltes Wort hier eingeben
-		wortEntschluesseln = new JButton(Main.WoerterLanguage.get(19)); // Entschlüsseln
-		wortVerschluesseln = new JButton(Main.WoerterLanguage.get(20)); // Verschlüsseln
+		tabpane.addTab(Main.languageFile.getString("word"), wortPanel); // Wort
+		tabpane.addTab(Main.languageFile.getString("text"), textPanel); // Text
+		text1Label = new JLabel(Main.languageFile.getString("decryptedText")); // Verschlüsselten Text hier eingeben
+		text2Label = new JLabel(Main.languageFile.getString("encryptedText")); // Unverschlüsselten Text hier eingeben
+		textEntschluesseln = new JButton(Main.languageFile.getString("decrypt")); // Entschlüsseln
+		textVerschluesseln = new JButton(Main.languageFile.getString("encrypt")); // Verschlüsseln
+		wort1Label = new JLabel(Main.languageFile.getString("decryptWord")); // Verschlüsseltes Wort hier eingeben
+		wort2Label = new JLabel(Main.languageFile.getString("encryptWord")); // Unverschlüsseltes Wort hier eingeben
+		wortEntschluesseln = new JButton(Main.languageFile.getString("decrypt")); // Entschlüsseln
+		wortVerschluesseln = new JButton(Main.languageFile.getString("encrypt")); // Verschlüsseln
 
 		// Settings
-		settingsSettings = new JFrame(Main.WoerterLanguage.get(21)); // Einstellungen
-		settingsZahlAnzeigenText = new JLabel(Main.WoerterLanguage.get(22)); // Soll die Zahl hinter den Wörtern bei 'Text' stehen
-		settingsZahlAnzeigenJa = new JRadioButton(Main.WoerterLanguage.get(23)); // Ja
-		settingsZahlAnzeigenNein = new JRadioButton(Main.WoerterLanguage.get(24)); // Nein
-		settingsLanguageChangeText = new JLabel(Main.WoerterLanguage.get(25)); // Sprache auswählen
-		settingsAddWortListeText = new JLabel(Main.WoerterLanguage.get(26)); // Neue Wortliste zum Programm hinzufügen
-		settingsAddWortListeBtn = new JButton(Main.WoerterLanguage.get(27)); // Wortliste auswählen
-		settingsStdWortlisteText = new JLabel(Main.WoerterLanguage.get(28)); // Standard Wortliste auswählen
-		settingsBtnSpeichern = new JButton(Main.WoerterLanguage.get(29)); // Speichern
-		settingsBtnAbbrechen = new JButton(Main.WoerterLanguage.get(30)); // Abbrechen
+		settingsSettings = new JFrame(Main.languageFile.getString("settings")); // Einstellungen
+		settingsZahlAnzeigenText = new JLabel(Main.languageFile.getString("numberBehindWords")); // Soll die Zahl hinter den Wörtern bei 'Text' stehen
+		settingsZahlAnzeigenJa = new JRadioButton(Main.languageFile.getString("yes")); // Ja
+		settingsZahlAnzeigenNein = new JRadioButton(Main.languageFile.getString("no")); // Nein
+		settingsLanguageChangeText = new JLabel(Main.languageFile.getString("changeLanguage")); // Sprache auswählen
+		settingsAddWortListeText = new JLabel(Main.languageFile.getString("newWordlist")); // Neue Wortliste zum Programm hinzufügen
+		settingsAddWortListeBtn = new JButton(Main.languageFile.getString("changeWordlist")); // Wortliste auswählen
+		settingsStdWortlisteText = new JLabel(Main.languageFile.getString("changeStdWordlist")); // Standard Wortliste auswählen
+		settingsBtnSpeichern = new JButton(Main.languageFile.getString("save")); // Speichern
+		settingsBtnAbbrechen = new JButton(Main.languageFile.getString("abort")); // Abbrechen
 
 		// Sonstige
-		helpText = new JTextArea(Main.WoerterLanguage.get(31)); // Text der im Hilfe-Fenster angezeigt wird
-		helpDialog.setTitle(Main.WoerterLanguage.get(32)); // Hilfe
-		dateiauswahl.setDialogTitle(Main.WoerterLanguage.get(33)); // Wortliste auswählen
-		filter = new FileNameExtensionFilter(Main.WoerterLanguage.get(34), "txt", "text"); // Nur Text Dateien
-		settingsLanguageComboBox.addItem(Main.WoerterLanguage.get(35)); // Deutsch
-		settingsLanguageComboBox.addItem("Bald auch Englische Übersetzung");
-		//settingsLanguageComboBox.addItem(Main.WoerterLanguage.get(36)); // Englisch
+		helpText = new JTextArea(Main.languageFile.getString("helpText")); // Text der im Hilfe-Fenster angezeigt wird
+		helpDialog.setTitle(Main.languageFile.getString("help")); // Hilfe
+		dateiauswahl.setDialogTitle(Main.languageFile.getString("changeWordlist")); // Wortliste auswählen
+		filter = new FileNameExtensionFilter(Main.languageFile.getString("onlyTextFiles"), "txt", "text"); // Nur Text Dateien
+		settingsLanguageComboBox.addItem(Main.languageFile.getString("german")); // Deutsch
+		//settingsLanguageComboBox.addItem("Bald auch Englische Übersetzung");
+		settingsLanguageComboBox.addItem(Main.languageFile.getString("english")); // Englisch
 		settingsLanguageComboBox.setSelectedIndex(Main.language);
 
 		// Fenster konfigurieren

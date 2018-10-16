@@ -2,13 +2,12 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-
-import com.sun.glass.events.WindowEvent;
 
 public class Console extends Thread
 {
@@ -39,10 +38,9 @@ public class Console extends Thread
 		UI.konsole.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); 
 		UI.konsole.addWindowListener(new WindowAdapter()
 		{
-			@SuppressWarnings("unused")
 			public void windowClosing(WindowEvent evt)
 			{
-				UI.helpKonsole.setText(Main.WoerterLanguage.get(7));
+				UI.helpKonsole.setText(Main.languageFile.getString("consoleClose"));
 				UI.konsole.setVisible(false);
 				System.out.println(evt);
 			}

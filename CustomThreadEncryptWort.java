@@ -1,7 +1,5 @@
 import java.time.LocalDateTime;
 
-import de.florian.twist.Main;
-
 public class CustomThreadEncryptWort extends Thread
 {
 	private String wortNeu;
