@@ -1,5 +1,8 @@
 import java.time.LocalDateTime;
 
+import de.florian.twist.Main;
+import de.florian.twist.UI;
+
 public class CustomThreadEncryptWort extends Thread
 {
 	private String wortNeu;
@@ -16,7 +19,9 @@ public class CustomThreadEncryptWort extends Thread
 
 	public void run()
 	{
-		System.out.println("[ " + LocalDateTime.now().format(Main.df) + " ] Thread gestartet!");
+		Main.console.setText(
+				"[ " + LocalDateTime.now().format(Main.df) + " ] " + Main.languageFile.getString("startedEncrypt"));
+		UI.statusBar.setMessage(Main.languageFile.getString("startedEncrypt"));
 		wort = wort.replaceAll("[^A-Za-zßäöüÄÖÜ]", ""); // Alle Sonderzeichen entfernen
 
 		if (wort.length() > 3) // Wenn Wörter kürzer als 3 Buchstaben sind werden sie einfach wieder zurückgegeben, ansonsten werden sie verschlüsselt
@@ -31,7 +36,9 @@ public class CustomThreadEncryptWort extends Thread
 		{
 			wortNeu = wort;
 		}
-		System.out.println("[ " + LocalDateTime.now().format(Main.df) + " ] Fertig!");
+		Main.console
+				.setText("[ " + LocalDateTime.now().format(Main.df) + " ] " + Main.languageFile.getString("finished"));
+		UI.statusBar.setMessage(Main.languageFile.getString("finished"));
 	}
 
 	private String buchstabenTauschen()

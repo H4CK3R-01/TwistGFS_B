@@ -7,7 +7,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -108,7 +107,7 @@ public class Main
 		}
 		catch (IOException e1)
 		{
-			System.err.println("[ " + LocalDateTime.now().format(Main.df) + " ] settings.txt: Datei nicht gefunden");
+			UI.statusBar.setErrorMessage("settings.txt: " + Main.languageFile.getString("fileNotFound"));
 		}
 	}
 
@@ -134,8 +133,7 @@ public class Main
 		}
 		catch (IOException e1)
 		{
-			System.err.println("[ " + LocalDateTime.now().format(Main.df) + " ] settings.txt: "
-					+ ResourceBundle.getBundle("de.florian.twist.de").getString("fileNotFound"));
+			UI.statusBar.setErrorMessage("settings.txt: " + Main.languageFile.getString("fileNotFound"));
 		}
 	}
 
@@ -155,8 +153,7 @@ public class Main
 		}
 		catch (IOException e)
 		{
-			System.err.println("[ " + LocalDateTime.now().format(Main.df) + " ] " + file + ": "
-					+ ResourceBundle.getBundle("de.florian.twist.de").getString("fileNotFound"));
+			UI.statusBar.setErrorMessage(file + " " + Main.languageFile.getString("fileNotFound"));
 		}
 
 		return list;

@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -12,6 +13,8 @@ public class UI implements ActionListener
 {
 	// Main Frame
 	public static JFrame window = new JFrame("Twist");
+	
+	public static StatusBar statusBar = new StatusBar();
 
 	// Tabpane
 	public static JTabbedPane tabpane = new JTabbedPane(JTabbedPane.BOTTOM, JTabbedPane.SCROLL_TAB_LAYOUT);
@@ -22,17 +25,17 @@ public class UI implements ActionListener
 
 	// MenuBar
 	public static JMenuBar menu = new JMenuBar();
-	public static JMenu menuDatei;
-	public static JMenu menuHelp;
-	public static JMenuItem dateiOpen;
-	public static JMenuItem dateiSave;
-	public static JMenuItem dateiExit;
-	public static JMenu helpSwitchWordList;
+	public static JMenu menuDatei = new JMenu();
+	public static JMenu menuHelp = new JMenu();
+	public static JMenuItem dateiOpen = new JMenuItem();
+	public static JMenuItem dateiSave = new JMenuItem();
+	public static JMenuItem dateiExit = new JMenuItem();
+	public static JMenu helpSwitchWordList = new JMenu();
 	public static ButtonGroup wortlisteRadioButtons = new ButtonGroup();
-	public static JMenuItem helpUpdateProgram;
-	public static JMenuItem helpKonsole;
-	public static JMenuItem helpSettings;
-	public static JMenuItem helpHelp;
+	public static JMenuItem helpUpdateProgram = new JMenuItem();
+	public static JMenuItem helpKonsole = new JMenuItem();
+	public static JMenuItem helpSettings = new JMenuItem();
+	public static JMenuItem helpHelp = new JMenuItem();
 	public static ImageIcon save = new ImageIcon("img/icon_save.png");
 	public static ImageIcon open = new ImageIcon("img/icon_open.png");
 	public static ImageIcon exit = new ImageIcon("img/icon_exit.png");
@@ -45,20 +48,20 @@ public class UI implements ActionListener
 	public static JTextArea text2 = new JTextArea(8, 80);
 	public static JScrollPane text1ScrollPane = new JScrollPane();
 	public static JScrollPane text2ScrollPane = new JScrollPane();
-	public static JLabel text1Label;
-	public static JLabel text2Label;
-	public static JButton textEntschluesseln;
-	public static JButton textVerschluesseln;
+	public static JLabel text1Label = new JLabel();
+	public static JLabel text2Label = new JLabel();
+	public static JButton textEntschluesseln = new JButton();
+	public static JButton textVerschluesseln = new JButton();
 
 	// Wort Panel
 	public static JTextArea wort1 = new JTextArea(8, 80);
 	public static JTextArea wort2 = new JTextArea(8, 80);
 	public static JScrollPane wort1ScrollPane = new JScrollPane();
 	public static JScrollPane wort2ScrollPane = new JScrollPane();
-	public static JLabel wort1Label;
-	public static JLabel wort2Label;
-	public static JButton wortEntschluesseln;
-	public static JButton wortVerschluesseln;
+	public static JLabel wort1Label = new JLabel();
+	public static JLabel wort2Label = new JLabel();
+	public static JButton wortEntschluesseln = new JButton();
+	public static JButton wortVerschluesseln = new JButton();
 
 	// Dialoge
 	public static JFileChooser dateiauswahl = new JFileChooser();
@@ -67,36 +70,36 @@ public class UI implements ActionListener
 
 	// Einstellungen
 	public static JPanel settingsContentPane = new JPanel();
-	public static JFrame settingsSettings;
+	public static JFrame settingsSettings = new JFrame();
 	public static GridBagLayout settingsGridBagLayout = new GridBagLayout();
-	public static JLabel settingsZahlAnzeigenText;
+	public static JLabel settingsZahlAnzeigenText = new JLabel();
 	public static JPanel settingsPanel = new JPanel();
 	public static GridBagLayout settingsgbl_panel = new GridBagLayout();
-	public static JRadioButton settingsZahlAnzeigenJa;
+	public static JRadioButton settingsZahlAnzeigenJa = new JRadioButton();
 	public static GridBagConstraints settingsGbc_zahlAnzeigenJa = new GridBagConstraints();
-	public static JRadioButton settingsZahlAnzeigenNein;
+	public static JRadioButton settingsZahlAnzeigenNein = new JRadioButton();
 	public static GridBagConstraints settingsGbc_zahlAnzeigenNein = new GridBagConstraints();
 	public static ButtonGroup settingsZahlAnzeigen = new ButtonGroup();
-	public static JLabel settingsLanguageChangeText;
+	public static JLabel settingsLanguageChangeText = new JLabel();
 	public static GridBagConstraints settingsGbc_languageChangeText = new GridBagConstraints();
 	public static JComboBox<String> settingsLanguageComboBox = new JComboBox<String>();
 	public static GridBagConstraints settingsGbc_languageComboBox = new GridBagConstraints();
-	public static JLabel settingsAddWortListeText;
+	public static JLabel settingsAddWortListeText = new JLabel();
 	public static GridBagConstraints settingsGbc_addWortListeText = new GridBagConstraints();
-	public static JButton settingsAddWortListeBtn;
+	public static JButton settingsAddWortListeBtn = new JButton();
 	public static GridBagConstraints settingsGbc_addWortListeBtn = new GridBagConstraints();
 	public static JPanel settingsOptions = new JPanel();
 	public static GridBagConstraints settingsGbc_stdWortlisteText = new GridBagConstraints();
-	public static JLabel settingsStdWortlisteText;
+	public static JLabel settingsStdWortlisteText = new JLabel();
 	public static JComboBox<String> settingsStdWortlisteComboBox = new JComboBox<String>();
 	public static GridBagConstraints settingsGbc_stdWortlisteComboBox = new GridBagConstraints();
 	public static GridBagLayout settingsGbl_options = new GridBagLayout();
 	public static GridBagConstraints settingsGbc_options = new GridBagConstraints();
 	public static JSeparator settingsSeparator = new JSeparator();
 	public static GridBagConstraints settingsGbc_separator = new GridBagConstraints();
-	public static JButton settingsBtnSpeichern;
+	public static JButton settingsBtnSpeichern = new JButton();
 	public static GridBagConstraints settingsGbc_btnSpeichern = new GridBagConstraints();
-	public static JButton settingsBtnAbbrechen;
+	public static JButton settingsBtnAbbrechen = new JButton();
 	public static GridBagConstraints settingsGbc_btnAbbrechen = new GridBagConstraints();
 
 	// Console
@@ -105,7 +108,7 @@ public class UI implements ActionListener
 	public static GridBagConstraints constraints = new GridBagConstraints();
 
 	// Andere UI-Elemente
-	public static JTextArea helpText;
+	public static JTextArea helpText = new JTextArea();
 	public static FileNameExtensionFilter filter;
 	public static ArrayList<JRadioButtonMenuItem> wortlistenAuswahlMenu = new ArrayList<>();
 
@@ -131,61 +134,17 @@ public class UI implements ActionListener
 		settings = new ImageIcon(settings.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH));
 		help = new ImageIcon(help.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH));
 
-		// Menü
-		menuDatei = new JMenu(Main.languageFile.getString("file")); // Datei
-		menuHelp = new JMenu(Main.languageFile.getString("help")); // Hilfe
-
-		dateiOpen = new JMenuItem(Main.languageFile.getString("open")); // Öffnen
-		dateiSave = new JMenuItem(Main.languageFile.getString("save")); // Speichern
-		dateiExit = new JMenuItem(Main.languageFile.getString("exit")); // Beenden
-
-		helpSwitchWordList = new JMenu(Main.languageFile.getString("changeWordlist")); // Wortliste auswählen
-		helpKonsole = new JMenuItem(Main.languageFile.getString("consoleOpen")); // Konsole öffnen/schließen
-		helpUpdateProgram = new JMenuItem(Main.languageFile.getString("update")); // Program aktualisieren
-		helpSettings = new JMenuItem(Main.languageFile.getString("settings")); // Einstellungen
-		helpHelp = new JMenuItem(Main.languageFile.getString("help")); // Hilfe
-
-		// Tabs
-		tabpane.addTab(Main.languageFile.getString("word"), wortPanel); // Wort
-		tabpane.addTab(Main.languageFile.getString("text"), textPanel); // Text
-		text1Label = new JLabel(Main.languageFile.getString("decryptedText")); // Verschlüsselten Text hier eingeben
-		text2Label = new JLabel(Main.languageFile.getString("encryptedText")); // Unverschlüsselten Text hier eingeben
-		textEntschluesseln = new JButton(Main.languageFile.getString("decrypt")); // Entschlüsseln
-		textVerschluesseln = new JButton(Main.languageFile.getString("encrypt")); // Verschlüsseln
-		wort1Label = new JLabel(Main.languageFile.getString("decryptWord")); // Verschlüsseltes Wort hier eingeben
-		wort2Label = new JLabel(Main.languageFile.getString("encryptWord")); // Unverschlüsseltes Wort hier eingeben
-		wortEntschluesseln = new JButton(Main.languageFile.getString("decrypt")); // Entschlüsseln
-		wortVerschluesseln = new JButton(Main.languageFile.getString("encrypt")); // Verschlüsseln
-
-		// Settings
-		settingsSettings = new JFrame(Main.languageFile.getString("settings")); // Einstellungen
-		settingsZahlAnzeigenText = new JLabel(Main.languageFile.getString("numberBehindWords")); // Soll die Zahl hinter den Wörtern bei 'Text' stehen
-		settingsZahlAnzeigenJa = new JRadioButton(Main.languageFile.getString("yes")); // Ja
-		settingsZahlAnzeigenNein = new JRadioButton(Main.languageFile.getString("no")); // Nein
-		settingsLanguageChangeText = new JLabel(Main.languageFile.getString("changeLanguage")); // Sprache auswählen
-		settingsAddWortListeText = new JLabel(Main.languageFile.getString("newWordlist")); // Neue Wortliste zum Programm hinzufügen
-		settingsAddWortListeBtn = new JButton(Main.languageFile.getString("changeWordlist")); // Wortliste auswählen
-		settingsStdWortlisteText = new JLabel(Main.languageFile.getString("changeStdWordlist")); // Standard Wortliste auswählen
-		settingsBtnSpeichern = new JButton(Main.languageFile.getString("save")); // Speichern
-		settingsBtnAbbrechen = new JButton(Main.languageFile.getString("abort")); // Abbrechen
-
-		// Sonstige
-		helpText = new JTextArea(Main.languageFile.getString("helpText")); // Text der im Hilfe-Fenster angezeigt wird
-		helpDialog.setTitle(Main.languageFile.getString("help")); // Hilfe
-		dateiauswahl.setDialogTitle(Main.languageFile.getString("changeWordlist")); // Wortliste auswählen
-		filter = new FileNameExtensionFilter(Main.languageFile.getString("onlyTextFiles"), "txt", "text"); // Nur Text Dateien
-		settingsLanguageComboBox.addItem(Main.languageFile.getString("german")); // Deutsch
-		//settingsLanguageComboBox.addItem("Bald auch Englische Übersetzung");
-		settingsLanguageComboBox.addItem(Main.languageFile.getString("english")); // Englisch
-		settingsLanguageComboBox.setSelectedIndex(Main.language);
-
+		// Dateifilter für Dateiauswahl
+		filter = new FileNameExtensionFilter("Text", "txt", "text"); // Nur Text Dateien		
+		
 		// Fenster konfigurieren
-		window.setSize(850, 420); // Fenster-Größe festlegen
-		window.setResizable(false); // Größe des Fensters kann nich geändert werden
+		window.setSize(850, 440); // Fenster-Größe festlegen
+		//window.setResizable(false); // Größe des Fensters kann nich geändert werden
 		window.setLocationRelativeTo(null); // Position des Fensters wird festgelegt (Mitte)
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setIconImage(new ImageIcon("img/Twist.png").getImage()); // Icon des Fensters festlegen
-		window.add(tabpane); // Tabpane zum Fenster hinzufügen
+		window.getContentPane().add(statusBar, BorderLayout.SOUTH);
+		window.getContentPane().add(tabpane, BorderLayout.CENTER); // Tabpane zum Fenster hinzufügen
 		window.setVisible(true); // Fenster ist sichtbar
 
 		// Menü zusammensetzen
@@ -280,7 +239,7 @@ public class UI implements ActionListener
 		if (Main.firstStart == 1)
 		{
 			int auswahl = JOptionPane.showOptionDialog(null,
-					"Mit diesem Programm können Sie Wörter bzw. Texte ver- oder entschlüsseln.\n\nUm Wörter zu ver- oder entschlüsseln wechseln Sie auf den Tab 'Wort', für Wörter wechseln Sie auf 'Wort'.",
+					"Mit diesem Programm können Sie Wörter bzw. Texte ver- oder entschlüsseln.\n\nUm Wörter zu ver- oder entschlüsseln wechseln Sie auf den Tab 'Wort', für Texte wechseln Sie auf 'Text'.",
 					"Erster Start", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE,
 					new ImageIcon("Twist.png"), new String[] { "OK" }, "OK");
 			if (auswahl == 0)
@@ -303,8 +262,62 @@ public class UI implements ActionListener
 				file = "wordlist/woerter" + i + ".txt";
 			}
 		}
+
 		// Wortliste einlesen
 		Main.wordList = Main.readWordListFile(file);
+		elementeBeschriften();
+		statusBar.setMessage("Bereit");
+	}
+
+	public static void elementeBeschriften()
+	{
+		//Menü
+		menuDatei.setText(Main.languageFile.getString("file")); // Datei
+		menuHelp.setText(Main.languageFile.getString("help")); // Hilfe
+
+		dateiOpen.setText(Main.languageFile.getString("open")); // Öffnen
+		dateiSave.setText(Main.languageFile.getString("save")); // Speichern
+		dateiExit.setText(Main.languageFile.getString("exit")); // Beenden
+
+		helpSwitchWordList.setText(Main.languageFile.getString("changeWordlist")); // Wortliste auswählen
+		helpKonsole.setText(Main.languageFile.getString("consoleOpen")); // Konsole öffnen/schließen
+		helpUpdateProgram.setText(Main.languageFile.getString("update")); // Program aktualisieren
+		helpSettings.setText(Main.languageFile.getString("settings")); // Einstellungen
+		helpHelp.setText(Main.languageFile.getString("help")); // Hilfe
+
+		// Tabs
+		tabpane.removeAll();
+		tabpane.addTab(Main.languageFile.getString("word"), wortPanel); // Wort
+		tabpane.addTab(Main.languageFile.getString("text"), textPanel); // Text
+		text1Label.setText(Main.languageFile.getString("decryptedText")); // Verschlüsselten Text hier eingeben
+		text2Label.setText(Main.languageFile.getString("encryptedText")); // Unverschlüsselten Text hier eingeben
+		textEntschluesseln.setText(Main.languageFile.getString("decrypt")); // Entschlüsseln
+		textVerschluesseln.setText(Main.languageFile.getString("encrypt")); // Verschlüsseln
+		wort1Label.setText(Main.languageFile.getString("decryptWord")); // Verschlüsseltes Wort hier eingeben
+		wort2Label.setText(Main.languageFile.getString("encryptWord")); // Unverschlüsseltes Wort hier eingeben
+		wortEntschluesseln.setText(Main.languageFile.getString("decrypt")); // Entschlüsseln
+		wortVerschluesseln.setText(Main.languageFile.getString("encrypt")); // Verschlüsseln
+
+		// Settings
+		settingsSettings.setTitle(Main.languageFile.getString("settings")); // Einstellungen
+		settingsZahlAnzeigenText.setText(Main.languageFile.getString("numberBehindWords")); // Soll die Zahl hinter den Wörtern bei 'Text' stehen
+		settingsZahlAnzeigenJa.setText(Main.languageFile.getString("yes")); // Ja
+		settingsZahlAnzeigenNein.setText(Main.languageFile.getString("no")); // Nein
+		settingsLanguageChangeText.setText(Main.languageFile.getString("changeLanguage")); // Sprache auswählen
+		settingsAddWortListeText.setText(Main.languageFile.getString("newWordlist")); // Neue Wortliste zum Programm hinzufügen
+		settingsAddWortListeBtn.setText(Main.languageFile.getString("newWordlistBtn")); // Wortliste auswählen
+		settingsStdWortlisteText.setText(Main.languageFile.getString("changeStdWordlist")); // Standard Wortliste auswählen
+		settingsBtnSpeichern.setText(Main.languageFile.getString("save")); // Speichern
+		settingsBtnAbbrechen.setText(Main.languageFile.getString("abort")); // Abbrechen
+
+		// Sonstige
+		helpText.setText(Main.languageFile.getString("helpText")); // Text der im Hilfe-Fenster angezeigt wird
+		helpDialog.setTitle(Main.languageFile.getString("help")); // Hilfe
+		dateiauswahl.setDialogTitle(Main.languageFile.getString("changeWordlist")); // Wortliste auswählen
+		settingsLanguageComboBox.removeAllItems();
+		settingsLanguageComboBox.addItem(Main.languageFile.getString("german")); // Deutsch
+		settingsLanguageComboBox.addItem(Main.languageFile.getString("english")); // Englisch
+		settingsLanguageComboBox.setSelectedIndex(Main.language);
 	}
 
 	public void actionPerformed(ActionEvent e)

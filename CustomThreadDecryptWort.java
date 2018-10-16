@@ -5,6 +5,7 @@ import java.util.HashSet;
 public class CustomThreadDecryptWort extends Thread
 {
 	private String wort;
+	private String urspruenglichesWort;
 	private HashSet<String> wortListeNachPermutation = new HashSet<>();
 
 	public CustomThreadDecryptWort(String s)
@@ -15,10 +16,11 @@ public class CustomThreadDecryptWort extends Thread
 	public void run()
 	{
 		// Thread starten und Variablen leeren
-		Main.console.setText("[ " + LocalDateTime.now().format(Main.df) + " ] Thread gestartet!");
-		System.out.println("[ " + LocalDateTime.now().format(Main.df) + " ] Thread gestartet!");
+		Main.console.setText("[ " + LocalDateTime.now().format(Main.df) + " ] " + Main.languageFile.getString("startedDecrypt"));
+		UI.statusBar.setMessage(Main.languageFile.getString("startedDecrypt"));
 		wortListeNachPermutation.clear();
 		
+		urspruenglichesWort = wort;
 
 		// Sonderzeichen entfernen
 		wort = wort.replaceAll("[^A-Za-zßäöüÄÖÜ]", "");
@@ -38,11 +40,11 @@ public class CustomThreadDecryptWort extends Thread
 		// Wenn kein Wort gefunden wurde, wird das ursprüngliche Wort in die Liste geschrieben
 		if (wortListeNachPermutation.size() == 0)
 		{
-			wortListeNachPermutation.add(wort);
+			wortListeNachPermutation.add(urspruenglichesWort);
 		}
 
-		Main.console.setText("[ " + LocalDateTime.now().format(Main.df) + " ] Fertig!");
-		System.out.println("[ " + LocalDateTime.now().format(Main.df) + " ] Fertig!");
+		Main.console.setText("[ " + LocalDateTime.now().format(Main.df) + " ] " + Main.languageFile.getString("finished"));
+		UI.statusBar.setMessage(Main.languageFile.getString("finished"));
 	}
 
 	private void permute(String prefix, String str, String ersterBuchstabe, String letzterBuchstabe)
@@ -54,8 +56,7 @@ public class CustomThreadDecryptWort extends Thread
 			if (Main.wordList.contains(ersterBuchstabe + prefix + letzterBuchstabe))
 			{
 				wortListeNachPermutation.add(ersterBuchstabe + prefix + letzterBuchstabe);
-				Main.console.setText("[ " + LocalDateTime.now().format(Main.df) + " ] Wort Gefunden: " + ersterBuchstabe + prefix + letzterBuchstabe);
-				System.out.println("[ " + LocalDateTime.now().format(Main.df) + " ] Wort Gefunden: " + ersterBuchstabe + prefix + letzterBuchstabe);
+				Main.console.setText("[ " + LocalDateTime.now().format(Main.df) + " ] " + Main.languageFile.getString("foundWord") + ": " + ersterBuchstabe + prefix + letzterBuchstabe);
 			}
 		}
 		else

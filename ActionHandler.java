@@ -10,6 +10,7 @@ public class ActionHandler implements ActionListener
 	int auswahl;
 	String file;
 
+	@SuppressWarnings("resource")
 	public void actionPerformed(ActionEvent e)
 	{
 		// Prüfen welche Aktion ausgeführt wurde 
@@ -21,62 +22,95 @@ public class ActionHandler implements ActionListener
 					JOptionPane.INFORMATION_MESSAGE, new ImageIcon("Twist.png"),
 					new String[] { Main.languageFile.getString("encrypted"), Main.languageFile.getString("decrypted") },
 					Main.languageFile.getString("decrypted"));
-			if (UI.dateiauswahl.showOpenDialog(UI.window) == JFileChooser.APPROVE_OPTION)
+
+			String line = "";
+			String s = "";
+			if (auswahl == 1) // entschlüsselter Text wird geöffnet
 			{
-				try
+				if (UI.dateiauswahl.showOpenDialog(UI.window) == JFileChooser.APPROVE_OPTION)
 				{
-					BufferedReader br = new BufferedReader(new FileReader(UI.dateiauswahl.getSelectedFile()));
-					String line = "";
-					String s = "";
-					if (auswahl == 1) // entschlüsselter Text wird geöffnet
+					try
 					{
+						BufferedReader br = new BufferedReader(new FileReader(UI.dateiauswahl.getSelectedFile()));
 						while ((line = br.readLine()) != null)
 						{
 							s += line;
 						}
 						UI.text2.setText(s);
+						UI.statusBar.setMessage(Main.languageFile.getString("finished"));
 					}
-					else // verschlüsselter Text wird geöffnet
+					catch (IOException e1)
 					{
+						UI.statusBar.setErrorMessage(UI.dateiauswahl.getSelectedFile().getName() + " " + Main.languageFile.getString("fileNotFound"));
+					}
+				}
+			}
+			else if (auswahl == 0) // verschlüsselter Text wird geöffnet
+			{
+				if (UI.dateiauswahl.showOpenDialog(UI.window) == JFileChooser.APPROVE_OPTION)
+				{
+					try
+					{
+						BufferedReader br = new BufferedReader(new FileReader(UI.dateiauswahl.getSelectedFile()));
 						while ((line = br.readLine()) != null)
 						{
 							s += line;
 						}
 						UI.text1.setText(s);
+						UI.statusBar.setMessage(Main.languageFile.getString("finished"));
 					}
-					br.close();
+					catch (IOException e1)
+					{
+						UI.statusBar.setErrorMessage(UI.dateiauswahl.getSelectedFile().getName() + " " + Main.languageFile.getString("fileNotFound"));
+					}
 				}
-				catch (IOException e1)
-				{
-				}
+				
 			}
 		}
 		else if (e.getSource() == UI.dateiSave)
 		{
-			// Abfrage, ob Verschlüsselter oder entschlüüselter Text gespeichert werden soll
 			auswahl = JOptionPane.showOptionDialog(null, Main.languageFile.getString("saveDecryptedOrEncryptedFiles"),
 					Main.languageFile.getString("save"), JOptionPane.YES_NO_CANCEL_OPTION,
 					JOptionPane.INFORMATION_MESSAGE, new ImageIcon("Twist.png"),
 					new String[] { Main.languageFile.getString("encrypted"), Main.languageFile.getString("decrypted") },
 					Main.languageFile.getString("decrypted"));
-			if (UI.dateiauswahl.showOpenDialog(UI.window) == JFileChooser.APPROVE_OPTION)
+
+			if (auswahl == 1) // entschlüsselter Text wird geöffnet
 			{
-				try
+				if (UI.dateiauswahl.showOpenDialog(UI.window) == JFileChooser.APPROVE_OPTION)
 				{
-					BufferedWriter bw = new BufferedWriter(new FileWriter(UI.dateiauswahl.getSelectedFile()));
-					if (auswahl == 1) // entschlüsselter Text wird gespeichert
+					try
 					{
+						BufferedWriter bw = new BufferedWriter(new FileWriter(UI.dateiauswahl.getSelectedFile()));
 						bw.write(UI.text2.getText());
+						bw.close();
+						UI.statusBar.setMessage(Main.languageFile.getString("finished"));
 					}
-					else // verschlüsselter Text wird gespeichert
+					catch (IOException e1)
 					{
-						bw.write(UI.text1.getText());
+						UI.statusBar.setErrorMessage(UI.dateiauswahl.getSelectedFile().getName() + " " + Main.languageFile.getString("fileNotFound"));
 					}
-					bw.close();
 				}
-				catch (IOException e1)
+				
+			}
+			else if (auswahl == 0) // verschlüsselter Text wird geöffnet
+			{
+				if (UI.dateiauswahl.showOpenDialog(UI.window) == JFileChooser.APPROVE_OPTION)
 				{
+					try
+					{
+						BufferedWriter bw = new BufferedWriter(new FileWriter(UI.dateiauswahl.getSelectedFile()));
+						bw.write(UI.text1.getText());
+						bw.close();
+						UI.statusBar.setMessage(Main.languageFile.getString("finished"));
+					}
+					catch (IOException e1)
+					{
+						UI.statusBar.setErrorMessage(UI.dateiauswahl.getSelectedFile().getName() + " "
+								+ Main.languageFile.getString("fileNotFound"));
+					}
 				}
+				
 			}
 		}
 		else if (e.getSource() == UI.dateiExit)
@@ -148,16 +182,17 @@ public class ActionHandler implements ActionListener
 			}
 			catch (MalformedURLException e1)
 			{
-				System.err.println("Server nicht gefunden");
+				UI.statusBar.setErrorMessage(Main.languageFile.getString("serverNotFound"));
 			}
 			catch (IOException e1)
 			{
-				System.err.println("Server nicht gefunden");
+				UI.statusBar.setErrorMessage(Main.languageFile.getString("serverNotFound"));
 			}
 		}
 		else if (e.getSource() == UI.settingsBtnAbbrechen)
 		{
 			UI.settingsSettings.setVisible(false);
+			UI.statusBar.setMessage("Abgebrochen!");
 		}
 		else if (e.getSource() == UI.settingsBtnSpeichern)
 		{
@@ -174,19 +209,23 @@ public class ActionHandler implements ActionListener
 			if (UI.settingsLanguageComboBox.getSelectedIndex() == 0)
 			{
 				Main.language = 0;
+				Main.languageFile = ResourceBundle.getBundle("de.florian.twist.de");
 			}
 			else
 			{
 				Main.language = 1;
+				Main.languageFile = ResourceBundle.getBundle("de.florian.twist.en");
 			}
+			UI.elementeBeschriften();
+			UI.konsole.setTitle(Main.languageFile.getString("console"));
 
 			Main.stdWortliste = UI.settingsStdWortlisteComboBox.getSelectedItem().toString();
 
 			// Einstellungen in Datei speichern
 			Main.saveSettingsFile();
 
-			// Dialog um das Programm neuzustarten
 			UI.settingsSettings.setVisible(false);
+			UI.statusBar.setMessage(Main.languageFile.getString("savedSettings"));
 		}
 		else if (e.getSource() == UI.settingsAddWortListeBtn)
 		{
