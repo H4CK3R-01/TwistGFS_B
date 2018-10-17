@@ -4,6 +4,7 @@ import java.util.HashSet;
 
 public class CustomThreadDecryptWort extends Thread
 {
+	private long zaehler;
 	private String wort;
 	private String urspruenglichesWort;
 	private HashSet<String> wortListeNachPermutation = new HashSet<>();
@@ -17,7 +18,7 @@ public class CustomThreadDecryptWort extends Thread
 	{
 		// Thread starten und Variablen leeren
 		Main.console.setText("[ " + LocalDateTime.now().format(Main.df) + " ] " + Main.languageFile.getString("startedDecrypt"));
-		UI.statusBar.setMessage(Main.languageFile.getString("startedDecrypt"));
+		UI.message.setText(Main.languageFile.getString("startedDecrypt"));
 		wortListeNachPermutation.clear();
 		
 		urspruenglichesWort = wort;
@@ -44,7 +45,7 @@ public class CustomThreadDecryptWort extends Thread
 		}
 
 		Main.console.setText("[ " + LocalDateTime.now().format(Main.df) + " ] " + Main.languageFile.getString("finished"));
-		UI.statusBar.setMessage(Main.languageFile.getString("finished"));
+		UI.message.setText(Main.languageFile.getString("finished"));
 	}
 
 	private void permute(String prefix, String str, String ersterBuchstabe, String letzterBuchstabe)
@@ -52,6 +53,8 @@ public class CustomThreadDecryptWort extends Thread
 		int n = str.length();
 		if (n == 0)
 		{
+			zaehler++;
+			UI.progressBar.setValue((int) zaehler);
 			// Wenn das generierte Wort in der Wortliste steht, wird es in die Liste wortListeNachPermutation gespeichert
 			if (Main.wordList.contains(ersterBuchstabe + prefix + letzterBuchstabe))
 			{

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import javax.swing.ImageIcon;
@@ -8,6 +9,7 @@ public class StarteThread extends Thread
 {
 	String s;
 	String wort;
+	HashSet<Character> wortNeu = new HashSet<Character>();
 	ArrayList<CustomThreadDecryptWort> threadTextEntschluesseln = new ArrayList<>();
 	ArrayList<CustomThreadEncryptWort> threadTextVerschluesseln = new ArrayList<>();
 
@@ -24,7 +26,14 @@ public class StarteThread extends Thread
 			{
 				UI.wort2.setText(""); // Textfeld leeren
 				wort = UI.wort1.getText(); // Wort auslesen
-
+				for (int i = 0; i < wort.length(); i++)
+				{
+					wortNeu.add(wort.charAt(i));
+				}
+				UI.progressBar.setMinimum(0);
+				UI.progressBar.setMaximum((int) fakultaet(wortNeu.size()));
+				UI.progressBar.setValue(0);
+				
 				CustomThreadDecryptWort threadWortEntschluesseln = new CustomThreadDecryptWort(wort);
 				threadWortEntschluesseln.start(); // neuen Thread starten
 
@@ -57,7 +66,10 @@ public class StarteThread extends Thread
 			{
 				UI.wort1.setText(""); // Textfeld leeren
 				wort = UI.wort2.getText(); // Wort auslesen
-
+				UI.progressBar.setMinimum(0);
+				UI.progressBar.setMaximum(wort.length()/2);
+				UI.progressBar.setValue(0);
+				
 				CustomThreadEncryptWort threadWortEntschluesseln = new CustomThreadEncryptWort(wort);
 				threadWortEntschluesseln.start(); // Thread starten
 
@@ -145,5 +157,16 @@ public class StarteThread extends Thread
 				}
 			}
 		}
+	}
+	
+	public static long fakultaet(long num)
+	{
+		if (num == 0) return 1;
+		long result = 1;
+		for (long i = 2; i <= num; i++)
+		{
+			result *= i;
+		}
+		return result;
 	}
 }

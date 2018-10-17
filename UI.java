@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class UI implements ActionListener
@@ -14,8 +15,6 @@ public class UI implements ActionListener
 	// Main Frame
 	public static JFrame window = new JFrame("Twist");
 	
-	public static StatusBar statusBar = new StatusBar();
-
 	// Tabpane
 	public static JTabbedPane tabpane = new JTabbedPane(JTabbedPane.BOTTOM, JTabbedPane.SCROLL_TAB_LAYOUT);
 
@@ -63,6 +62,11 @@ public class UI implements ActionListener
 	public static JButton wortEntschluesseln = new JButton();
 	public static JButton wortVerschluesseln = new JButton();
 
+	// StatusBar
+	public static JPanel statusBarPanel = new JPanel();
+	public static JLabel message = new JLabel();
+	public static JProgressBar progressBar = new JProgressBar();
+	
 	// Dialoge
 	public static JFileChooser dateiauswahl = new JFileChooser();
 	public static JOptionPane optionDialog = new JOptionPane();
@@ -137,13 +141,24 @@ public class UI implements ActionListener
 		// Dateifilter für Dateiauswahl
 		filter = new FileNameExtensionFilter("Text", "txt", "text"); // Nur Text Dateien		
 		
+		// StatusBar
+		statusBarPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		statusBarPanel.setLayout(new BorderLayout(0, 0));
+		
+		progressBar.setMaximum(1000);
+		progressBar.setMinimum(0);
+		progressBar.setStringPainted(true);
+		statusBarPanel.add(message, BorderLayout.WEST);
+		statusBarPanel.add(progressBar, BorderLayout.EAST);
+		
+		
 		// Fenster konfigurieren
-		window.setSize(850, 440); // Fenster-Größe festlegen
+		window.setSize(855, 445); // Fenster-Größe festlegen
 		//window.setResizable(false); // Größe des Fensters kann nich geändert werden
 		window.setLocationRelativeTo(null); // Position des Fensters wird festgelegt (Mitte)
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setIconImage(new ImageIcon("img/Twist.png").getImage()); // Icon des Fensters festlegen
-		window.getContentPane().add(statusBar, BorderLayout.SOUTH);
+		window.getContentPane().add(statusBarPanel, BorderLayout.SOUTH);
 		window.getContentPane().add(tabpane, BorderLayout.CENTER); // Tabpane zum Fenster hinzufügen
 		window.setVisible(true); // Fenster ist sichtbar
 
@@ -174,6 +189,7 @@ public class UI implements ActionListener
 				wortlistenAuswahlMenu.get(i).setSelected(true);
 			}
 			helpSwitchWordList.add(wortlistenAuswahlMenu.get(i)); // Radiobuttons zum 'Wortliste auswählen'-Menü hinzufügen
+			wortlistenAuswahlMenu.get(i).addActionListener(new ActionHandler());
 			wortlisteRadioButtons.add(wortlistenAuswahlMenu.get(i));
 			settingsStdWortlisteComboBox.addItem(Main.verfuegbareWortlisten.get(i)); // Wortlisten zum Auswahlmenü in den Einstellungen hinzufügen
 		}
@@ -259,14 +275,14 @@ public class UI implements ActionListener
 		{
 			if (UI.wortlistenAuswahlMenu.get(i).isSelected())
 			{
-				file = "wordlist/woerter" + i + ".txt";
+				file = "./wordlist/" + UI.wortlistenAuswahlMenu.get(i).getText();
 			}
 		}
 
 		// Wortliste einlesen
 		Main.wordList = Main.readWordListFile(file);
 		elementeBeschriften();
-		statusBar.setMessage("Bereit");
+		UI.message.setText("Bereit");
 	}
 
 	public static void elementeBeschriften()

@@ -98,16 +98,22 @@ public class Main
 			Main.language = Integer.parseInt(br.readLine());
 			Main.stdWortliste = br.readLine();
 
-			String s;
-			while ((s = br.readLine()) != null)
+			
+			File f = new File("./wordlist");
+			File[] fileArray = f.listFiles();
+
+			for (int i = 0; i < fileArray.length; i++)
 			{
-				Main.verfuegbareWortlisten.add(s);
+				if ((fileArray[i] != null) && fileArray[i].toString().toLowerCase().endsWith(".txt"))
+				{
+					Main.verfuegbareWortlisten.add(fileArray[i].getName());
+				}
 			}
 			br.close();
 		}
 		catch (IOException e1)
 		{
-			UI.statusBar.setErrorMessage("settings.txt: " + Main.languageFile.getString("fileNotFound"));
+			UI.message.setText("settings.txt: " + Main.languageFile.getString("fileNotFound"));
 		}
 	}
 
@@ -124,16 +130,11 @@ public class Main
 			bw.newLine();
 			bw.write(Main.stdWortliste);
 			bw.newLine();
-			for (int i = 0; i < Main.verfuegbareWortlisten.size(); i++)
-			{
-				bw.write(Main.verfuegbareWortlisten.get(i));
-				bw.newLine();
-			}
 			bw.close();
 		}
 		catch (IOException e1)
 		{
-			UI.statusBar.setErrorMessage("settings.txt: " + Main.languageFile.getString("fileNotFound"));
+			UI.message.setText("settings.txt: " + Main.languageFile.getString("fileNotFound"));
 		}
 	}
 
@@ -153,7 +154,7 @@ public class Main
 		}
 		catch (IOException e)
 		{
-			UI.statusBar.setErrorMessage(file + " " + Main.languageFile.getString("fileNotFound"));
+			UI.message.setText(file + " " + Main.languageFile.getString("fileNotFound"));
 		}
 
 		return list;

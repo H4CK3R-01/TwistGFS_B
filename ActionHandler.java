@@ -37,11 +37,12 @@ public class ActionHandler implements ActionListener
 							s += line;
 						}
 						UI.text2.setText(s);
-						UI.statusBar.setMessage(Main.languageFile.getString("finished"));
+						UI.message.setText(Main.languageFile.getString("finished"));
 					}
 					catch (IOException e1)
 					{
-						UI.statusBar.setErrorMessage(UI.dateiauswahl.getSelectedFile().getName() + " " + Main.languageFile.getString("fileNotFound"));
+						UI.message.setText(UI.dateiauswahl.getSelectedFile().getName() + " "
+								+ Main.languageFile.getString("fileNotFound"));
 					}
 				}
 			}
@@ -57,14 +58,15 @@ public class ActionHandler implements ActionListener
 							s += line;
 						}
 						UI.text1.setText(s);
-						UI.statusBar.setMessage(Main.languageFile.getString("finished"));
+						UI.message.setText(Main.languageFile.getString("finished"));
 					}
 					catch (IOException e1)
 					{
-						UI.statusBar.setErrorMessage(UI.dateiauswahl.getSelectedFile().getName() + " " + Main.languageFile.getString("fileNotFound"));
+						UI.message.setText(UI.dateiauswahl.getSelectedFile().getName() + " "
+								+ Main.languageFile.getString("fileNotFound"));
 					}
 				}
-				
+
 			}
 		}
 		else if (e.getSource() == UI.dateiSave)
@@ -84,14 +86,15 @@ public class ActionHandler implements ActionListener
 						BufferedWriter bw = new BufferedWriter(new FileWriter(UI.dateiauswahl.getSelectedFile()));
 						bw.write(UI.text2.getText());
 						bw.close();
-						UI.statusBar.setMessage(Main.languageFile.getString("finished"));
+						UI.message.setText(Main.languageFile.getString("finished"));
 					}
 					catch (IOException e1)
 					{
-						UI.statusBar.setErrorMessage(UI.dateiauswahl.getSelectedFile().getName() + " " + Main.languageFile.getString("fileNotFound"));
+						UI.message.setText(UI.dateiauswahl.getSelectedFile().getName() + " "
+								+ Main.languageFile.getString("fileNotFound"));
 					}
 				}
-				
+
 			}
 			else if (auswahl == 0) // verschlüsselter Text wird geöffnet
 			{
@@ -102,15 +105,15 @@ public class ActionHandler implements ActionListener
 						BufferedWriter bw = new BufferedWriter(new FileWriter(UI.dateiauswahl.getSelectedFile()));
 						bw.write(UI.text1.getText());
 						bw.close();
-						UI.statusBar.setMessage(Main.languageFile.getString("finished"));
+						UI.message.setText(Main.languageFile.getString("finished"));
 					}
 					catch (IOException e1)
 					{
-						UI.statusBar.setErrorMessage(UI.dateiauswahl.getSelectedFile().getName() + " "
+						UI.message.setText(UI.dateiauswahl.getSelectedFile().getName() + " "
 								+ Main.languageFile.getString("fileNotFound"));
 					}
 				}
-				
+
 			}
 		}
 		else if (e.getSource() == UI.dateiExit)
@@ -182,17 +185,17 @@ public class ActionHandler implements ActionListener
 			}
 			catch (MalformedURLException e1)
 			{
-				UI.statusBar.setErrorMessage(Main.languageFile.getString("serverNotFound"));
+				UI.message.setText(Main.languageFile.getString("serverNotFound"));
 			}
 			catch (IOException e1)
 			{
-				UI.statusBar.setErrorMessage(Main.languageFile.getString("serverNotFound"));
+				UI.message.setText(Main.languageFile.getString("serverNotFound"));
 			}
 		}
 		else if (e.getSource() == UI.settingsBtnAbbrechen)
 		{
 			UI.settingsSettings.setVisible(false);
-			UI.statusBar.setMessage("Abgebrochen!");
+			UI.message.setText("Abgebrochen!");
 		}
 		else if (e.getSource() == UI.settingsBtnSpeichern)
 		{
@@ -225,7 +228,7 @@ public class ActionHandler implements ActionListener
 			Main.saveSettingsFile();
 
 			UI.settingsSettings.setVisible(false);
-			UI.statusBar.setMessage(Main.languageFile.getString("savedSettings"));
+			UI.message.setText(Main.languageFile.getString("savedSettings"));
 		}
 		else if (e.getSource() == UI.settingsAddWortListeBtn)
 		{
@@ -236,17 +239,28 @@ public class ActionHandler implements ActionListener
 				try
 				{
 					boolean dateiExistiert = true;
-					int i = 0;
 					while (dateiExistiert)
 					{
-						File file = new File("wordlist/woerter" + i + ".txt");
+						File file = new File("wordlist/" + UI.dateiauswahl.getSelectedFile().getName());
 						if (!file.exists()) // Prüfen ob Dateiname schon vorhanden ist
 						{
-							Main.copyFile(UI.dateiauswahl.getSelectedFile(), new File("wordlist/woerter" + i + ".txt"));
-							Main.verfuegbareWortlisten.add("woerter" + i + ".txt");
+							Main.copyFile(UI.dateiauswahl.getSelectedFile(),
+									new File("wordlist/" + UI.dateiauswahl.getSelectedFile().getName()));
+							Main.verfuegbareWortlisten.add(UI.dateiauswahl.getSelectedFile().getName());
+							UI.wortlistenAuswahlMenu.add(new JRadioButtonMenuItem(
+									Main.verfuegbareWortlisten.get(Main.verfuegbareWortlisten.size() - 1)));
+
+							UI.helpSwitchWordList
+									.add(UI.wortlistenAuswahlMenu.get(Main.verfuegbareWortlisten.size() - 1));
+							UI.wortlistenAuswahlMenu.get(Main.verfuegbareWortlisten.size() - 1)
+									.addActionListener(new ActionHandler());
+							UI.wortlisteRadioButtons
+									.add(UI.wortlistenAuswahlMenu.get(Main.verfuegbareWortlisten.size() - 1));
+							UI.settingsStdWortlisteComboBox
+									.addItem(Main.verfuegbareWortlisten.get(Main.verfuegbareWortlisten.size() - 1));
+							
 							dateiExistiert = false;
 						}
-						i++;
 					}
 				}
 				catch (IOException e1)
@@ -254,10 +268,24 @@ public class ActionHandler implements ActionListener
 				}
 			}
 		}
-
 		else if (e.getSource() == UI.textEntschluesseln) new StarteThread("DecryptText").start();
 		else if (e.getSource() == UI.textVerschluesseln) new StarteThread("EncryptText").start();
 		else if (e.getSource() == UI.wortEntschluesseln) new StarteThread("DecryptWort").start();
 		else if (e.getSource() == UI.wortVerschluesseln) new StarteThread("EncryptWort").start();
+		else
+		{
+			for (int i = 0; i < UI.wortlistenAuswahlMenu.size(); i++)
+			{
+				if (e.getSource() == UI.wortlistenAuswahlMenu.get(i))
+				{
+					file = "./wordlist/" + Main.verfuegbareWortlisten.get(i);
+					Main.wordList = Main.readWordListFile(file);
+					UI.message
+							.setText(Main.verfuegbareWortlisten.get(i) + " " + Main.languageFile.getString("fileOpen"));
+				}
+
+			}
+
+		}
 	}
 }
