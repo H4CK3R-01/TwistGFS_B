@@ -159,6 +159,11 @@ public class StarteThread extends Thread
 		}
 	}
 	
+	/**
+	 * Berechnet von jeder beliebigen Zahl die Fakultät
+	 * @param num Zahl von der die Fakultät berechnet werden soll
+	 * @return Fakultät von num
+	 */
 	public static long fakultaet(long num)
 	{
 		if (num == 0) return 1;

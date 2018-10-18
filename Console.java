@@ -17,11 +17,6 @@ public class Console extends Thread
 	{
 	}
 
-	public void setText(String text)
-	{
-		UI.konsoleArea.setText(UI.konsoleArea.getText() + text + " \n");
-	}
-
 	public void run()
 	{
 		UI.konsoleArea = new JTextArea(50, 5); // Größe der TextArea festlegen
@@ -35,7 +30,7 @@ public class Console extends Thread
 		UI.konsole.setTitle(Main.languageFile.getString("console")); // Name des Fensters setzen
 		UI.konsole.setLayout(new GridBagLayout());
 		UI.konsole.add(new JScrollPane(UI.konsoleArea), UI.constraints); // TextArea zum Fenster hinzufügen
-		UI.konsole.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); 
+		UI.konsole.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		UI.konsole.addWindowListener(new WindowAdapter() // Text in Menü ändern wenn Konsole geschlossen wird
 		{
 			public void windowClosing(WindowEvent evt)
@@ -46,5 +41,10 @@ public class Console extends Thread
 		});
 		UI.konsole.setSize(500, 320); // Größe des Fensters festlegen
 		UI.konsole.setIconImage(new ImageIcon("img/Twist.png").getImage()); // Icon des Fensters setzen
+	}
+
+	public void setText(String text)
+	{
+		UI.konsoleArea.setText(UI.konsoleArea.getText() + text + " \n");
 	}
 }

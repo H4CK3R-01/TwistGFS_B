@@ -48,6 +48,13 @@ public class CustomThreadDecryptWort extends Thread
 		UI.message.setText(Main.languageFile.getString("finished"));
 	}
 
+	/**
+	 * Generiert alle möglichen Permutationen
+	 * @param prefix erster Teil des Wortes
+	 * @param str tweiter Teil des Wortes
+	 * @param ersterBuchstabe Erster Buchstabe des Ursprünglichen Wortes (Um zu prüfen ob Das gesamte Wort in der Wortliste steht)
+	 * @param letzterBuchstabe Letzter Buchstabe des Ursprünglichen Wortes (Um zu prüfen ob Das gesamte Wort in der Wortliste steht)
+	 */
 	private void permute(String prefix, String str, String ersterBuchstabe, String letzterBuchstabe)
 	{
 		int n = str.length();

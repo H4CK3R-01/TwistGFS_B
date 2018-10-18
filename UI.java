@@ -116,6 +116,9 @@ public class UI implements ActionListener
 	public static FileNameExtensionFilter filter;
 	public static ArrayList<JRadioButtonMenuItem> wortlistenAuswahlMenu = new ArrayList<>();
 
+	/**
+	 * Gesamte UI
+	 */
 	@SuppressWarnings("deprecation")
 	public UI()
 	{

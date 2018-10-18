@@ -45,6 +45,10 @@ public class Main
 	public static DateTimeFormatter df = DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss"); // Variable für die formattierung der Zeitangaben
 	public static ResourceBundle languageFile;
 
+	/**
+	 * Main Methode
+	 * @param args
+	 */
 	public static void main(String[] args)
 	{
 		// Moderne Benutzeroberfläche laden
@@ -60,6 +64,12 @@ public class Main
 		console.start(); // Konsole starten
 	}
 
+	
+	/**
+	 * Kopiert Datei die als Parameter angegeben wird
+	 * @param in Datei die Kopiert werden soll
+	 * @param out Neue Datei die erstellt werden soll
+	 */
 	@SuppressWarnings("resource")
 	public static void copyFile(File in, File out) throws IOException
 	{
@@ -73,7 +83,6 @@ public class Main
 		}
 		catch (IOException e)
 		{
-			throw e;
 		} finally
 		{
 			try
@@ -87,6 +96,9 @@ public class Main
 		}
 	}
 
+	/**
+	 * Ließt settings.txt ein und speichert alle Werte in Variablen
+	 */
 	public static void readSettingsFile()
 	{
 		BufferedReader br;

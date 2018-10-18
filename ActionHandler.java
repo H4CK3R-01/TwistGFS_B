@@ -10,6 +10,9 @@ public class ActionHandler implements ActionListener
 	int auswahl;
 	String file;
 
+	/**
+	 * Prüft welche Aktion in der UI ausgeführt wurde und reagiert dann entsprechend
+	 */
 	@SuppressWarnings("resource")
 	public void actionPerformed(ActionEvent e)
 	{

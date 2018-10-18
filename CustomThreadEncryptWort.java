@@ -58,6 +58,12 @@ public class CustomThreadEncryptWort extends Thread
 		}
 	}
 
+	
+	/**
+	 * Löscht den ersten und letzten Buchstaben eines Wortes
+	 * @param wort Wort von dem der erste und letzte Buchstabe gelöscht werden sollen
+	 * @return wort ohne ersten und letzten Buchstaben
+	 */
 	public String delFirstLastChar(String wort)
 	{
 		return wort.substring(1, wort.length() - 1); // erster und letzer Buchstabe wird gelöscht
