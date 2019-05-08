@@ -3,28 +3,25 @@ package de.florian.twist;
 import java.util.Arrays;
 
 public class DecryptWort {
-    private String generiertesWort;
-    private String ersterBuchstabe;
-    private String letzterBuchstabe;
-    private char[] tempArray;
+    private String generatedWord;
 
-    public DecryptWort(String wort) {
+    public DecryptWort(String word) {
         // Sonderzeichen entfernen
-        wort = wort.replaceAll("[^A-Za-zßäöüáãâàéẽêèëíĩîìóõôòúũûùÄÖÜÃÂÀÉẼÊÈËĨÎÌÓÕÔÒÚŨÛÙæ]", "");
-        wort = wort.toLowerCase();
+        word = word.replaceAll("[^A-Za-zßäöüáãâàéẽêèëíĩîìóõôòúũûùÄÖÜÃÂÀÉẼÊÈËĨÎÌÓÕÔÒÚŨÛÙæ]", "");
+        word = word.toLowerCase();
 
-        if (wort.length() > 2) {
-            ersterBuchstabe = wort.substring(0, 1);
-            letzterBuchstabe = wort.substring(wort.length() - 1);
+        if (word.length() > 2) {
+            String firstChar = word.substring(0, 1);
+            String lastChar = word.substring(word.length() - 1);
 
             // Array sortieren
-            tempArray = wort.substring(1, wort.length() - 1).toCharArray();
+            char[] tempArray = word.substring(1, word.length() - 1).toCharArray();
             Arrays.sort(tempArray);
-            wort = new String(tempArray);
+            word = new String(tempArray);
 
 
             // Permutation starten
-            permute("", wort, ersterBuchstabe, letzterBuchstabe);
+            permute("", word, firstChar, lastChar);
         }
     }
 
@@ -42,8 +39,7 @@ public class DecryptWort {
         int n = b.length();
         if (n == 0) {
             if (Main.wordList.contains(firstChar + a + lastChar)) { // prüfen ob Wort in Wortliste steht
-                generiertesWort = firstChar + a + lastChar; // Wort in String schreiben
-                //return; // Rekursive Methode abrechen
+                generatedWord = firstChar + a + lastChar; // Rekursive Methode abrechen
             }
         } else {
             for (int i = 0; i < n; i++) {
@@ -60,7 +56,7 @@ public class DecryptWort {
      *
      * @return String mit dem Wort
      */
-    public String getWort() {
-        return generiertesWort;
+    public String getGeneratedWord() {
+        return generatedWord;
     }
 }

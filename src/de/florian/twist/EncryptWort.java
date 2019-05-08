@@ -4,10 +4,10 @@ public class EncryptWort {
     private String word;
 
     public EncryptWort(String s) {
-        this.word = s.replaceAll("[^A-Za-zßäöüáãâàéẽêèëíĩîìóõôòúũûùÄÖÜÃÂÀÉẼÊÈËĨÎÌÓÕÔÒÚŨÛÙæ]", "").toLowerCase();
+        word = s.replaceAll("[^A-Za-zßäöüáãâàéẽêèëíĩîìóõôòúũûùÄÖÜÃÂÀÉẼÊÈËĨÎÌÓÕÔÒÚŨÛÙæ]", "").toLowerCase();
 
         if (word.length() > 3) {
-            word = buchstabenTauschen(word.substring(1, word.length() - 1), word.substring(0, 1), word.substring(word.length() - 1), word);
+            word = modifyString(word.substring(1, word.length() - 1), word.substring(0, 1), word.substring(word.length() - 1), word);
         }
     }
 
@@ -17,13 +17,13 @@ public class EncryptWort {
      * @param word String, bei dem Buchstaben getaucht werden sollen
      * @return String, der verändert wurde
      */
-    private static String swapCharactersOfString(char[] word) {
-        int zufallswert1 = (int) (Math.random() * (word.length - 1) + 0.5); // Zufallszahl zwischen 1 und der Länge des Strings wird generiert
-        int zufallswert2 = (int) (Math.random() * (word.length - 1) + 0.5); // Zufallszahl zwischen 1 und der Länge des Strings wird generiert
+    private static String swapCharactersOfCharArray(char[] word) {
+        int random1 = (int) (Math.random() * (word.length - 1) + 0.5); // Zufallszahl zwischen 1 und der Länge des Strings wird generiert
+        int random2 = (int) (Math.random() * (word.length - 1) + 0.5); // Zufallszahl zwischen 1 und der Länge des Strings wird generiert
 
-        char temp = word[zufallswert1];
-        word[zufallswert1] = word[zufallswert2];
-        word[zufallswert2] = temp;
+        char temp = word[random1];
+        word[random1] = word[random2];
+        word[random2] = temp;
 
         return String.valueOf(word);
     }
@@ -37,18 +37,18 @@ public class EncryptWort {
      * @param lastChar  letzter Buchstabe des ursprünglichen Wortes
      * @return vertauschter String mit erstem und letztdem Buchstabe
      */
-    private String buchstabenTauschen(String word, String firstChar, String lastChar, String originalWord) {
+    private String modifyString(String word, String firstChar, String lastChar, String originalWord) {
         for (int i = 0; i < (word.length() / 2); i++) // Je länger der String ist, desto öfters werden zwei Buchstaben getauscht
         {
-            word = swapCharactersOfString(word.toCharArray());
+            word = swapCharactersOfCharArray(word.toCharArray());
         }
 
         if (!(firstChar + word + lastChar).equals(originalWord)) // Wenn das neue Wort gleich wie das Ursprüngliche Wort ist, wird die Methode
-        // 'buchstabenTauschen()' nocheinmal aufgerufen
+        // 'modifyString()' nocheinmal aufgerufen
         {
             return firstChar + word + lastChar; // Neu generiertes Wort wird inklusive erstem und letzem Buchstabn zurückgegeben
         } else {
-            return buchstabenTauschen(word, firstChar, lastChar, originalWord);
+            return modifyString(word, firstChar, lastChar, originalWord);
         }
     }
 
@@ -57,7 +57,7 @@ public class EncryptWort {
      *
      * @return Neu generiertes Wort
      */
-    public String getWortNeu() {
+    public String getGeneratedWord() {
         return word;
     }
 }

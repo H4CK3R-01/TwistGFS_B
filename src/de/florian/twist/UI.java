@@ -11,71 +11,54 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class UI extends Thread {
-    static JFrame mainFrame;
-    static JPanel mainPanel;
-    static JMenuBar menu;
-    static JMenu file, switchWordList, run;
-    static JMenuItem konsole, exit, decrypt, encrypt;
-    static JRadioButtonMenuItem[] wordlists;
-    static JLabel textDecryptedLabel, textEncryptedLabel;
-    static JScrollPane textDecryptedScrollPane, textEncryptedScrollPane;
-    static JTextArea textDecrypted, textEncrypted;
-    static ImageIcon exitIcon, consoleIcon, settingsIcon, startIcon;
-    static ButtonGroup wordlistsButtonGroup;
-    ActionListener actionListenerWortlisten = new ActionListener() {
+    private JFrame mainFrame;
+    private JPanel mainPanel;
+    private JMenuBar menuBar;
+    private JMenu fileMenu, switchWordListMenu, runMenu;
+    private JMenuItem consoleMenuItem, exitMenuItem, decryptMenuItem, encryptMenuItem;
+    ActionListener actionListenerMenu = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-            for (int i = 0; i < UI.wordlists.length; i++) {
-                if (e.getSource() == UI.wordlists[i]) {
-                    Main.console.setText("[ " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")) + " ] Wortliste geändert. Neue Wortliste: " + UI.wordlists[i].getText());
-                    Main.wordList = Main.readWordListFile(getClass().getClassLoader().getResource("wordlist/").getFile() + UI.wordlists[i].getText());
+            if (e.getSource() == exitMenuItem) {
+                System.exit(0);
+            } else if (e.getSource() == consoleMenuItem) {
+                if (Main.console.isVisible()) {
+                    Main.console.setVisible(false);
+                    consoleMenuItem.setText("Konsole öffnen");
+                } else {
+                    Main.console.setVisible(true);
+                    consoleMenuItem.setText("Konsole schließen");
+                }
+            } else if (e.getSource() == decryptMenuItem) {
+                new DecryptEncryptStart("decryptMenuItem").start();
+            } else if (e.getSource() == encryptMenuItem) {
+                new DecryptEncryptStart("encryptMenuItem").start();
+            }
+        }
+    };
+    private JRadioButtonMenuItem[] wordListsRadioButtons;
+    ActionListener actionListenerWordlists = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            for (int i = 0; i < wordListsRadioButtons.length; i++) {
+                if (e.getSource() == wordListsRadioButtons[i]) {
+                    Main.console.setText("[ " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")) + " ] Wortliste geändert. Neue Wortliste: " + wordListsRadioButtons[i].getText());
+                    Main.wordList = Main.readWordListFile(getClass().getClassLoader().getResource("wordlist/").getFile() + wordListsRadioButtons[i].getText());
                     System.out.println(Main.wordList.size());
                 }
             }
         }
     };
-    ActionListener actionListenerMenu = new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == UI.exit) {
-                System.exit(0);
-            } else if (e.getSource() == UI.konsole) {
-                if (Console.console.isVisible()) {
-                    Console.console.setVisible(false);
-                    UI.konsole.setText("Konsole öffnen");
-                } else {
-                    Console.console.setVisible(true);
-                    UI.konsole.setText("Konsole schließen");
-                }
-            } else if (e.getSource() == UI.decrypt) {
-                new DecryptEncryptStart("decrypt").start();
-            } else if (e.getSource() == UI.encrypt) {
-                new DecryptEncryptStart("encrypt").start();
-            }
-        }
-    };
+    private JLabel textDecryptedLabel, textEncryptedLabel;
+    private JScrollPane textDecryptedScrollPane, textEncryptedScrollPane;
+    private JTextArea textDecryptedTextArea, textEncryptedTextArea;
+    private ImageIcon exitIcon, consoleIcon, settingsIcon, startIcon;
+    private ButtonGroup wordListsButtonGroup;
+    private Font font;
 
     public UI() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
         }
-    }
-
-    /**
-     * Methode um den Text im verschlüsselten Textfeld zu ändern
-     *
-     * @param text String der hinzugefügt wird
-     */
-    public static void setDecryptText(String text) {
-        textDecrypted.setText(textDecrypted.getText() + text + " ");
-    }
-
-    /**
-     * Methode um den Text im entschlüsselten Textfeld zu ändern
-     *
-     * @param text String der hinzugefügt wird
-     */
-    public static void setEncryptText(String text) {
-        textEncrypted.setText(textEncrypted.getText() + text + " ");
     }
 
     @SuppressWarnings("deprecation")
@@ -87,25 +70,26 @@ public class UI extends Thread {
         mainPanel = new JPanel();
 
         // MenuBar
-        menu = new JMenuBar();
+        menuBar = new JMenuBar();
 
-        file = new JMenu("Datei");
-        switchWordList = new JMenu("Wortliste ändern");
-        konsole = new JMenuItem("Konsole öffnen");
-        exit = new JMenuItem("Beenden");
+        fileMenu = new JMenu("Datei");
+        switchWordListMenu = new JMenu("Wortliste ändern");
+        consoleMenuItem = new JMenuItem("Konsole öffnen");
+        exitMenuItem = new JMenuItem("Beenden");
 
-        run = new JMenu("Starten");
-        decrypt = new JMenuItem("Entschlüsseln");
-        encrypt = new JMenuItem("Verschlüsseln");
+        runMenu = new JMenu("Starten");
+        decryptMenuItem = new JMenuItem("Entschlüsseln");
+        encryptMenuItem = new JMenuItem("Verschlüsseln");
 
         settingsIcon = new ImageIcon(getClass().getClassLoader().getResource("img/icon_settings.png"));
         exitIcon = new ImageIcon(getClass().getClassLoader().getResource("img/icon_exit.png"));
         consoleIcon = new ImageIcon(getClass().getClassLoader().getResource("img/icon_console.png"));
         startIcon = new ImageIcon(getClass().getClassLoader().getResource("img/icon_play.png"));
 
+        font = new Font("Courier", Font.PLAIN, 25);
         // Textfelder
-        textDecrypted = new JTextArea();
-        textEncrypted = new JTextArea();
+        textDecryptedTextArea = new JTextArea();
+        textEncryptedTextArea = new JTextArea();
         textDecryptedScrollPane = new JScrollPane();
         textEncryptedScrollPane = new JScrollPane();
         textDecryptedLabel = new JLabel();
@@ -116,61 +100,61 @@ public class UI extends Thread {
         consoleIcon = new ImageIcon(consoleIcon.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH));
         startIcon = new ImageIcon(startIcon.getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH));
 
-        wordlistsButtonGroup = new ButtonGroup();
+        wordListsButtonGroup = new ButtonGroup();
 
         // Menü zusammensetzen
         File f = new File(getClass().getClassLoader().getResource("wordlist/").getFile());
         File[] fileArray = f.listFiles();
-        wordlists = new JRadioButtonMenuItem[fileArray.length];
+        wordListsRadioButtons = new JRadioButtonMenuItem[fileArray.length];
         for (int i = 0; i < fileArray.length; i++) {
-            wordlists[i] = new JRadioButtonMenuItem(fileArray[i].getName());
-            wordlistsButtonGroup.add(wordlists[i]);
-            switchWordList.add(wordlists[i]);
-            wordlists[i].addActionListener(actionListenerWortlisten);
+            wordListsRadioButtons[i] = new JRadioButtonMenuItem(fileArray[i].getName());
+            wordListsButtonGroup.add(wordListsRadioButtons[i]);
+            switchWordListMenu.add(wordListsRadioButtons[i]);
+            wordListsRadioButtons[i].addActionListener(actionListenerWordlists);
         }
-        wordlists[0].setSelected(true);
+        wordListsRadioButtons[0].setSelected(true);
 
-        switchWordList.setIcon(settingsIcon);
-        exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_MASK));
-        exit.setIcon(exitIcon);
-        exit.addActionListener(actionListenerMenu);
-        konsole.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.ALT_MASK));
-        konsole.setIcon(consoleIcon);
-        konsole.addActionListener(actionListenerMenu);
+        switchWordListMenu.setIcon(settingsIcon);
+        exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_MASK));
+        exitMenuItem.setIcon(exitIcon);
+        exitMenuItem.addActionListener(actionListenerMenu);
+        consoleMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.ALT_MASK));
+        consoleMenuItem.setIcon(consoleIcon);
+        consoleMenuItem.addActionListener(actionListenerMenu);
 
-        file.add(switchWordList);
-        file.add(konsole);
-        file.addSeparator();
-        file.add(exit);
+        fileMenu.add(switchWordListMenu);
+        fileMenu.add(consoleMenuItem);
+        fileMenu.addSeparator();
+        fileMenu.add(exitMenuItem);
 
-        decrypt.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F11, InputEvent.CTRL_MASK));
-        decrypt.setIcon(startIcon);
-        decrypt.addActionListener(actionListenerMenu);
-        encrypt.setAccelerator(KeyStroke.getKeyStroke("F11"));
-        encrypt.setIcon(startIcon);
-        encrypt.addActionListener(actionListenerMenu);
-        run.add(decrypt);
-        run.add(encrypt);
+        decryptMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F11, InputEvent.CTRL_MASK));
+        decryptMenuItem.setIcon(startIcon);
+        decryptMenuItem.addActionListener(actionListenerMenu);
+        encryptMenuItem.setAccelerator(KeyStroke.getKeyStroke("F11"));
+        encryptMenuItem.setIcon(startIcon);
+        encryptMenuItem.addActionListener(actionListenerMenu);
+        runMenu.add(decryptMenuItem);
+        runMenu.add(encryptMenuItem);
 
-        mainFrame.setJMenuBar(menu);
-        menu.add(file);
-        menu.add(run);
+        mainFrame.setJMenuBar(menuBar);
+        menuBar.add(fileMenu);
+        menuBar.add(runMenu);
 
         mainPanel.setLayout(new GridBagLayout());
 
         // Text Panel konfigurieren
-        textDecryptedLabel.setFont(new Font("Courier", Font.PLAIN, 20));
+        textDecryptedLabel.setFont(font);
         textDecryptedLabel.setText("Verschlüsselter Text ");
-        textDecrypted.setLineWrap(true);
-        textDecrypted.setWrapStyleWord(true);
-        textDecrypted.setFont(new Font("Courier", Font.PLAIN, 17));
-        textDecryptedScrollPane.setViewportView(textDecrypted);
-        textEncryptedLabel.setFont(new Font("Courier", Font.PLAIN, 20));
+        textDecryptedTextArea.setLineWrap(true);
+        textDecryptedTextArea.setWrapStyleWord(true);
+        textDecryptedTextArea.setFont(font);
+        textDecryptedScrollPane.setViewportView(textDecryptedTextArea);
+        textEncryptedLabel.setFont(font);
         textEncryptedLabel.setText("Entschlüsselter Text ");
-        textEncrypted.setLineWrap(true);
-        textEncrypted.setWrapStyleWord(true);
-        textEncrypted.setFont(new Font("Courier", Font.PLAIN, 17));
-        textEncryptedScrollPane.setViewportView(textEncrypted);
+        textEncryptedTextArea.setLineWrap(true);
+        textEncryptedTextArea.setWrapStyleWord(true);
+        textEncryptedTextArea.setFont(font);
+        textEncryptedScrollPane.setViewportView(textEncryptedTextArea);
 
         addGB(textDecryptedLabel, mainPanel, 1, 1, GridBagConstraints.NONE, 0.0, 0.0, GridBagConstraints.FIRST_LINE_START, new Insets(0, 10, 6, 5), 0, 0);
         addGB(textDecryptedScrollPane, mainPanel, GridBagConstraints.REMAINDER, 1, GridBagConstraints.BOTH, 1.0, 1.0, GridBagConstraints.CENTER, new Insets(0, 0, 6, 10), 0, 0);
@@ -211,5 +195,38 @@ public class UI extends Thread {
         constraints.ipadx = ipadx;
         constraints.ipady = ipady;
         panel.add(component, constraints);
+    }
+
+    public void setConsoleMenuTitle(String name) {
+        consoleMenuItem.setName(name);
+    }
+
+    public void setButtonsEnabled(boolean enabled) {
+        this.decryptMenuItem.setEnabled(enabled);
+        this.encryptMenuItem.setEnabled(enabled);
+    }
+
+    public String getTextEncryptedTextArea() {
+        return textEncryptedTextArea.getText();
+    }
+
+    public void setTextEncryptedTextArea(String text) {
+        textEncryptedTextArea.setText(textEncryptedTextArea.getText() + text + " ");
+    }
+
+    public String getTextDecryptedTextArea() {
+        return textDecryptedTextArea.getText();
+    }
+
+    public void setTextDecryptedTextArea(String text) {
+        textDecryptedTextArea.setText(textDecryptedTextArea.getText() + text + " ");
+    }
+
+    public void clearTextDecryptedTextArea() {
+        textDecryptedTextArea.setText("");
+    }
+
+    public void clearTextEncryptedTextArea() {
+        textEncryptedTextArea.setText("");
     }
 }

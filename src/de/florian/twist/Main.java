@@ -9,9 +9,9 @@ import java.util.Map;
 
 public class Main {
     public static HashSet<String> wordList = new HashSet<>();
-    public static HashMap<Integer, String> text = new HashMap<Integer, String>();
+    public static HashMap<Integer, String> inputWords = new HashMap<Integer, String>();
     public static Console console = new Console();
-    private static UI ui = new UI();
+    public static UI ui = new UI();
 
     public static void main(String[] args) {
         wordList = readWordListFile(Thread.currentThread().getContextClassLoader().getResource("wordlist/Deutsch.txt").getPath());
@@ -23,31 +23,31 @@ public class Main {
                 }
                 // Übergebene Argumente aus Array in HashMap übertragen
                 for (int i = isValueInArray(args, "-d") + 1; i < args.length; i++) {
-                    text.put(i, args[i].toLowerCase());
+                    inputWords.put(i, args[i].toLowerCase());
                 }
 
                 // Alle Wörter entschlüsseln
-                text.entrySet().parallelStream().forEach(entry -> {
-                    text.put(entry.getKey(), new DecryptWort(entry.getValue()).getWort());
+                inputWords.entrySet().parallelStream().forEach(entry -> {
+                    inputWords.put(entry.getKey(), new DecryptWort(entry.getValue()).getGeneratedWord());
                 });
 
                 // Ausgabe der Wörter
-                for (Map.Entry<Integer, String> entry : text.entrySet()) {
+                for (Map.Entry<Integer, String> entry : inputWords.entrySet()) {
                     System.out.print(entry.getValue() + " ");
                 }
             } else if (isValueInArray(args, "-e") >= 0) {
                 // Übergebene Argumente aus Array in HashMap übertragen
                 for (int i = isValueInArray(args, "-e") + 1; i < args.length; i++) {
-                    text.put(i, args[i].toLowerCase());
+                    inputWords.put(i, args[i].toLowerCase());
                 }
 
                 // Alle Wörter entschlüsseln
-                text.entrySet().parallelStream().forEach(entry -> {
-                    text.put(entry.getKey(), new EncryptWort(entry.getValue()).getWortNeu());
+                inputWords.entrySet().parallelStream().forEach(entry -> {
+                    inputWords.put(entry.getKey(), new EncryptWort(entry.getValue()).getGeneratedWord());
                 });
 
                 // Ausgabe der Wörter
-                for (Map.Entry<Integer, String> entry : text.entrySet()) {
+                for (Map.Entry<Integer, String> entry : inputWords.entrySet()) {
                     System.out.print(entry.getValue() + " ");
                 }
             } else if (isValueInArray(args, "-g") >= 0) {

@@ -5,58 +5,56 @@ import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 public class DecryptEncryptStart extends Thread {
-    String action;
+    private String action;
 
-    public DecryptEncryptStart(String s) {
-        action = s;
+    public DecryptEncryptStart(String action) {
+        this.action = action;
     }
 
     public void run() {
         if (action.equals("decrypt")) {
-            UI.decrypt.setEnabled(false);
-            UI.encrypt.setEnabled(false);
+            Main.ui.setButtonsEnabled(false);
             Main.console.setText("[ " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")) + " ] Entschlüsseln gestartet");
             // Wörter aus Textfeld in Hasmap übertragen
             int i = 0;
-            for (String entry : UI.textDecrypted.getText().split("\\s+")) {
-                Main.text.put(i, entry);
+            for (String entry : Main.ui.getTextDecryptedTextArea().split("\\s+")) {
+                Main.inputWords.put(i, entry);
                 i = i + 1;
             }
 
             // Wörter entschlüsseln
-            Main.text.entrySet().parallelStream().forEach(entry -> {
-                Main.text.put(entry.getKey(), new DecryptWort(entry.getValue()).getWort());
+            Main.inputWords.entrySet().parallelStream().forEach(entry -> {
+                Main.inputWords.put(entry.getKey(), new DecryptWort(entry.getValue()).getGeneratedWord());
             });
 
             // Ausgabe der Wörter
-            UI.textEncrypted.setText("");
-            for (Map.Entry<Integer, String> entry : Main.text.entrySet()) {
-                UI.setEncryptText(entry.getValue());
+            Main.ui.clearTextEncryptedTextArea();
+            for (Map.Entry<Integer, String> entry : Main.inputWords.entrySet()) {
+                Main.ui.setTextEncryptedTextArea(entry.getValue());
             }
-            Main.text.clear();
+            Main.inputWords.clear();
             Main.console.setText("[ " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")) + " ] Entschlüsseln beendet");
-            UI.decrypt.setEnabled(true);
-            UI.encrypt.setEnabled(true);
+            Main.ui.setButtonsEnabled(true);
         } else if (action.equals("encrypt")) {
             Main.console.setText("[ " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")) + " ] Verschlüsseln gestartet");
             // Wörter aus Textfeld in Hasmap übertragen
             int i = 0;
-            for (String entry : UI.textEncrypted.getText().split("\\s+")) {
-                Main.text.put(i, entry);
+            for (String entry : Main.ui.getTextEncryptedTextArea().split("\\s+")) {
+                Main.inputWords.put(i, entry);
                 i = i + 1;
             }
 
             // Wörter verschlüsseln
-            Main.text.entrySet().parallelStream().forEach(entry -> {
-                Main.text.put(entry.getKey(), new EncryptWort(entry.getValue()).getWortNeu());
+            Main.inputWords.entrySet().parallelStream().forEach(entry -> {
+                Main.inputWords.put(entry.getKey(), new EncryptWort(entry.getValue()).getGeneratedWord());
             });
 
             // Ausgabe der Wörter
-            UI.textDecrypted.setText("");
-            for (Map.Entry<Integer, String> entry : Main.text.entrySet()) {
-                UI.setDecryptText(entry.getValue());
+            Main.ui.clearTextDecryptedTextArea();
+            for (Map.Entry<Integer, String> entry : Main.inputWords.entrySet()) {
+                Main.ui.setTextDecryptedTextArea(entry.getValue());
             }
-            Main.text.clear();
+            Main.inputWords.clear();
             Main.console.setText("[ " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")) + " ] Verschlüsseln beendet");
         }
     }
