@@ -20,10 +20,10 @@ public class Main {
 	/**
 	 * Liest eine Datei Zeile für Zeile ein und speichert alle Werte in einem
 	 * HashSet
-	 * 
+	 *
 	 * @param file Datei, die eingelesen werden soll
 	 * @return HashSet, dass alle Strings der Datei enthält
-	 * 
+	 *
 	 */
 	public static HashSet<String> readWordListFile(String file) {
 		HashSet<String> list = new HashSet<>();

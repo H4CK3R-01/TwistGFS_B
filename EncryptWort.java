@@ -19,7 +19,7 @@ public class EncryptWort {
 	/**
 	 * Methode zum verändern von Strings. Je nach Länge des Wortes werden
 	 * unterschiedlich viele Buchstaben getauscht
-	 * 
+	 *
 	 * @param wort             String, bei dem zwei Buchstaben getaucht werden
 	 *                         sollen
 	 * @param ersterBuchstabe  erster Buchstabe des ursprünglichen Wortes
@@ -31,7 +31,7 @@ public class EncryptWort {
 		{
 			wort = swapCharactersOfString(wort.toCharArray());
 		}
-		
+
 		if (!(ersterBuchstabe + wort + letzterBuchstabe).equals(urspruenglichesWort)) // Wenn das neue Wort gleich wie das Ursprüngliche Wort ist, wird die Methode 'buchstabenTauschen()' nocheinmal aufgerufen
 		{
 			return ersterBuchstabe + wort + letzterBuchstabe; // Neu generiertes Wort wird inklusive erstem und letzem Buchstabn zurückgegeben
@@ -44,7 +44,7 @@ public class EncryptWort {
 
 	/**
 	 * Tauscht zwei Zeichen eines Strings
-	 * 
+	 *
 	 * @param wort String, bei dem Buchstaben getaucht werden sollen
 	 * @return String, der verändert wurde
 	 */
@@ -61,7 +61,7 @@ public class EncryptWort {
 
 	/**
 	 * Methode zum auslesen des Neu-generierten Wortes
-	 * 
+	 *
 	 * @return Neu generiertes Wort
 	 */
 	public String getWortNeu() {
