@@ -3,24 +3,33 @@ package de.florian.twist;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 public class Main {
-    public static HashSet<String> wordList = new HashSet<>();
+    public static HashSet<String> wordListHashSet;
+    public static ArrayList<String> wordListArrayList;
     public static HashMap<Integer, String> inputWords = new HashMap<Integer, String>();
+    public static ResourceBundle language = ResourceBundle.getBundle("lang/language");
     public static Console console = new Console();
     public static UI ui = new UI();
 
+
     public static void main(String[] args) {
-        wordList = readWordListFile(Thread.currentThread().getContextClassLoader().getResource("wordlist/Deutsch.txt").getPath());
+        wordListHashSet = new HashSet<>(readWordListFile(Thread.currentThread().getContextClassLoader().getResource("wordlist/Deutsch.txt").getPath()));
+        wordListArrayList = null;
 
         if (args.length != 0) {
-            if (isValueInArray(args, "-d") >= 0) {
+            if (isValueInArray(args, "-d") >= 0) { // Wörter entschlüsseln
                 if (isValueInArray(args, "-w") >= 0) {
-                    wordList = readWordListFile(args[isValueInArray(args, "-w") + 1]);
+                    wordListHashSet.clear();
+                    wordListHashSet = readWordListFile(args[isValueInArray(args, "-w") + 1]);
                 }
+
+                if (isValueInArray(args, "-a") >= 0) {
+                    wordListArrayList = new ArrayList<>(wordListHashSet);
+                    wordListHashSet = null;
+                }
+
                 // Übergebene Argumente aus Array in HashMap übertragen
                 for (int i = isValueInArray(args, "-d") + 1; i < args.length; i++) {
                     inputWords.put(i, args[i].toLowerCase());
@@ -35,7 +44,7 @@ public class Main {
                 for (Map.Entry<Integer, String> entry : inputWords.entrySet()) {
                     System.out.print(entry.getValue() + " ");
                 }
-            } else if (isValueInArray(args, "-e") >= 0) {
+            } else if (isValueInArray(args, "-e") >= 0) { // Wörter verschlüsseln
                 // Übergebene Argumente aus Array in HashMap übertragen
                 for (int i = isValueInArray(args, "-e") + 1; i < args.length; i++) {
                     inputWords.put(i, args[i].toLowerCase());
@@ -105,16 +114,6 @@ public class Main {
      * Zeigt die möglichen Ausführ-Parameter an
      */
     private static void help() {
-        System.out.println("Optionen:");
-        System.out.println(" -d [Wörter]    Wörter entschlüsseln");
-        System.out.println(" -e [Wörter]    Wörter verschlüsseln");
-        System.out.println(" -w [Wortliste] Wortliste ändern (Hinweis: Muss zwangsläufig ganz am Anfang");
-        System.out.println("                stehen und kann nur in Verbindung mit '-d' verwendet werden!)");
-        System.out.println(" -g             Grafische Oberfläche starten");
-        System.out.println();
-        System.out.println("Beispiel:");
-        System.out.println(" '-d Hlalo Wlet'                       Wort wird mit der Standard-Wortliste entschlüsselt");
-        System.out.println(" '-w \"C:\\woerter.txt\" -d Hlalo Wlet'   andere Wortliste wird verwendet um das Wort zu entschlüsseln");
-        System.out.println(" '-e Hallo Welt'                       Wort wird verschlüsselt");
+        System.out.println(language.getString("help"));
     }
 }

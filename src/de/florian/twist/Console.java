@@ -18,13 +18,13 @@ public class Console extends Thread {
         consoleTextArea.setEditable(false);
         consoleFrame.add(new JScrollPane(consoleTextArea));
 
-        consoleFrame.setTitle("Twist: Konsole");
+        consoleFrame.setTitle(Main.language.getString("consoleFrame"));
         consoleFrame.setMinimumSize(new Dimension(600, 400));
         consoleFrame.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("img/Twist.png")).getImage());
         consoleFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         consoleFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent evt) {
-                Main.ui.setConsoleMenuTitle("Konsole öffnen");
+                Main.ui.setConsoleMenuTitle(Main.language.getString("consoleMenuItem1"));
                 consoleFrame.setVisible(false);
             }
         });

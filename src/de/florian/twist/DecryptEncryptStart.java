@@ -14,7 +14,7 @@ public class DecryptEncryptStart extends Thread {
     public void run() {
         if (action.equals("decrypt")) {
             Main.ui.setButtonsEnabled(false);
-            Main.console.setText("[ " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")) + " ] Entschlüsseln gestartet");
+            Main.console.setText("[ " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")) + " ] " + Main.language.getString("decryptStart"));
             // Wörter aus Textfeld in Hasmap übertragen
             int i = 0;
             for (String entry : Main.ui.getTextDecryptedTextArea().split("\\s+")) {
@@ -33,10 +33,10 @@ public class DecryptEncryptStart extends Thread {
                 Main.ui.setTextEncryptedTextArea(entry.getValue());
             }
             Main.inputWords.clear();
-            Main.console.setText("[ " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")) + " ] Entschlüsseln beendet");
+            Main.console.setText("[ " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")) + " ] " + Main.language.getString("decryptStop"));
             Main.ui.setButtonsEnabled(true);
         } else if (action.equals("encrypt")) {
-            Main.console.setText("[ " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")) + " ] Verschlüsseln gestartet");
+            Main.console.setText("[ " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")) + " ] " + Main.language.getString("encryptStart"));
             // Wörter aus Textfeld in Hasmap übertragen
             int i = 0;
             for (String entry : Main.ui.getTextEncryptedTextArea().split("\\s+")) {
@@ -55,7 +55,7 @@ public class DecryptEncryptStart extends Thread {
                 Main.ui.setTextDecryptedTextArea(entry.getValue());
             }
             Main.inputWords.clear();
-            Main.console.setText("[ " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")) + " ] Verschlüsseln beendet");
+            Main.console.setText("[ " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")) + " ] " + Main.language.getString("encryptStop"));
         }
     }
 }

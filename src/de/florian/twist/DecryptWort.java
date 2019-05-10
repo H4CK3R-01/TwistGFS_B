@@ -38,8 +38,14 @@ public class DecryptWort {
     private void permute(String a, String b, String firstChar, String lastChar) {
         int n = b.length();
         if (n == 0) {
-            if (Main.wordList.contains(firstChar + a + lastChar)) { // prüfen ob Wort in Wortliste steht
-                generatedWord = firstChar + a + lastChar; // Rekursive Methode abrechen
+            if (Main.wordListHashSet != null) {
+                if (Main.wordListHashSet.contains(firstChar + a + lastChar)) { // prüfen ob Wort in Wortliste steht
+                    generatedWord = firstChar + a + lastChar; // Rekursive Methode abrechen
+                }
+            } else {
+                if (Main.wordListArrayList.contains(firstChar + a + lastChar)) { // prüfen ob Wort in Wortliste steht
+                    generatedWord = firstChar + a + lastChar; // Rekursive Methode abrechen
+                }
             }
         } else {
             for (int i = 0; i < n; i++) {

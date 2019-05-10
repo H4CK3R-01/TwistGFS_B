@@ -9,13 +9,27 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 public class UI extends Thread {
     private JFrame mainFrame;
     private JPanel mainPanel;
     private JMenuBar menuBar;
     private JMenu fileMenu, switchWordListMenu, runMenu;
-    private JMenuItem consoleMenuItem, exitMenuItem, decryptMenuItem, encryptMenuItem;
+    ActionListener actionListenerWordlists = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            for (int i = 0; i < wordListsRadioButtons.length; i++) {
+                if (e.getSource() == wordListsRadioButtons[i]) {
+                    Main.console.setText("[ " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")) + " ] " + Main.language.getString("switchWordlist") + wordListsRadioButtons[i].getText());
+                    Main.wordListHashSet = Main.readWordListFile(getClass().getClassLoader().getResource("wordlist/").getFile() + wordListsRadioButtons[i].getText());
+                    System.out.println(Main.wordListHashSet.size());
+                }
+            }
+        }
+    };
+    private JMenuItem consoleMenuItem, exitMenuItem, decryptMenuItem, encryptMenuItem, arrayListJMenuItem;
+    private JRadioButtonMenuItem[] wordListsRadioButtons;
     ActionListener actionListenerMenu = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == exitMenuItem) {
@@ -23,30 +37,31 @@ public class UI extends Thread {
             } else if (e.getSource() == consoleMenuItem) {
                 if (Main.console.isVisible()) {
                     Main.console.setVisible(false);
-                    consoleMenuItem.setText("Konsole öffnen");
+                    consoleMenuItem.setText(Main.language.getString("consoleMenuItem1"));
                 } else {
                     Main.console.setVisible(true);
-                    consoleMenuItem.setText("Konsole schließen");
+                    consoleMenuItem.setText(Main.language.getString("consoleMenuItem2"));
+                }
+            } else if (e.getSource() == arrayListJMenuItem) {
+                if (arrayListJMenuItem.getText().equals(Main.language.getString("arrayListMenuItem1"))) {
+                    Main.wordListArrayList = new ArrayList<>(Main.wordListHashSet);
+                    Main.wordListHashSet = null;
+                    arrayListJMenuItem.setText(Main.language.getString("arrayListMenuItem2"));
+                    Main.console.setText("[ " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")) + " ] " + Main.language.getString("useArrayList"));
+                } else {
+                    Main.wordListHashSet = new HashSet<>(Main.wordListArrayList);
+                    Main.wordListArrayList = null;
+                    arrayListJMenuItem.setText(Main.language.getString("arrayListMenuItem1"));
+                    Main.console.setText("[ " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")) + " ] " + Main.language.getString("useHashSet"));
                 }
             } else if (e.getSource() == decryptMenuItem) {
-                new DecryptEncryptStart("decryptMenuItem").start();
+                new DecryptEncryptStart("decrypt").start();
             } else if (e.getSource() == encryptMenuItem) {
-                new DecryptEncryptStart("encryptMenuItem").start();
+                new DecryptEncryptStart("encrypt").start();
             }
         }
     };
-    private JRadioButtonMenuItem[] wordListsRadioButtons;
-    ActionListener actionListenerWordlists = new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-            for (int i = 0; i < wordListsRadioButtons.length; i++) {
-                if (e.getSource() == wordListsRadioButtons[i]) {
-                    Main.console.setText("[ " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")) + " ] Wortliste geändert. Neue Wortliste: " + wordListsRadioButtons[i].getText());
-                    Main.wordList = Main.readWordListFile(getClass().getClassLoader().getResource("wordlist/").getFile() + wordListsRadioButtons[i].getText());
-                    System.out.println(Main.wordList.size());
-                }
-            }
-        }
-    };
+
     private JLabel textDecryptedLabel, textEncryptedLabel;
     private JScrollPane textDecryptedScrollPane, textEncryptedScrollPane;
     private JTextArea textDecryptedTextArea, textEncryptedTextArea;
@@ -64,7 +79,7 @@ public class UI extends Thread {
     @SuppressWarnings("deprecation")
     public void run() {
         // Main Frame
-        mainFrame = new JFrame("Twist");
+        mainFrame = new JFrame(Main.language.getString("mainFrame"));
 
         // Panel
         mainPanel = new JPanel();
@@ -72,14 +87,15 @@ public class UI extends Thread {
         // MenuBar
         menuBar = new JMenuBar();
 
-        fileMenu = new JMenu("Datei");
-        switchWordListMenu = new JMenu("Wortliste ändern");
-        consoleMenuItem = new JMenuItem("Konsole öffnen");
-        exitMenuItem = new JMenuItem("Beenden");
+        fileMenu = new JMenu(Main.language.getString("fileMenu"));
+        switchWordListMenu = new JMenu(Main.language.getString("switchWordListMenu"));
+        consoleMenuItem = new JMenuItem(Main.language.getString("consoleMenuItem1"));
+        arrayListJMenuItem = new JMenuItem(Main.language.getString("arrayListMenuItem1"));
+        exitMenuItem = new JMenuItem(Main.language.getString("exitMenuItem"));
 
-        runMenu = new JMenu("Starten");
-        decryptMenuItem = new JMenuItem("Entschlüsseln");
-        encryptMenuItem = new JMenuItem("Verschlüsseln");
+        runMenu = new JMenu(Main.language.getString("runMenu"));
+        decryptMenuItem = new JMenuItem(Main.language.getString("decryptMenuItem"));
+        encryptMenuItem = new JMenuItem(Main.language.getString("encryptMenuItem"));
 
         settingsIcon = new ImageIcon(getClass().getClassLoader().getResource("img/icon_settings.png"));
         exitIcon = new ImageIcon(getClass().getClassLoader().getResource("img/icon_exit.png"));
@@ -121,9 +137,12 @@ public class UI extends Thread {
         consoleMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.ALT_MASK));
         consoleMenuItem.setIcon(consoleIcon);
         consoleMenuItem.addActionListener(actionListenerMenu);
+        arrayListJMenuItem.setIcon(exitIcon);
+        arrayListJMenuItem.addActionListener(actionListenerMenu);
 
         fileMenu.add(switchWordListMenu);
         fileMenu.add(consoleMenuItem);
+        fileMenu.add(arrayListJMenuItem);
         fileMenu.addSeparator();
         fileMenu.add(exitMenuItem);
 
@@ -144,13 +163,13 @@ public class UI extends Thread {
 
         // Text Panel konfigurieren
         textDecryptedLabel.setFont(font);
-        textDecryptedLabel.setText("Verschlüsselter Text ");
+        textDecryptedLabel.setText(Main.language.getString("textDecryptedLabel"));
         textDecryptedTextArea.setLineWrap(true);
         textDecryptedTextArea.setWrapStyleWord(true);
         textDecryptedTextArea.setFont(font);
         textDecryptedScrollPane.setViewportView(textDecryptedTextArea);
         textEncryptedLabel.setFont(font);
-        textEncryptedLabel.setText("Entschlüsselter Text ");
+        textEncryptedLabel.setText(Main.language.getString("textEncryptedLabel"));
         textEncryptedTextArea.setLineWrap(true);
         textEncryptedTextArea.setWrapStyleWord(true);
         textEncryptedTextArea.setFont(font);
@@ -171,7 +190,7 @@ public class UI extends Thread {
         mainFrame.setLocationRelativeTo(null); // Position des Fensters wird festgelegt (Mitte)
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("img/Twist.png")).getImage()); // Icon des Fensters festlegen
-        mainFrame.getContentPane().add(mainPanel, BorderLayout.CENTER); // Tabpane zum Fenster hinzuf�gen
+        mainFrame.getContentPane().add(mainPanel, BorderLayout.CENTER); // Tabpane zum Fenster hinzufügen
         mainFrame.setVisible(true); // Fenster ist sichtbar
     }
 
@@ -198,7 +217,7 @@ public class UI extends Thread {
     }
 
     public void setConsoleMenuTitle(String name) {
-        consoleMenuItem.setName(name);
+        consoleMenuItem.setText(name);
     }
 
     public void setButtonsEnabled(boolean enabled) {
