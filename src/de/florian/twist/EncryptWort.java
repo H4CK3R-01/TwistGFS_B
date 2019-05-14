@@ -1,13 +1,16 @@
 package de.florian.twist;
 
 public class EncryptWort {
-    private String word;
+    private String originalWord;
+    private String generatedWord;
 
     public EncryptWort(String s) {
-        word = s.replaceAll("[^A-Za-zßäöüáãâàéẽêèëíĩîìóõôòúũûùÄÖÜÃÂÀÉẼÊÈËĨÎÌÓÕÔÒÚŨÛÙæ]", "").toLowerCase();
+        s = s.replaceAll("[^A-Za-zßäöüáãâàéẽêèëíĩîìóõôòúũûùÄÖÜÃÂÀÉẼÊÈËĨÎÌÓÕÔÒÚŨÛÙæ]", "").toLowerCase();
 
-        if (word.length() > 3) {
-            word = modifyString(word.substring(1, word.length() - 1), word.substring(0, 1), word.substring(word.length() - 1), word);
+        originalWord = s;
+
+        if (s.length() > 3) {
+            generatedWord = modifyString(s.substring(1, s.length() - 1), s.substring(0, 1), s.substring(s.length() - 1), s);
         }
     }
 
@@ -52,12 +55,11 @@ public class EncryptWort {
         }
     }
 
-    /**
-     * Methode zum auslesen des Neu-generierten Wortes
-     *
-     * @return Neu generiertes Wort
-     */
     public String getGeneratedWord() {
-        return word;
+        return generatedWord;
+    }
+
+    public String getGOriginalWord() {
+        return originalWord;
     }
 }

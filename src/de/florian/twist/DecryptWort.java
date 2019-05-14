@@ -4,8 +4,15 @@ import java.util.Arrays;
 
 public class DecryptWort {
     private String generatedWord;
+    private String originalWord; // Nur für Tests notwendig, ansonsten einfach ""
+    private long laufzeit;
+
 
     public DecryptWort(String word) {
+        long time = System.currentTimeMillis();
+
+        this.originalWord = word;
+
         // Sonderzeichen entfernen
         word = word.replaceAll("[^A-Za-zßäöüáãâàéẽêèëíĩîìóõôòúũûùÄÖÜÃÂÀÉẼÊÈËĨÎÌÓÕÔÒÚŨÛÙæ]", "");
         word = word.toLowerCase();
@@ -22,6 +29,7 @@ public class DecryptWort {
 
             // Permutation starten
             permute("", word, firstChar, lastChar);
+            laufzeit = System.currentTimeMillis() - time;
         }
     }
 
@@ -41,10 +49,12 @@ public class DecryptWort {
             if (Main.wordListHashSet != null) {
                 if (Main.wordListHashSet.contains(firstChar + a + lastChar)) { // prüfen ob Wort in Wortliste steht
                     generatedWord = firstChar + a + lastChar; // Rekursive Methode abrechen
+                    return;
                 }
             } else {
                 if (Main.wordListArrayList.contains(firstChar + a + lastChar)) { // prüfen ob Wort in Wortliste steht
                     generatedWord = firstChar + a + lastChar; // Rekursive Methode abrechen
+                    return;
                 }
             }
         } else {
@@ -57,12 +67,15 @@ public class DecryptWort {
         }
     }
 
-    /**
-     * Methode zum auslesen des generierten Wortes
-     *
-     * @return String mit dem Wort
-     */
     public String getGeneratedWord() {
         return generatedWord;
+    }
+
+    public String getOriginalWord() {
+        return originalWord;
+    }
+
+    public long getLaufzeit() {
+        return laufzeit;
     }
 }

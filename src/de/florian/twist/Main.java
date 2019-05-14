@@ -13,6 +13,16 @@ public class Main {
     public static Console console = new Console();
     public static UI ui = new UI();
 
+    // Test
+    private static HashMap<String, DecryptWort> wordsDecrypt = new HashMap<>();
+    private static HashMap<String, String> wordsEncrypt = new HashMap<>();
+    private static HashSet<String> selectedWords = new HashSet<>();
+
+    private static int index = 0;
+    private static int richtig = 0;
+    private static int falsch = 0;
+    private static int anzahlWoerter = 10;
+
 
     public static void main(String[] args) {
         wordListHashSet = new HashSet<>(readWordListFile(Thread.currentThread().getContextClassLoader().getResource("wordlist/Deutsch.txt").getPath()));
@@ -62,6 +72,13 @@ public class Main {
             } else if (isValueInArray(args, "-g") >= 0) {
                 ui.start();
                 console.start();
+            } else if (isValueInArray(args, "-t") >= 0) {
+                try {
+                    anzahlWoerter = Integer.parseInt(args[isValueInArray(args, "-t") + 1]);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+                test();
             } else {
                 help();
             }
@@ -115,5 +132,81 @@ public class Main {
      */
     private static void help() {
         System.out.println(language.getString("help"));
+    }
+
+    private static String stringBuilder(String s, int breite) {
+        while (s.length() <= breite) s = s + " ";
+        return s;
+    }
+
+    /**
+     * Tests
+     */
+    private static void test() {
+        selectWoerter();
+        encryptWoerter();
+
+        // HashSet
+        decryptWoerter();
+        System.err.println("HashSet");
+        ueberpruefeWoerter();
+
+
+        wordListArrayList = new ArrayList<>(wordListHashSet);
+        wordListHashSet = null;
+        wordsDecrypt.clear();
+        index = 0;
+        richtig = 0;
+        falsch = 0;
+
+        // ArrayList
+        decryptWoerter();
+        System.err.println("ArrayList");
+        ueberpruefeWoerter();
+    }
+
+    private static void selectWoerter() {
+        while (selectedWords.size() < anzahlWoerter) {
+            int zufall = (int) (Math.random() * wordListHashSet.size());
+            Iterator<String> iterator = wordListHashSet.iterator();
+            while (iterator.hasNext() && (zufall > 1)) {
+                iterator.next();
+                zufall = zufall - 1;
+            }
+            String wort = iterator.next();
+            if (wort.length() < 10) {
+                selectedWords.add(wort);
+            }
+        }
+    }
+
+    private static void encryptWoerter() {
+        Iterator<String> iterator = selectedWords.iterator();
+        while (iterator.hasNext()) {
+            String wort = iterator.next();
+            wordsEncrypt.put(wort.toLowerCase(), new EncryptWort(wort).getGeneratedWord());
+        }
+    }
+
+    private static void decryptWoerter() {
+        wordsEncrypt.entrySet().parallelStream().forEach(entry -> {
+            wordsDecrypt.put(entry.getKey(), new DecryptWort(entry.getValue()));
+        });
+    }
+
+    private static void ueberpruefeWoerter() {
+        System.out.println("Verschlüsseltes Wort | Entschlüsseltes Wort | Richtiges Wort | Dauer in ms");
+        System.out.println("--------------------------------------------------------------------------");
+        for (Map.Entry<String, DecryptWort> entry : wordsDecrypt.entrySet()) {
+            index = index + 1;
+            if (entry.getKey().equals(entry.getValue().getGeneratedWord())) {
+                System.out.println(stringBuilder(entry.getValue().getOriginalWord(), 19) + " | " + stringBuilder(entry.getKey(), 19) + " | " + stringBuilder(entry.getValue().getGeneratedWord(), 13) + " | " + entry.getValue().getLaufzeit());
+                richtig = richtig + 1;
+            } else {
+                //System.err.println(entry.getKey() + stringBuilder(entry.getValue().getGeneratedWord()));
+                falsch = falsch + 1;
+            }
+        }
+        System.err.println("Von " + index + " Wörtern wurden " + richtig + " Richtig und " + falsch + " falsch erkannt.\n\n");
     }
 }
