@@ -10,6 +10,7 @@ public class Main {
     public static ArrayList<String> wordListArrayList;
     public static HashMap<Integer, String> inputWords = new HashMap<Integer, String>();
     public static ResourceBundle language = ResourceBundle.getBundle("lang/language");
+    public static boolean permute;
     public static Console console = new Console();
     public static UI ui = new UI();
 
@@ -76,9 +77,14 @@ public class Main {
                 try {
                     anzahlWoerter = Integer.parseInt(args[isValueInArray(args, "-t") + 1]);
                 } catch (NumberFormatException e) {
-                    e.printStackTrace();
+                    try {
+                        String wort1 = args[isValueInArray(args, "-t") + 1];
+                        starteTest(wort1);
+                        return;
+                    } catch (Exception ex) {
+                    }
                 }
-                test();
+                starteTest(anzahlWoerter);
             } else {
                 help();
             }
@@ -142,31 +148,76 @@ public class Main {
     /**
      * Tests
      */
-    private static void test() {
-        selectWoerter();
+    private static void starteTest(int anzahlWoerter) {
+        selectWoerter(anzahlWoerter, 15);
         encryptWoerter();
 
-        // HashSet
-        decryptWoerter();
-        System.err.println("HashSet");
-        ueberpruefeWoerter();
+        permute = false;
+        test("\nHashSet ohne Permutationen");
+
+        permute = true;
+        test("\nHashSet mit Permutationen");
 
 
         wordListArrayList = new ArrayList<>(wordListHashSet);
         wordListHashSet = null;
+
+        permute = false;
+        test("\nArrayList ohne Permutationen");
+
+        permute = true;
+        test("\nArrayList mit Permutationen");
+    }
+
+    private static void starteTest(String wort) {
+        wordsEncrypt.put(wort.toLowerCase(), new EncryptWort(wort).getGeneratedWord());
+
+        permute = false;
+        test("\nHashSet ohne Permutationen");
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        permute = true;
+        test("\nHashSet mit Permutationen");
+
+
+        wordListArrayList = new ArrayList<>(wordListHashSet);
+        wordListHashSet = null;
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        permute = false;
+        test("\nArrayList ohne Permutationen");
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        permute = true;
+        test("\nArrayList mit Permutationen");
+    }
+
+
+    private static void test(String s) {
+        decryptWoerter();
+        System.err.println(s);
+        ueberpruefeWoerter();
         wordsDecrypt.clear();
         index = 0;
         richtig = 0;
         falsch = 0;
-
-        // ArrayList
-        decryptWoerter();
-        System.err.println("ArrayList");
-        ueberpruefeWoerter();
     }
 
-    private static void selectWoerter() {
-        while (selectedWords.size() < anzahlWoerter) {
+    private static void selectWoerter(int anzahl) {
+        int laenge = 4;
+        while (selectedWords.size() < anzahl) {
             int zufall = (int) (Math.random() * wordListHashSet.size());
             Iterator<String> iterator = wordListHashSet.iterator();
             while (iterator.hasNext() && (zufall > 1)) {
@@ -174,7 +225,24 @@ public class Main {
                 zufall = zufall - 1;
             }
             String wort = iterator.next();
-            if (wort.length() < 10) {
+            if (wort.length() == laenge) {
+                selectedWords.add(wort);
+                System.out.println(wort);
+                laenge = laenge + 1;
+            }
+        }
+    }
+
+    private static void selectWoerter(int anzahl, int maxLaenge) {
+        while (selectedWords.size() < anzahl) {
+            int zufall = (int) (Math.random() * wordListHashSet.size());
+            Iterator<String> iterator = wordListHashSet.iterator();
+            while (iterator.hasNext() && (zufall > 1)) {
+                iterator.next();
+                zufall = zufall - 1;
+            }
+            String wort = iterator.next();
+            if (wort.length() <= maxLaenge) {
                 selectedWords.add(wort);
             }
         }
@@ -195,15 +263,15 @@ public class Main {
     }
 
     private static void ueberpruefeWoerter() {
-        System.out.println("Verschlüsseltes Wort | Entschlüsseltes Wort | Richtiges Wort | Dauer in ms");
-        System.out.println("--------------------------------------------------------------------------");
+        System.out.println("Verschlüsseltes Wort   |   Entschlüsseltes Wort   |      Richtiges Wort      | Dauer in ms");
+        System.out.println("------------------------------------------------------------------------------------------");
         for (Map.Entry<String, DecryptWort> entry : wordsDecrypt.entrySet()) {
             index = index + 1;
             if (entry.getKey().equals(entry.getValue().getGeneratedWord())) {
-                System.out.println(stringBuilder(entry.getValue().getOriginalWord(), 19) + " | " + stringBuilder(entry.getKey(), 19) + " | " + stringBuilder(entry.getValue().getGeneratedWord(), 13) + " | " + entry.getValue().getLaufzeit());
+                System.out.println(stringBuilder(entry.getValue().getOriginalWord(), 21) + " | " + stringBuilder(entry.getValue().getGeneratedWord(), 23) + " | " + stringBuilder(entry.getKey(), 23) + " | " + entry.getValue().getLaufzeit());
                 richtig = richtig + 1;
             } else {
-                //System.err.println(entry.getKey() + stringBuilder(entry.getValue().getGeneratedWord()));
+                System.err.println(stringBuilder(entry.getValue().getOriginalWord(), 21) + " | " + stringBuilder(entry.getValue().getGeneratedWord(), 23) + " | " + stringBuilder(entry.getKey(), 23) + " | " + entry.getValue().getLaufzeit());
                 falsch = falsch + 1;
             }
         }

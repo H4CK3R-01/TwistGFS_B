@@ -28,7 +28,8 @@ public class UI extends Thread {
             }
         }
     };
-    private JMenuItem consoleMenuItem, exitMenuItem, decryptMenuItem, encryptMenuItem, arrayListJMenuItem;
+    private JMenuItem consoleMenuItem, exitMenuItem, decryptMenuItem, encryptMenuItem;
+    private JCheckBoxMenuItem arrayListJMenuItem, permuteJMenuItem;
     private JRadioButtonMenuItem[] wordListsRadioButtons;
     ActionListener actionListenerMenu = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
@@ -43,17 +44,17 @@ public class UI extends Thread {
                     consoleMenuItem.setText(Main.language.getString("consoleMenuItem2"));
                 }
             } else if (e.getSource() == arrayListJMenuItem) {
-                if (arrayListJMenuItem.getText().equals(Main.language.getString("arrayListMenuItem1"))) {
+                if (arrayListJMenuItem.getState()) {
                     Main.wordListArrayList = new ArrayList<>(Main.wordListHashSet);
                     Main.wordListHashSet = null;
-                    arrayListJMenuItem.setText(Main.language.getString("arrayListMenuItem2"));
                     Main.console.setText("[ " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")) + " ] " + Main.language.getString("useArrayList"));
                 } else {
                     Main.wordListHashSet = new HashSet<>(Main.wordListArrayList);
                     Main.wordListArrayList = null;
-                    arrayListJMenuItem.setText(Main.language.getString("arrayListMenuItem1"));
                     Main.console.setText("[ " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")) + " ] " + Main.language.getString("useHashSet"));
                 }
+            } else if (e.getSource() == permuteJMenuItem) {
+                Main.permute = permuteJMenuItem.getState();
             } else if (e.getSource() == decryptMenuItem) {
                 new DecryptEncryptStart("decrypt").start();
             } else if (e.getSource() == encryptMenuItem) {
@@ -90,7 +91,8 @@ public class UI extends Thread {
         fileMenu = new JMenu(Main.language.getString("fileMenu"));
         switchWordListMenu = new JMenu(Main.language.getString("switchWordListMenu"));
         consoleMenuItem = new JMenuItem(Main.language.getString("consoleMenuItem1"));
-        arrayListJMenuItem = new JMenuItem(Main.language.getString("arrayListMenuItem1"));
+        arrayListJMenuItem = new JCheckBoxMenuItem(Main.language.getString("arrayListMenuItem"));
+        permuteJMenuItem = new JCheckBoxMenuItem(Main.language.getString("permuteMenuItem"));
         exitMenuItem = new JMenuItem(Main.language.getString("exitMenuItem"));
 
         runMenu = new JMenu(Main.language.getString("runMenu"));
@@ -137,12 +139,14 @@ public class UI extends Thread {
         consoleMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.ALT_MASK));
         consoleMenuItem.setIcon(consoleIcon);
         consoleMenuItem.addActionListener(actionListenerMenu);
-        arrayListJMenuItem.setIcon(exitIcon);
+        //arrayListJMenuItem.setIcon(exitIcon);
         arrayListJMenuItem.addActionListener(actionListenerMenu);
+        permuteJMenuItem.addActionListener(actionListenerMenu);
 
         fileMenu.add(switchWordListMenu);
         fileMenu.add(consoleMenuItem);
         fileMenu.add(arrayListJMenuItem);
+        fileMenu.add(permuteJMenuItem);
         fileMenu.addSeparator();
         fileMenu.add(exitMenuItem);
 
