@@ -8,7 +8,7 @@ public class DecryptWort {
     private HashSet<String> wordListHashSet = new HashSet<>();
     private ArrayList<String> wordListArrayList = new ArrayList<>();
     private Iterator it;
-    private long laufzeit;
+    private long runtime;
 
 
     public DecryptWort(String word) {
@@ -40,7 +40,7 @@ public class DecryptWort {
                 }
                 generatedWord = findWordWithChars(word);
             }
-            laufzeit = System.currentTimeMillis() - time;
+            runtime = System.currentTimeMillis() - time;
         }
     }
 
@@ -60,33 +60,31 @@ public class DecryptWort {
     }
 
     /**
-     * Generiert alle möglichen Permutationen
+     * Generates all permutations
      *
-     * @param a         erster Teil des Wortes
-     * @param b         zweiter Teil des Wortes
-     * @param firstChar Erster Buchstabe des Ursprünglichen Wortes (Um zu prüfen ob
-     *                  Das gesamte Wort in der Wortliste steht)
-     * @param lastChar  Letzter Buchstabe des Ursprünglichen Wortes (Um zu prüfen ob
-     *                  Das gesamte Wort in der Wortliste steht)
+     * @param a         part of the word
+     * @param b         part of the word
+     * @param firstChar first char of word to check if wordlist contains the full word
+     * @param lastChar  last char of word to check if wordlist contains the full word
      */
     private void permute(String a, String b, String firstChar, String lastChar) {
         int n = b.length();
         if (n == 0) {
             if (Main.wordListHashSet != null) {
-                if (Main.wordListHashSet.contains(firstChar + a + lastChar)) { // prüfen ob Wort in Wortliste steht
-                    generatedWord = firstChar + a + lastChar; // Rekursive Methode abrechen
+                if (Main.wordListHashSet.contains(firstChar + a + lastChar)) {
+                    generatedWord = firstChar + a + lastChar;
                     return;
                 }
             } else {
-                if (Main.wordListArrayList.contains(firstChar + a + lastChar)) { // prüfen ob Wort in Wortliste steht
-                    generatedWord = firstChar + a + lastChar; // Rekursive Methode abrechen
+                if (Main.wordListArrayList.contains(firstChar + a + lastChar)) {
+                    generatedWord = firstChar + a + lastChar;
                     return;
                 }
             }
         } else {
             for (int i = 0; i < n; i++) {
                 if (i > 0 && b.charAt(i) == b.charAt(i - 1)) {
-                    continue; // Wenn ein Buchstabe doppelt vorkommt wird die Kombination nur einmal berechnet
+                    continue;
                 }
                 permute(a + b.charAt(i), b.substring(0, i) + b.substring(i + 1, n), firstChar, lastChar);
             }
@@ -148,7 +146,7 @@ public class DecryptWort {
         return originalWord;
     }
 
-    public long getLaufzeit() {
-        return laufzeit;
+    public long getRuntime() {
+        return runtime;
     }
 }

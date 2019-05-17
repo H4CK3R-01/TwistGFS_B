@@ -17,52 +17,9 @@ public class UI extends Thread {
     private JPanel mainPanel;
     private JMenuBar menuBar;
     private JMenu fileMenu, switchWordListMenu, runMenu;
-    ActionListener actionListenerWordlists = new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-            for (int i = 0; i < wordListsRadioButtons.length; i++) {
-                if (e.getSource() == wordListsRadioButtons[i]) {
-                    Main.console.setText("[ " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")) + " ] " + Main.language.getString("switchWordlist") + wordListsRadioButtons[i].getText());
-                    Main.wordListHashSet = Main.readWordListFile(getClass().getClassLoader().getResource("wordlist/").getFile() + wordListsRadioButtons[i].getText());
-                    System.out.println(Main.wordListHashSet.size());
-                }
-            }
-        }
-    };
     private JMenuItem consoleMenuItem, exitMenuItem, decryptMenuItem, encryptMenuItem;
     private JCheckBoxMenuItem arrayListJMenuItem, permuteJMenuItem;
     private JRadioButtonMenuItem[] wordListsRadioButtons;
-    ActionListener actionListenerMenu = new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == exitMenuItem) {
-                System.exit(0);
-            } else if (e.getSource() == consoleMenuItem) {
-                if (Main.console.isVisible()) {
-                    Main.console.setVisible(false);
-                    consoleMenuItem.setText(Main.language.getString("consoleMenuItem1"));
-                } else {
-                    Main.console.setVisible(true);
-                    consoleMenuItem.setText(Main.language.getString("consoleMenuItem2"));
-                }
-            } else if (e.getSource() == arrayListJMenuItem) {
-                if (arrayListJMenuItem.getState()) {
-                    Main.wordListArrayList = new ArrayList<>(Main.wordListHashSet);
-                    Main.wordListHashSet = null;
-                    Main.console.setText("[ " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")) + " ] " + Main.language.getString("useArrayList"));
-                } else {
-                    Main.wordListHashSet = new HashSet<>(Main.wordListArrayList);
-                    Main.wordListArrayList = null;
-                    Main.console.setText("[ " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")) + " ] " + Main.language.getString("useHashSet"));
-                }
-            } else if (e.getSource() == permuteJMenuItem) {
-                Main.permute = permuteJMenuItem.getState();
-            } else if (e.getSource() == decryptMenuItem) {
-                new DecryptEncryptStart("decrypt").start();
-            } else if (e.getSource() == encryptMenuItem) {
-                new DecryptEncryptStart("encrypt").start();
-            }
-        }
-    };
-
     private JLabel textDecryptedLabel, textEncryptedLabel;
     private JScrollPane textDecryptedScrollPane, textEncryptedScrollPane;
     private JTextArea textDecryptedTextArea, textEncryptedTextArea;
@@ -139,7 +96,6 @@ public class UI extends Thread {
         consoleMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.ALT_MASK));
         consoleMenuItem.setIcon(consoleIcon);
         consoleMenuItem.addActionListener(actionListenerMenu);
-        //arrayListJMenuItem.setIcon(exitIcon);
         arrayListJMenuItem.addActionListener(actionListenerMenu);
         permuteJMenuItem.addActionListener(actionListenerMenu);
 
@@ -165,7 +121,6 @@ public class UI extends Thread {
 
         mainPanel.setLayout(new GridBagLayout());
 
-        // Text Panel konfigurieren
         textDecryptedLabel.setFont(font);
         textDecryptedLabel.setText(Main.language.getString("textDecryptedLabel"));
         textDecryptedTextArea.setLineWrap(true);
@@ -197,6 +152,50 @@ public class UI extends Thread {
         mainFrame.getContentPane().add(mainPanel, BorderLayout.CENTER); // Tabpane zum Fenster hinzufügen
         mainFrame.setVisible(true); // Fenster ist sichtbar
     }
+
+    ActionListener actionListenerWordlists = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            for (int i = 0; i < wordListsRadioButtons.length; i++) {
+                if (e.getSource() == wordListsRadioButtons[i]) {
+                    Main.console.setText("[ " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")) + " ] " + Main.language.getString("switchWordlist") + wordListsRadioButtons[i].getText());
+                    Main.wordListHashSet = Main.readWordListFile(getClass().getClassLoader().getResource("wordlist/").getFile() + wordListsRadioButtons[i].getText());
+                    System.out.println(Main.wordListHashSet.size());
+                }
+            }
+        }
+    };
+
+    ActionListener actionListenerMenu = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == exitMenuItem) {
+                System.exit(0);
+            } else if (e.getSource() == consoleMenuItem) {
+                if (Main.console.isVisible()) {
+                    Main.console.setVisible(false);
+                    consoleMenuItem.setText(Main.language.getString("consoleMenuItem1"));
+                } else {
+                    Main.console.setVisible(true);
+                    consoleMenuItem.setText(Main.language.getString("consoleMenuItem2"));
+                }
+            } else if (e.getSource() == arrayListJMenuItem) {
+                if (arrayListJMenuItem.getState()) {
+                    Main.wordListArrayList = new ArrayList<>(Main.wordListHashSet);
+                    Main.wordListHashSet = null;
+                    Main.console.setText("[ " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")) + " ] " + Main.language.getString("useArrayList"));
+                } else {
+                    Main.wordListHashSet = new HashSet<>(Main.wordListArrayList);
+                    Main.wordListArrayList = null;
+                    Main.console.setText("[ " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")) + " ] " + Main.language.getString("useHashSet"));
+                }
+            } else if (e.getSource() == permuteJMenuItem) {
+                Main.permute = permuteJMenuItem.getState();
+            } else if (e.getSource() == decryptMenuItem) {
+                new DecryptEncryptStart("decrypt").start();
+            } else if (e.getSource() == encryptMenuItem) {
+                new DecryptEncryptStart("encrypt").start();
+            }
+        }
+    };
 
     /**
      * Methode um Objekte zur GUI hinzuzufügen

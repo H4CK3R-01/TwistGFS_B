@@ -8,7 +8,7 @@ import java.util.*;
 public class Main {
     public static HashSet<String> wordListHashSet;
     public static ArrayList<String> wordListArrayList;
-    public static HashMap<Integer, String> inputWords = new HashMap<Integer, String>();
+    public static HashMap<Integer, String> inputWords = new HashMap<>();
     public static ResourceBundle language = ResourceBundle.getBundle("lang/language");
     public static boolean permute;
     public static Console console = new Console();
@@ -20,9 +20,9 @@ public class Main {
     private static HashSet<String> selectedWords = new HashSet<>();
 
     private static int index = 0;
-    private static int richtig = 0;
-    private static int falsch = 0;
-    private static int anzahlWoerter = 10;
+    private static int right = 0;
+    private static int wrong = 0;
+    private static int numberOfWords = 10;
 
 
     public static void main(String[] args) {
@@ -75,16 +75,16 @@ public class Main {
                 console.start();
             } else if (isValueInArray(args, "-t") >= 0) {
                 try {
-                    anzahlWoerter = Integer.parseInt(args[isValueInArray(args, "-t") + 1]);
+                    numberOfWords = Integer.parseInt(args[isValueInArray(args, "-t") + 1]);
                 } catch (NumberFormatException e) {
                     try {
                         String wort1 = args[isValueInArray(args, "-t") + 1];
-                        starteTest(wort1);
+                        startTest(wort1);
                         return;
                     } catch (Exception ex) {
                     }
                 }
-                starteTest(anzahlWoerter);
+                startTest(numberOfWords);
             } else {
                 help();
             }
@@ -93,13 +93,6 @@ public class Main {
         }
     }
 
-    /**
-     * Liest eine Datei Zeile für Zeile ein und speichert alle Werte in einem
-     * HashSet
-     *
-     * @param file Datei, die eingelesen werden soll
-     * @return HashSet, dass alle Strings der Datei enthält
-     */
     public static HashSet<String> readWordListFile(String file) {
         HashSet<String> list = new HashSet<>();
 
@@ -117,12 +110,11 @@ public class Main {
     }
 
     /**
-     * Prüft ob ein Wert in einem Array vorhanden ist
+     * Checks if Array contains String
      *
-     * @param arr Array das überprüft werden soll
-     * @param s   Wert der gesucht werden soll
-     * @return Wenn der Wert gefunden wurde, wird der Index davon zurückgegeben,
-     * ansonsten -1
+     * @param arr Array to check
+     * @param s   String to search
+     * @return index of String if found, else -1
      */
     private static int isValueInArray(String[] arr, String s) {
         for (int i = 0; i < arr.length; i++) {
@@ -134,23 +126,23 @@ public class Main {
     }
 
     /**
-     * Zeigt die möglichen Ausführ-Parameter an
+     * Shows help
      */
     private static void help() {
         System.out.println(language.getString("help"));
     }
 
-    private static String stringBuilder(String s, int breite) {
-        while (s.length() <= breite) s = s + " ";
+    private static String stringBuilder(String s, int width) {
+        while (s.length() <= width) s = s + " ";
         return s;
     }
 
     /**
      * Tests
      */
-    private static void starteTest(int anzahlWoerter) {
-        selectWoerter(anzahlWoerter, 15);
-        encryptWoerter();
+    private static void startTest(int numberOfWords) {
+        selectWords(numberOfWords, 15);
+        encryptWords();
 
         permute = false;
         test("\nHashSet ohne Permutationen");
@@ -169,17 +161,12 @@ public class Main {
         test("\nArrayList mit Permutationen");
     }
 
-    private static void starteTest(String wort) {
-        wordsEncrypt.put(wort.toLowerCase(), new EncryptWort(wort).getGeneratedWord());
+    private static void startTest(String word) {
+        wordsEncrypt.put(word.toLowerCase(), new EncryptWort(word).getGeneratedWord());
 
         permute = false;
         test("\nHashSet ohne Permutationen");
 
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         permute = true;
         test("\nHashSet mit Permutationen");
 
@@ -187,37 +174,27 @@ public class Main {
         wordListArrayList = new ArrayList<>(wordListHashSet);
         wordListHashSet = null;
 
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         permute = false;
         test("\nArrayList ohne Permutationen");
 
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         permute = true;
         test("\nArrayList mit Permutationen");
     }
 
 
     private static void test(String s) {
-        decryptWoerter();
+        decryptWords();
         System.err.println(s);
-        ueberpruefeWoerter();
+        checkWords();
         wordsDecrypt.clear();
         index = 0;
-        richtig = 0;
-        falsch = 0;
+        right = 0;
+        wrong = 0;
     }
 
-    private static void selectWoerter(int anzahl) {
+    private static void selectWords(int number) {
         int laenge = 4;
-        while (selectedWords.size() < anzahl) {
+        while (selectedWords.size() < number) {
             int zufall = (int) (Math.random() * wordListHashSet.size());
             Iterator<String> iterator = wordListHashSet.iterator();
             while (iterator.hasNext() && (zufall > 1)) {
@@ -233,8 +210,8 @@ public class Main {
         }
     }
 
-    private static void selectWoerter(int anzahl, int maxLaenge) {
-        while (selectedWords.size() < anzahl) {
+    private static void selectWords(int number, int maxLength) {
+        while (selectedWords.size() < number) {
             int zufall = (int) (Math.random() * wordListHashSet.size());
             Iterator<String> iterator = wordListHashSet.iterator();
             while (iterator.hasNext() && (zufall > 1)) {
@@ -242,13 +219,13 @@ public class Main {
                 zufall = zufall - 1;
             }
             String wort = iterator.next();
-            if (wort.length() <= maxLaenge) {
+            if (wort.length() <= maxLength) {
                 selectedWords.add(wort);
             }
         }
     }
 
-    private static void encryptWoerter() {
+    private static void encryptWords() {
         Iterator<String> iterator = selectedWords.iterator();
         while (iterator.hasNext()) {
             String wort = iterator.next();
@@ -256,25 +233,25 @@ public class Main {
         }
     }
 
-    private static void decryptWoerter() {
+    private static void decryptWords() {
         wordsEncrypt.entrySet().parallelStream().forEach(entry -> {
             wordsDecrypt.put(entry.getKey(), new DecryptWort(entry.getValue()));
         });
     }
 
-    private static void ueberpruefeWoerter() {
+    private static void checkWords() {
         System.out.println("Verschlüsseltes Wort   |   Entschlüsseltes Wort   |      Richtiges Wort      | Dauer in ms");
         System.out.println("------------------------------------------------------------------------------------------");
         for (Map.Entry<String, DecryptWort> entry : wordsDecrypt.entrySet()) {
             index = index + 1;
             if (entry.getKey().equals(entry.getValue().getGeneratedWord())) {
-                System.out.println(stringBuilder(entry.getValue().getOriginalWord(), 21) + " | " + stringBuilder(entry.getValue().getGeneratedWord(), 23) + " | " + stringBuilder(entry.getKey(), 23) + " | " + entry.getValue().getLaufzeit());
-                richtig = richtig + 1;
+                System.out.println(stringBuilder(entry.getValue().getOriginalWord(), 21) + " | " + stringBuilder(entry.getValue().getGeneratedWord(), 23) + " | " + stringBuilder(entry.getKey(), 23) + " | " + entry.getValue().getRuntime());
+                right = right + 1;
             } else {
-                System.err.println(stringBuilder(entry.getValue().getOriginalWord(), 21) + " | " + stringBuilder(entry.getValue().getGeneratedWord(), 23) + " | " + stringBuilder(entry.getKey(), 23) + " | " + entry.getValue().getLaufzeit());
-                falsch = falsch + 1;
+                System.err.println(stringBuilder(entry.getValue().getOriginalWord(), 21) + " | " + stringBuilder(entry.getValue().getGeneratedWord(), 23) + " | " + stringBuilder(entry.getKey(), 23) + " | " + entry.getValue().getRuntime());
+                wrong = wrong + 1;
             }
         }
-        System.err.println("Von " + index + " Wörtern wurden " + richtig + " Richtig und " + falsch + " falsch erkannt.\n\n");
+        System.err.println("Von " + index + " Wörtern wurden " + right + " Richtig und " + wrong + " falsch erkannt.\n\n");
     }
 }

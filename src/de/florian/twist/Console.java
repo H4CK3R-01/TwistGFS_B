@@ -30,11 +30,7 @@ public class Console extends Thread {
         });
     }
 
-    /**
-     * Methode um den Text der Konsole zu ändern
-     *
-     * @param text Text der hinzugefügt werden soll
-     */
+
     public void setText(String text) {
         consoleTextArea.setText(consoleTextArea.getText() + text + " \n");
     }
